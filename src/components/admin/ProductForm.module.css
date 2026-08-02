@@ -1,0 +1,88 @@
+.form {
+  max-width: 760px;
+}
+
+.checkbox {
+  flex-direction: row !important;
+  align-items: center;
+  gap: 10px !important;
+  padding-top: 28px;
+}
+
+.checkbox input {
+  width: auto;
+}
+
+.images {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.imagesLabel {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.imageGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.imageCard {
+  position: relative;
+  width: 96px;
+  height: 120px;
+  border: 1px solid var(--line);
+  background: var(--paper-alt);
+  overflow: hidden;
+}
+
+.fileInput {
+  padding: 10px 0 !important;
+  border: none !important;
+}
+
+.uploadHint {
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.actions .submit {
+  width: auto;
+  min-width: 180px;
+}
+
+.previewLink {
+  font-size: 13px;
+  text-decoration: underline;
+  color: var(--ink-soft);
+}
+
+.deleteBtn {
+  margin-left: auto;
+  padding: 12px 18px;
+  border: 1px solid #e8c4c4;
+  background: #faf2f2;
+  color: var(--oxblood);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.deleteBtn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}

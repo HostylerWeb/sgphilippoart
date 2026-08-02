@@ -1,0 +1,143 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+  gap: 48px;
+  align-items: start;
+}
+
+.itemsPanel {
+  min-width: 0;
+}
+
+.itemsHeader {
+  display: none;
+}
+
+.items {
+  margin-bottom: 20px;
+}
+
+.items :global(article:last-child) {
+  border-bottom: none;
+}
+
+.continueLink {
+  display: inline-block;
+  font-size: 13px;
+  color: var(--ink-soft);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.continueLink:hover {
+  color: var(--ink);
+}
+
+.summary {
+  position: sticky;
+  top: 96px;
+  padding: 28px;
+  background: var(--paper-alt);
+  border: 1px solid var(--line);
+}
+
+.summaryTitle {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 14px;
+  margin-bottom: 12px;
+  color: var(--ink-soft);
+}
+
+.total {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.checkoutBtn {
+  display: block;
+  width: 100%;
+  margin-top: 24px;
+  text-align: center;
+  padding: 16px 24px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: background 0.2s ease;
+}
+
+.checkoutBtn:hover {
+  background: var(--oxblood);
+}
+
+.inquiryNote {
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line-soft);
+}
+
+@media (min-width: 701px) {
+  .itemsHeader {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--line);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .items :global(article) {
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 0;
+    background: transparent;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .summary {
+    position: static;
+  }
+}
+
+@media (max-width: 700px) {
+  .items {
+    margin-bottom: 8px;
+  }
+
+  .summary {
+    padding: 22px 20px;
+  }
+}

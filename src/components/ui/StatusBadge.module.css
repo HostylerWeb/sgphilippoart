@@ -1,0 +1,56 @@
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid var(--line);
+  background: var(--paper-alt);
+  color: var(--ink-soft);
+}
+
+.pending {
+  border-color: #e8d4a8;
+  background: #fdf8ee;
+  color: #8a6a24;
+}
+
+.confirmed,
+.processing {
+  border-color: #c5d9e8;
+  background: #f0f6fa;
+  color: #3a5f7a;
+}
+
+.shipped,
+.delivered {
+  border-color: #c8e0c8;
+  background: #f2faf2;
+  color: #3d6b3d;
+}
+
+.in_review {
+  border-color: #c5d9e8;
+  background: #f0f6fa;
+  color: #3a5f7a;
+}
+
+.accepted,
+.completed {
+  border-color: #c8e0c8;
+  background: #f2faf2;
+  color: #3d6b3d;
+}
+
+.cancelled {
+  border-color: #e8c5c5;
+  background: #faf2f2;
+  color: var(--oxblood);
+}
+
+.new {
+  border-color: #e8d4a8;
+  background: #fdf8ee;
+  color: #8a6a24;
+}

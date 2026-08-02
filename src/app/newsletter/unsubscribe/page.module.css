@@ -1,0 +1,12 @@
+.formWrap {
+  padding: 28px 32px;
+  background: var(--paper);
+  border: 1px solid var(--line-soft);
+  box-shadow: 0 1px 0 rgba(23, 19, 15, 0.03);
+}
+
+@media (max-width: 600px) {
+  .formWrap {
+    padding: 22px 20px;
+  }
+}

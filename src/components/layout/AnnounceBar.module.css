@@ -1,0 +1,21 @@
+.announce {
+  background: var(--ink);
+  color: #f6f4ef;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  padding: 9px 20px;
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .announce {
+    font-size: 11px;
+    padding: 8px 14px;
+  }
+}
+
+.announce b {
+  font-weight: 600;
+  color: var(--gold);
+}

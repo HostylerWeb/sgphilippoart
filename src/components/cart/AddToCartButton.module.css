@@ -1,0 +1,24 @@
+.button {
+  width: 100%;
+  text-align: center;
+  padding: 15px 24px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.error {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--oxblood);
+}

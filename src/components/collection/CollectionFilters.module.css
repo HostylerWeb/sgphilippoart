@@ -1,0 +1,180 @@
+.toolbar {
+  margin-bottom: 36px;
+}
+
+.sidebar {
+  position: sticky;
+  top: 108px;
+}
+
+.sidebarPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 22px 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.sidebarHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sidebarTitle {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.count {
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.topActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.clear {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--oxblood);
+  white-space: nowrap;
+}
+
+.clear:hover {
+  text-decoration: underline;
+}
+
+.sortField {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 220px;
+}
+
+.sortField label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(180px, 0.8fr);
+  gap: 20px;
+  padding: 20px;
+  background: var(--paper-alt);
+  border: 1px solid var(--line-soft);
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.segmented {
+  display: inline-flex;
+  align-self: flex-start;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.segmented a {
+  padding: 11px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  border-right: 1px solid var(--line);
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.segmented a:last-child {
+  border-right: none;
+}
+
+.segmented a:hover {
+  color: var(--ink);
+  background: rgba(23, 19, 15, 0.04);
+}
+
+.segmentActive {
+  color: #fff !important;
+  background: var(--ink) !important;
+}
+
+@media (max-width: 760px) {
+  .topRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .topActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .sortField {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .panel {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+
+  .sidebar {
+    position: static;
+  }
+
+  .sidebarPanel {
+    padding-top: 0;
+    border-top: none;
+    gap: 16px;
+  }
+
+  .segmented {
+    display: flex;
+    width: 100%;
+  }
+
+  .segmented a {
+    flex: 1;
+    text-align: center;
+    padding-inline: 12px;
+  }
+}

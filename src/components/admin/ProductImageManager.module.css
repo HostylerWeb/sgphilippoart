@@ -1,0 +1,67 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 120px;
+}
+
+.thumb {
+  position: relative;
+  width: 120px;
+  height: 150px;
+  border: 1px solid var(--line);
+  background: var(--paper-alt);
+  overflow: hidden;
+}
+
+.badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  padding: 4px 6px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.btn,
+.deleteBtn {
+  padding: 4px 8px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.deleteBtn {
+  border-color: #e8c4c4;
+  color: var(--oxblood);
+  background: #faf2f2;
+}

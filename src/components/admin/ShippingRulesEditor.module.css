@@ -1,0 +1,74 @@
+.wrap {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--line-soft);
+  background: var(--paper-alt);
+}
+
+.defaultRate {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.defaultRate input,
+.row select,
+.row input {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font-size: 14px;
+}
+
+.tableHead,
+.row {
+  display: grid;
+  grid-template-columns: 1fr 140px 80px;
+  gap: 10px;
+  align-items: center;
+}
+
+.tableHead {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.row button {
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.addBtn {
+  align-self: flex-start;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (max-width: 700px) {
+  .tableHead,
+  .row {
+    grid-template-columns: 1fr;
+  }
+}

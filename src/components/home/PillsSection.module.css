@@ -1,0 +1,47 @@
+.sectionTight {
+  padding: 40px 0;
+}
+
+.priceBand {
+  padding: 64px 0;
+  background: var(--paper-alt);
+}
+
+.heading {
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.priceBand .heading {
+  margin-bottom: 0;
+}
+
+.pills {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.pill {
+  padding: 11px 24px;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--paper);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pill:hover {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #fff;
+}
+
+:global(.pills-head) {
+  text-align: center;
+  margin-bottom: 28px;
+}

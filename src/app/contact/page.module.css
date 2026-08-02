@@ -1,0 +1,54 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card {
+  padding: 20px;
+  background: var(--paper-alt);
+  border: 1px solid var(--line-soft);
+}
+
+.card .eyebrow {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.card a,
+.card p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.card a {
+  text-decoration: underline;
+  color: var(--ink);
+}
+
+.formWrap {
+  padding: 28px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .formWrap {
+    padding: 20px;
+  }
+}

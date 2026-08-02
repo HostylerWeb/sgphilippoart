@@ -1,0 +1,31 @@
+.section {
+  padding: 48px 0 64px;
+  background: linear-gradient(180deg, var(--paper-alt) 0%, var(--paper) 28%);
+}
+
+.title {
+  font-size: clamp(30px, 4vw, 38px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+.description {
+  font-size: 15px;
+  color: var(--ink-soft);
+  max-width: 720px;
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding: 36px 0 44px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+}

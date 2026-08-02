@@ -1,0 +1,24 @@
+.stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.star {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.starSvg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.starEmpty {
+  fill: var(--line);
+}
+
+.starFilled {
+  fill: var(--gold);
+}

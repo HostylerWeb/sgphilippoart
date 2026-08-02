@@ -1,0 +1,65 @@
+.form {
+  max-width: 720px;
+}
+
+.checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.checkbox {
+  flex-direction: row !important;
+  align-items: center;
+  gap: 10px !important;
+}
+
+.checkbox input {
+  width: auto;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.actions .submit {
+  width: auto;
+  min-width: 180px;
+}
+
+.deleteBtn {
+  padding: 12px 18px;
+  border: 1px solid #e8c4c4;
+  background: #faf2f2;
+  color: var(--oxblood);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.previewImage {
+  position: relative;
+  width: 160px;
+  height: 210px;
+  border: 1px solid var(--line);
+  background: var(--paper-alt);
+  overflow: hidden;
+}
+
+.fileInput {
+  padding: 10px 0 !important;
+  border: none !important;
+}

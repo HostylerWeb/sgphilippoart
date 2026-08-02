@@ -1,0 +1,312 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum product_type {
+  original
+  print
+}
+
+enum product_status {
+  draft
+  published
+  sold
+  archived
+}
+
+enum order_status {
+  pending
+  confirmed
+  processing
+  shipped
+  delivered
+  cancelled
+}
+
+enum user_role {
+  customer
+  admin
+}
+
+enum commission_status {
+  new
+  in_review
+  accepted
+  declined
+  completed
+}
+
+model users {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  name           String?
+  password_hash  String?
+  role           user_role @default(customer)
+  email_verified DateTime?
+  image          String?
+  phone          String?
+  shipping_address Json?
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
+
+  accounts             accounts[]
+  sessions             sessions[]
+  cart_items           cart_items[]
+  wishlists            wishlists[]
+  orders               orders[]
+  commission_inquiries commission_inquiries[]
+}
+
+model accounts {
+  id                  String  @id @default(cuid())
+  user_id             String
+  type                String
+  provider            String
+  provider_account_id String
+  refresh_token       String? @db.Text
+  access_token        String? @db.Text
+  expires_at          Int?
+  token_type          String?
+  scope               String?
+  id_token            String? @db.Text
+  session_state       String?
+  user                users   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@unique([provider, provider_account_id])
+}
+
+model sessions {
+  id            String   @id @default(cuid())
+  session_token String   @unique
+  user_id       String
+  expires       DateTime
+  user          users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model verification_tokens {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model categories {
+  id               String   @id @default(cuid())
+  name             String
+  slug             String   @unique
+  description      String?
+  translations     Json?
+  sort_order       Int      @default(0)
+  show_on_homepage Boolean  @default(false)
+  show_in_nav      Boolean  @default(true)
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+  products         products[]
+}
+
+model products {
+  id               String         @id @default(cuid())
+  title            String
+  slug             String         @unique
+  meta_title       String?
+  meta_description String?        @db.Text
+  description      String?        @db.Text
+  price            Decimal        @db.Decimal(10, 2)
+  product_type     product_type
+  status           product_status @default(published)
+  medium           String?
+  dimensions       String?
+  edition_size     Int?
+  stock_quantity   Int?
+  artist_name      String         @default("SG Philippo Art")
+  artist_location  String         @default("United Kingdom")
+  is_featured      Boolean        @default(false)
+  sort_order       Int            @default(0)
+  category_id      String?
+  category         categories?    @relation(fields: [category_id], references: [id])
+  translations     Json?
+  created_at       DateTime       @default(now())
+  updated_at       DateTime       @updatedAt
+  images           product_images[]
+  cart_items       cart_items[]
+  order_items      order_items[]
+  wishlists        wishlists[]
+
+  @@index([status, is_featured])
+  @@index([category_id])
+}
+
+model product_images {
+  id         String   @id @default(cuid())
+  product_id String
+  product    products @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  url        String
+  alt_text   String?
+  sort_order Int      @default(0)
+  is_primary Boolean  @default(false)
+  created_at DateTime @default(now())
+}
+
+model hero_tiles {
+  id         String   @id @default(cuid())
+  eyebrow    String
+  title      String
+  link_text  String
+  link_url   String
+  image_url  String
+  image_alt  String?
+  translations Json?
+  sort_order Int      @default(0)
+  is_active  Boolean  @default(true)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model testimonials {
+  id               String   @id @default(cuid())
+  title            String
+  body             String   @db.Text
+  author_name      String
+  author_image_url String?
+  translations     Json?
+  is_verified      Boolean  @default(true)
+  rating           Int      @default(5)
+  is_published     Boolean  @default(true)
+  sort_order       Int      @default(0)
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+}
+
+model trust_items {
+  id         String   @id @default(cuid())
+  title      String
+  body       String   @db.Text
+  translations Json?
+  icon       String   @default("shield")
+  sort_order Int      @default(0)
+  is_active  Boolean  @default(true)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model cart_items {
+  id         String   @id @default(cuid())
+  user_id    String?
+  session_id String?
+  product_id String
+  user       users?   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  product    products @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  quantity   Int      @default(1)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@unique([user_id, product_id])
+  @@unique([session_id, product_id])
+  @@index([user_id])
+  @@index([session_id])
+}
+
+model orders {
+  id               String       @id @default(cuid())
+  order_number     String       @unique
+  user_id          String?
+  user             users?       @relation(fields: [user_id], references: [id])
+  status           order_status @default(pending)
+  subtotal         Decimal      @db.Decimal(10, 2)
+  shipping_cost    Decimal      @db.Decimal(10, 2) @default(0)
+  tax              Decimal      @db.Decimal(10, 2) @default(0)
+  handling_fee     Decimal      @db.Decimal(10, 2) @default(0)
+  total            Decimal      @db.Decimal(10, 2)
+  currency         String       @default("USD")
+  customer_name    String
+  customer_email   String
+  customer_phone   String?
+  shipping_address Json?
+  notes            String?      @db.Text
+  tracking_number  String?
+  admin_notes      String?      @db.Text
+  created_at       DateTime     @default(now())
+  updated_at       DateTime     @updatedAt
+  items            order_items[]
+
+  @@index([user_id])
+  @@index([status])
+  @@index([order_number])
+  @@index([customer_email])
+}
+
+model order_items {
+  id         String   @id @default(cuid())
+  order_id   String
+  order      orders   @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  product_id String
+  product    products @relation(fields: [product_id], references: [id])
+  title      String
+  price      Decimal  @db.Decimal(10, 2)
+  quantity   Int      @default(1)
+  created_at DateTime @default(now())
+}
+
+model wishlists {
+  id         String   @id @default(cuid())
+  user_id    String
+  product_id String
+  user       users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  product    products @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now())
+
+  @@unique([user_id, product_id])
+}
+
+model commission_inquiries {
+  id            String            @id @default(cuid())
+  user_id       String?
+  user          users?            @relation(fields: [user_id], references: [id])
+  name          String
+  email         String
+  phone         String?
+  budget_range  String?
+  description   String            @db.Text
+  reference_url String?
+  status        commission_status @default(new)
+  admin_notes   String?           @db.Text
+  created_at    DateTime          @default(now())
+  updated_at    DateTime          @updatedAt
+
+  @@index([status])
+  @@index([email])
+}
+
+model contact_messages {
+  id            String   @id @default(cuid())
+  name          String
+  email         String
+  subject       String?
+  message       String   @db.Text
+  artwork_slug  String?
+  is_read       Boolean  @default(false)
+  created_at    DateTime @default(now())
+
+  @@index([email])
+}
+
+model newsletter_subscribers {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  unsubscribe_token String    @unique @default(cuid())
+  unsubscribed_at   DateTime?
+  created_at        DateTime  @default(now())
+}
+
+model site_settings {
+  id         String   @id @default(cuid())
+  key        String   @unique
+  value      String   @db.Text
+  updated_at DateTime @updatedAt
+}

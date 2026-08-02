@@ -1,0 +1,20 @@
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.92);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #17130f;
+}
+
+.button.saved {
+  color: var(--oxblood);
+}
+
+.button:disabled {
+  opacity: 0.6;
+}

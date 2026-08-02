@@ -1,0 +1,34 @@
+.wrap {
+  position: relative;
+  min-width: 0;
+}
+
+.select {
+  width: 100%;
+  appearance: none;
+  padding: 11px 36px 11px 14px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: var(--paper);
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.select:hover,
+.select:focus {
+  outline: none;
+  border-color: var(--ink);
+}
+
+.chevron {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  font-size: 11px;
+  color: var(--ink-soft);
+  pointer-events: none;
+}

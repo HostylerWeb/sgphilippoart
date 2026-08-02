@@ -1,0 +1,38 @@
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.search {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  font: inherit;
+}
+
+.select {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  font: inherit;
+  background: var(--paper);
+}
+
+.submit {
+  padding: 10px 16px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.clear {
+  font-size: 13px;
+  color: var(--ink-soft);
+  text-decoration: underline;
+}
