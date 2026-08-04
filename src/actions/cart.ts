@@ -15,6 +15,7 @@ import { getStoreSettings } from "@/lib/settings";
 import { getDictionary, getLocale } from "@/i18n";
 import { enforceRateLimit } from "@/lib/rate-limit";
 import { reserveCartItems } from "@/lib/order-inventory";
+import { localizeInventoryError } from "@/lib/inventory-errors";
 import { parseCheckoutInput } from "@/lib/validations/checkout";
 
 type ActionResult = {
@@ -31,11 +32,13 @@ async function resolveCartOwner() {
 }
 
 export async function addToCart(productId: string): Promise<ActionResult> {
+  const locale = await getLocale();
+  const v = getDictionary(locale).validation;
   const ctx = await resolveCartOwner();
   const product = await db.products.findUnique({ where: { id: productId } });
 
   if (!product || product.status !== "published") {
-    return { success: false, message: "This artwork is not available." };
+    return { success: false, message: v.artworkUnavailable };
   }
 
   const ownerWhere = ctx.userId
@@ -45,7 +48,7 @@ export async function addToCart(productId: string): Promise<ActionResult> {
   if (product.product_type === "original") {
     const existing = await db.cart_items.findUnique({ where: ownerWhere });
     if (existing) {
-      return { success: false, message: "This original is already in your cart." };
+      return { success: false, message: v.originalInCart };
     }
     await db.cart_items.create({
       data: {
@@ -58,13 +61,13 @@ export async function addToCart(productId: string): Promise<ActionResult> {
   } else {
     const stock = product.stock_quantity ?? 0;
     if (stock <= 0) {
-      return { success: false, message: "This print is out of stock." };
+      return { success: false, message: v.printOutOfStock };
     }
 
     const existing = await db.cart_items.findUnique({ where: ownerWhere });
     const nextQty = (existing?.quantity ?? 0) + 1;
     if (nextQty > stock) {
-      return { success: false, message: `Only ${stock} available.` };
+      return { success: false, message: v.onlyNAvailable.replace("{count}", String(stock)) };
     }
 
     await db.cart_items.upsert({
@@ -90,6 +93,8 @@ export async function updateCartItemQuantity(
   itemId: string,
   quantity: number,
 ): Promise<ActionResult> {
+  const locale = await getLocale();
+  const v = getDictionary(locale).validation;
   const ctx = await getCartContext();
   const where = ctx.userId
     ? { id: itemId, user_id: ctx.userId }
@@ -100,7 +105,7 @@ export async function updateCartItemQuantity(
     include: { product: true },
   });
 
-  if (!item) return { success: false, message: "Item not found." };
+  if (!item) return { success: false, message: v.itemNotFound };
 
   if (quantity <= 0) {
     await db.cart_items.delete({ where: { id: itemId } });
@@ -109,7 +114,7 @@ export async function updateCartItemQuantity(
   } else {
     const stock = item.product.stock_quantity ?? 0;
     if (quantity > stock) {
-      return { success: false, message: `Only ${stock} available.` };
+      return { success: false, message: v.onlyNAvailable.replace("{count}", String(stock)) };
     }
     await db.cart_items.update({ where: { id: itemId }, data: { quantity } });
   }
@@ -204,7 +209,7 @@ export async function submitOrderInquiry(
         })),
       );
       if (inventoryError) {
-        throw new Error(inventoryError);
+        throw new Error(localizeInventoryError(locale, inventoryError));
       }
 
       const number = await generateOrderNumber();
@@ -264,10 +269,7 @@ export async function submitOrderInquiry(
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : v.checkoutFailed;
-    if (message.includes("is no longer available") || message.includes("Insufficient stock")) {
-      return { success: false, message };
-    }
-    return { success: false, message: v.checkoutFailed };
+    return { success: false, message };
   }
 
   if (!orderNumber) {

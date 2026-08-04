@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { removeFromCart, updateCartItemQuantity } from "@/actions/cart";
+import { useI18n } from "@/components/layout/I18nProvider";
 import { formatPrice } from "@/lib/format";
 import type { CartLineItem } from "@/lib/cart";
 import type { StoreSettings } from "@/lib/settings";
@@ -18,8 +19,10 @@ type CartItemRowProps = {
 
 export function CartItemRow({ item, settings, labels }: CartItemRowProps) {
   const router = useRouter();
+  const { dict } = useI18n();
   const [isPending, startTransition] = useTransition();
   const isOriginal = item.product.product_type === "original";
+  const rowLabels = labels ?? dict.cart;
 
   function updateQuantity(next: number) {
     startTransition(async () => {
@@ -56,14 +59,16 @@ export function CartItemRow({ item, settings, labels }: CartItemRowProps) {
           <p className={styles.unitPrice}>{formatPrice(item.product.price, settings)}</p>
           <div className={styles.controls}>
             {isOriginal ? (
-              <span className={styles.qty}>{labels?.quantity ?? "Qty"}: 1</span>
+              <span className={styles.qty}>
+                {rowLabels.quantity}: 1
+              </span>
             ) : (
               <div className={styles.qtyControls}>
                 <button
                   type="button"
                   disabled={isPending}
                   onClick={() => updateQuantity(item.quantity - 1)}
-                  aria-label="Decrease quantity"
+                  aria-label={dict.aria.decreaseQuantity}
                 >
                   −
                 </button>
@@ -72,7 +77,7 @@ export function CartItemRow({ item, settings, labels }: CartItemRowProps) {
                   type="button"
                   disabled={isPending}
                   onClick={() => updateQuantity(item.quantity + 1)}
-                  aria-label="Increase quantity"
+                  aria-label={dict.aria.increaseQuantity}
                 >
                   +
                 </button>
@@ -84,13 +89,13 @@ export function CartItemRow({ item, settings, labels }: CartItemRowProps) {
               disabled={isPending}
               onClick={handleRemove}
             >
-              {labels?.remove ?? "Remove"}
+              {rowLabels.remove}
             </button>
           </div>
         </div>
       </div>
       <div className={styles.lineTotal}>
-        <span className={styles.lineTotalLabel}>{labels?.lineTotal ?? "Line total"}</span>
+        <span className={styles.lineTotalLabel}>{rowLabels.lineTotal}</span>
         <span className={styles.lineTotalValue}>
           {formatPrice(Number(item.product.price) * item.quantity, settings)}
         </span>

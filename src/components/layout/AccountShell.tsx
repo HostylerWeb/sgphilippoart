@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getDictionary, getLocale } from "@/i18n";
 import styles from "./AccountShell.module.css";
 
 const NAV_ITEMS = [
@@ -26,6 +27,7 @@ type AccountShellProps = {
   children: React.ReactNode;
   activePath: string;
   labels?: AccountLabels;
+  collectorLabel?: string;
 };
 
 export function AccountShell({
@@ -37,6 +39,7 @@ export function AccountShell({
   children,
   activePath,
   labels,
+  collectorLabel = "Collector",
 }: AccountShellProps) {
   const navLabels = labels ?? {
     account: "Account",
@@ -53,7 +56,7 @@ export function AccountShell({
         <aside className={styles.sidebar}>
           <div className={styles.user}>
             <span className="eyebrow">{navLabels.account}</span>
-            <strong>{userName ?? "Collector"}</strong>
+            <strong>{userName ?? collectorLabel}</strong>
             <span>{userEmail}</span>
           </div>
           <nav className={styles.nav}>

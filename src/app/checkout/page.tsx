@@ -12,11 +12,15 @@ import { getUserProfile } from "@/lib/user-profile";
 import { auth } from "@/lib/auth";
 import { getDictionary, getLocale } from "@/i18n";
 
-export const metadata: Metadata = buildPageMetadata({
-  title: "Checkout — SG Philippo Art",
-  path: "/checkout",
-  noIndex: true,
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const meta = getDictionary(locale).meta;
+  return buildPageMetadata({
+    title: meta.checkoutTitle,
+    path: "/checkout",
+    noIndex: true,
+  });
+}
 
 export default async function CheckoutPage() {
   const locale = await getLocale();

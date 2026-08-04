@@ -11,11 +11,15 @@ import styles from "./page.module.css";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = buildPageMetadata({
-  title: "Collections — SG Philippo Art",
-  description: "Browse curated collections of original oil paintings and fine art prints.",
-  path: "/collections",
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const meta = getDictionary(locale).meta;
+  return buildPageMetadata({
+    title: meta.collectionsTitle,
+    description: meta.collectionsDescription,
+    path: "/collections",
+  });
+}
 
 export default async function CollectionsIndexPage() {
   const locale = await getLocale();

@@ -22,8 +22,9 @@ type PageProps = {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const locale = await getLocale();
+  const dict = getDictionary(locale);
   const product = await getProductBySlug(slug);
-  if (!product) return { title: "Artwork not found" };
+  if (!product) return { title: dict.meta.artworkNotFound };
 
   const localized = localizeProduct(product, locale);
   const title =
@@ -31,7 +32,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const description =
     localized.meta_description ??
     localized.description?.slice(0, 160) ??
-    `${localized.title} — ${localized.medium ?? "Original artwork"} by ${product.artist_name}`;
+    `${localized.title} — ${localized.medium ?? dict.product.originalArtwork} by ${product.artist_name}`;
 
   const primary = product.images.find((image) => image.is_primary) ?? product.images[0];
 
@@ -100,6 +101,7 @@ export default async function ProductPage({ params }: PageProps) {
       <section className={styles.section}>
         <div className="wrap">
           <Breadcrumbs
+            ariaLabel={dict.aria.breadcrumb}
             items={[
               { label: dict.product.home, href: "/" },
               ...(localizedCategory
@@ -139,7 +141,12 @@ export default async function ProductPage({ params }: PageProps) {
           {related.length > 0 && (
             <div className={styles.related}>
               <h2>{dict.product.related}</h2>
-              <ProductGrid products={related} currency={settings} soldLabel={dict.product.sold} />
+              <ProductGrid
+                products={related}
+                currency={settings}
+                soldLabel={dict.product.sold}
+                badgeLabels={dict.product}
+              />
             </div>
           )}
         </div>

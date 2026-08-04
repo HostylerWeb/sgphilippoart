@@ -64,7 +64,7 @@ export function HeaderNav({
         <div className={`${styles.mobilePanel} ${styles.mobilePanelOpen}`}>
           <div className={styles.mobilePanelHead}>
             <span className="eyebrow">{dict.header.shop}</span>
-            <LanguageToggle locale={locale} compact />
+            <LanguageToggle locale={locale} compact ariaLabel={dict.aria.language} />
           </div>
           <nav className={styles.mobileLinks}>
             {categories.map((category) => (
@@ -135,7 +135,7 @@ export function HeaderNav({
 
           <div className={styles.topActions}>
             <div className={styles.desktopOnly}>
-              <LanguageToggle locale={locale} />
+              <LanguageToggle locale={locale} ariaLabel={dict.aria.language} />
             </div>
             <SearchModal labels={dict.search} onNavigate={() => setMenuOpen(false)} />
             <Link
@@ -149,7 +149,7 @@ export function HeaderNav({
             <button
               type="button"
               className={styles.iconButton}
-              aria-label="Cart"
+              aria-label={dict.header.cart}
               onClick={() => {
                 setMenuOpen(false);
                 setCartOpen(true);
@@ -161,7 +161,7 @@ export function HeaderNav({
           </div>
         </div>
 
-        <nav className={styles.catnav} aria-label="Collections">
+        <nav className={styles.catnav} aria-label={dict.aria.collections}>
           {categories.map((category) => (
             <Link
               key={category.slug}
@@ -180,6 +180,7 @@ export function HeaderNav({
         items={cartItems}
         subtotal={cartSubtotal}
         dict={dict.cart}
+        closeLabel={dict.aria.close}
         checkoutHref={user ? "/checkout" : "/login?callbackUrl=%2Fcheckout"}
       />
 

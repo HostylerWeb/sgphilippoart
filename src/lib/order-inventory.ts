@@ -1,4 +1,5 @@
 import type { Prisma } from "@/generated/prisma/client";
+import type { InventoryError } from "@/lib/inventory-errors";
 
 type DbClient = Prisma.TransactionClient;
 
@@ -29,11 +30,11 @@ async function hasOtherActiveOrderForProduct(
 export async function reserveCartItems(
   db: DbClient,
   items: Array<{ product_id: string; title: string; quantity: number }>,
-): Promise<string | null> {
+): Promise<InventoryError | null> {
   for (const item of items) {
     const product = await db.products.findUnique({ where: { id: item.product_id } });
     if (!product || product.status !== "published") {
-      return `"${item.title}" is no longer available.`;
+      return { code: "not_available", title: item.title };
     }
 
     if (product.product_type === "original") {
@@ -46,7 +47,11 @@ export async function reserveCartItems(
 
     if (product.stock_quantity !== null) {
       if (product.stock_quantity < item.quantity) {
-        return `Insufficient stock for "${item.title}" (only ${product.stock_quantity} left).`;
+        return {
+          code: "insufficient_stock",
+          title: item.title,
+          count: product.stock_quantity,
+        };
       }
 
       await db.products.update({
@@ -93,7 +98,7 @@ export async function restoreOrderInventory(
 export async function reserveOrderInventory(
   db: DbClient,
   orderId: string,
-): Promise<string | null> {
+): Promise<InventoryError | null> {
   const items = await getOrderItems(db, orderId);
 
   for (const item of items) {
@@ -104,10 +109,10 @@ export async function reserveOrderInventory(
         item.product_id,
       );
       if (hasOtherActiveOrder) {
-        return `"${item.title}" is already reserved by another active order.`;
+        return { code: "already_reserved", title: item.title };
       }
       if (item.product.status === "sold") {
-        return `"${item.title}" is no longer available.`;
+        return { code: "not_available", title: item.title };
       }
 
       await db.products.update({
@@ -119,7 +124,11 @@ export async function reserveOrderInventory(
 
     if (item.product.stock_quantity !== null) {
       if (item.product.stock_quantity < item.quantity) {
-        return `Insufficient stock for "${item.title}" (only ${item.product.stock_quantity} left).`;
+        return {
+          code: "insufficient_stock",
+          title: item.title,
+          count: item.product.stock_quantity,
+        };
       }
 
       await db.products.update({

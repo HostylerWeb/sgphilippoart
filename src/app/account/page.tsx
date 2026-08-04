@@ -27,6 +27,7 @@ export default async function AccountPage() {
         isAdmin={session.user.role === "admin"}
         activePath="/account"
         labels={t}
+        collectorLabel={t.collector}
       >
         <div className={styles.grid}>
           <NavCard
@@ -53,7 +54,7 @@ export default async function AccountPage() {
             <NavCard
               href="/admin"
               title={t.admin}
-              description="Review orders, commissions, and contact messages."
+              description={t.adminCardDescription}
             />
           )}
         </div>

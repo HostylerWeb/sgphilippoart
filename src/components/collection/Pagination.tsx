@@ -9,6 +9,7 @@ type PaginationProps = {
   pageCount: number;
   searchParams: Record<string, string | undefined>;
   labels: Dictionary["filters"];
+  ariaLabel: string;
 };
 
 export function Pagination({
@@ -17,6 +18,7 @@ export function Pagination({
   pageCount,
   searchParams,
   labels,
+  ariaLabel,
 }: PaginationProps) {
   if (pageCount <= 1) return null;
 
@@ -31,7 +33,7 @@ export function Pagination({
   }
 
   return (
-    <nav className={styles.pagination} aria-label="Pagination">
+    <nav className={styles.pagination} aria-label={ariaLabel}>
       {page > 1 ? (
         <Link href={pageUrl(page - 1)} className={styles.pageBtn}>
           {labels.previous}

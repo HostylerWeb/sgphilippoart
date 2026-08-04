@@ -46,7 +46,10 @@ export default async function HomePage() {
 
   return (
     <StorefrontShell>
-      <HeroGrid tiles={heroTiles.map((tile) => localizeHeroTile(tile, locale))} />
+      <HeroGrid
+        tiles={heroTiles.map((tile) => localizeHeroTile(tile, locale))}
+        ariaLabel={dict.aria.featuredCollections}
+      />
       {categoryPills.length > 0 && (
         <PillsSection
           eyebrow={dict.home.browseEyebrow}
@@ -60,6 +63,7 @@ export default async function HomePage() {
         wishlistedIds={wishlistedIds}
         labels={dict.home}
         soldLabel={dict.product.sold}
+        badgeLabels={dict.product}
       />
       <TrustStrip items={trustItems.map((item) => localizeTrustItem(item, locale))} />
       <Testimonials

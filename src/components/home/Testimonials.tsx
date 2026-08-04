@@ -19,6 +19,7 @@ type TestimonialsProps = {
     testimonialsTitle: string;
     testimonialsSubtitle: string;
     verified: string;
+    starRatingAria: string;
   };
 };
 
@@ -44,7 +45,14 @@ export function Testimonials({ testimonials, labels }: TestimonialsProps) {
                 <div className={styles.testiAuthor}>
                   <div className={styles.authorRow}>
                     <span className={styles.author}>{testimonial.author_name}</span>
-                    <StarRating rating={testimonial.rating} size={12} />
+                    <StarRating
+                      rating={testimonial.rating}
+                      size={12}
+                      ariaLabel={labels.starRatingAria.replace(
+                        "{rating}",
+                        testimonial.rating.toFixed(1),
+                      )}
+                    />
                   </div>
                   {testimonial.is_verified && (
                     <span className={styles.verified}>

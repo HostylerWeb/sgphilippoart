@@ -14,15 +14,16 @@ export type HeroTileData = {
 
 type HeroGridProps = {
   tiles: HeroTileData[];
+  ariaLabel: string;
 };
 
-export function HeroGrid({ tiles }: HeroGridProps) {
+export function HeroGrid({ tiles, ariaLabel }: HeroGridProps) {
   return (
     <section
       className={styles.heroGrid}
       tabIndex={0}
       role="region"
-      aria-label="Featured collections"
+      aria-label={ariaLabel}
     >
       {tiles.map((tile, index) => (
         <Link key={tile.id} href={tile.link_url} className={styles.heroTile}>

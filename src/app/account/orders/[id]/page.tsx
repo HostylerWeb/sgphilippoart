@@ -47,6 +47,7 @@ export default async function AccountOrderDetailPage({ params }: PageProps) {
         isAdmin={session.user.role === "admin"}
         activePath="/account/orders"
         labels={t}
+        collectorLabel={t.collector}
       >
         <div className={styles.top}>
           <StatusBadge status={order.status} />
@@ -65,7 +66,7 @@ export default async function AccountOrderDetailPage({ params }: PageProps) {
           <div className={styles.block}>
             <h2>{t.items}</h2>
             <ul className={styles.items}>
-              {order.items.map((item) => {
+              {order.items.map((item: (typeof order.items)[number]) => {
                 const image = item.product.images[0];
 
                 return (

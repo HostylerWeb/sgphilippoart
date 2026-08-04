@@ -21,12 +21,19 @@ export type ProductCardData = {
   is_sold?: boolean;
 };
 
+type BadgeLabels = {
+  original: string;
+  print: string;
+  printEdition: string;
+};
+
 type ProductCardProps = {
   product: ProductCardData;
   currency?: Pick<StoreSettings, "currencyCode" | "currencyLocale">;
   isWishlisted?: boolean;
   imageSizes?: string;
   soldLabel?: string;
+  badgeLabels?: BadgeLabels;
 };
 
 export function ProductCard({
@@ -34,7 +41,8 @@ export function ProductCard({
   currency,
   isWishlisted,
   imageSizes = "(max-width: 600px) 50vw, (max-width: 980px) 50vw, 25vw",
-  soldLabel = "Sold",
+  soldLabel,
+  badgeLabels,
 }: ProductCardProps) {
   const meta = [product.medium, product.dimensions].filter(Boolean).join(" · ");
 
@@ -49,7 +57,9 @@ export function ProductCard({
           className={styles.image}
         />
         <span className={styles.productBadge}>
-          {product.is_sold ? soldLabel : productBadgeLabel(product.product_type, product.edition_size)}
+          {product.is_sold
+            ? soldLabel
+            : productBadgeLabel(product.product_type, product.edition_size, badgeLabels)}
         </span>
         <WishlistButton
           productId={product.id}

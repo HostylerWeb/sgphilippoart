@@ -77,6 +77,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
             wishlistedIds={wishlistedIds}
             emptyMessage={formatMessage(t.searchNoResults, { query })}
             soldLabel={dict.product.sold}
+            badgeLabels={dict.product}
           />
         )}
       </CatalogPageShell>

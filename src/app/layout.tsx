@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/json-ld";
 import { buildPageMetadata } from "@/lib/seo";
 import { getStoreSettings } from "@/lib/settings";
-import { getLocale } from "@/i18n";
+import { getDictionary, getLocale } from "@/i18n";
 import "./globals.css";
 
 const inter = Inter({
@@ -14,12 +14,15 @@ const inter = Inter({
   display: "swap",
 });
 
-export const metadata: Metadata = buildPageMetadata({
-  title: "SG Philippo Art — Original Paintings & Prints",
-  description:
-    "Original oil paintings and fine art prints by SG Philippo Art. Hand-painted, shipped worldwide.",
-  path: "/",
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const meta = getDictionary(locale).meta;
+  return buildPageMetadata({
+    title: meta.homeTitle,
+    description: meta.homeDescription,
+    path: "/",
+  });
+}
 
 export default async function RootLayout({
   children,

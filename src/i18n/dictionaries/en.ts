@@ -1,6 +1,22 @@
 export const en = {
   meta: {
     siteName: "SG Philippo Art",
+    homeTitle: "SG Philippo Art — Original Paintings & Prints",
+    homeDescription:
+      "Original oil paintings and fine art prints by SG Philippo Art. Hand-painted, shipped worldwide.",
+    cartTitle: "Your Cart — SG Philippo Art",
+    checkoutTitle: "Checkout — SG Philippo Art",
+    loginTitle: "Sign in — SG Philippo Art",
+    registerTitle: "Create account — SG Philippo Art",
+    collectionsTitle: "Collections — SG Philippo Art",
+    collectionsDescription:
+      "Browse curated collections of original oil paintings and fine art prints.",
+    checkoutSuccessTitle: "Order Confirmed — SG Philippo Art",
+    collectionNotFound: "Collection not found",
+    artworkNotFound: "Artwork not found",
+    collectionDescription:
+      "Browse {name} from SG Philippo Art — original paintings and fine art prints.",
+    originalArtwork: "Original artwork",
   },
   categories: {
     "new-arrivals": "New Arrivals",
@@ -20,6 +36,7 @@ export const en = {
     shop: "Shop",
     studio: "Studio",
     support: "Support",
+    cart: "Cart",
   },
   footer: {
     shop: "Shop",
@@ -72,6 +89,7 @@ export const en = {
     testimonialsTitle: "From our collectors",
     testimonialsSubtitle: "Real feedback from collectors who've purchased from the studio.",
     verified: "Verified",
+    starRatingAria: "{rating} out of 5 stars",
   },
   collections: {
     browseEyebrow: "Browse",
@@ -94,6 +112,7 @@ export const en = {
     searchCount: "{count} work found",
     searchCountPlural: "{count} works found",
     searchNoResults: "No works found for “{query}”.",
+    emptyGrid: "No works match your filters.",
   },
   filters: {
     works: "works",
@@ -134,6 +153,8 @@ export const en = {
     related: "You may also like",
     home: "Home",
     collections: "Collections",
+    artworkNotFound: "Artwork not found",
+    originalArtwork: "Original artwork",
   },
   status: {
     pending: "Pending",
@@ -295,6 +316,30 @@ export const en = {
     invalidCountry: "Please select a valid country.",
     stateRequired: "{label} is required.",
     invalidPostal: "Please enter a valid postal code for this country.",
+    artworkUnavailable: "This artwork is not available.",
+    originalInCart: "This original is already in your cart.",
+    printOutOfStock: "This print is out of stock.",
+    onlyNAvailable: "Only {count} available.",
+    itemNotFound: "Item not found.",
+    signInToWishlist: "Sign in to save artworks.",
+    artworkNoLongerAvailable: "\"{title}\" is no longer available.",
+    insufficientStock: "Insufficient stock for \"{title}\" (only {count} left).",
+    artworkReserved: "\"{title}\" is already reserved by another active order.",
+    accountCreateFailed: "Could not create account.",
+    newsletterSubscribedShort: "Subscribed.",
+  },
+  aria: {
+    language: "Language",
+    close: "Close",
+    addToWishlist: "Add to wishlist",
+    removeFromWishlist: "Remove from wishlist",
+    pagination: "Pagination",
+    breadcrumb: "Breadcrumb",
+    collections: "Collections",
+    featuredCollections: "Featured collections",
+    viewImage: "View image {index}",
+    decreaseQuantity: "Decrease quantity",
+    increaseQuantity: "Increase quantity",
   },
   forms: {
     contact: {
@@ -348,6 +393,8 @@ export const en = {
     settingsCardTitle: "Profile & shipping",
     settingsCardDescription: "Update your name, phone, and default shipping address.",
     contactStudio: "Contact the studio",
+    collector: "Collector",
+    adminCardDescription: "Review orders, commissions, and contact messages.",
     settingsTitle: "Profile & shipping",
     settingsDescription:
       "Keep your contact details and default shipping address up to date for faster checkout.",
@@ -402,6 +449,7 @@ export const en = {
     placeholder: "Your email address",
     submit: "Sign up",
     submitting: "Signing up…",
+    success: "Subscribed.",
   },
   pages: {
     about: {
@@ -519,14 +567,31 @@ export const en = {
     home: "Back to homepage",
     collections: "Browse collections",
   },
+  admin: {
+    studio: "Studio",
+    title: "Admin",
+    viewStorefront: "View storefront",
+    nav: {
+      dashboard: "Dashboard",
+      products: "Products",
+      collections: "Collections",
+      heroTiles: "Hero tiles",
+      trustItems: "Trust strip",
+      orders: "Orders",
+      testimonials: "Reviews",
+      commissions: "Commissions",
+      messages: "Messages",
+      newsletter: "Newsletter",
+      settings: "Settings",
+      account: "Storefront account",
+    },
+  },
 } as const;
 
-export type Dictionary = {
-  [K in keyof typeof en]: (typeof en)[K] extends string
-    ? string
-    : (typeof en)[K] extends Record<string, string>
-      ? Record<keyof (typeof en)[K], string>
-      : (typeof en)[K] extends Record<string, Record<string, string>>
-        ? { [P in keyof (typeof en)[K]]: Record<keyof (typeof en)[K][P], string> }
-        : (typeof en)[K];
-};
+type DeepStringRecord<T> = T extends string
+  ? string
+  : T extends Record<string, unknown>
+    ? { [K in keyof T]: DeepStringRecord<T[K]> }
+    : never;
+
+export type Dictionary = DeepStringRecord<typeof en>;

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { useI18n } from "@/components/layout/I18nProvider";
 import styles from "./ProductGallery.module.css";
 
 type GalleryImage = {
@@ -15,6 +16,7 @@ type ProductGalleryProps = {
 };
 
 export function ProductGallery({ images, title }: ProductGalleryProps) {
+  const { dict } = useI18n();
   const [activeIndex, setActiveIndex] = useState(0);
   const active = images[activeIndex] ?? images[0];
 
@@ -42,7 +44,7 @@ export function ProductGallery({ images, title }: ProductGalleryProps) {
               type="button"
               className={`${styles.thumb} ${index === activeIndex ? styles.thumbActive : ""}`}
               onClick={() => setActiveIndex(index)}
-              aria-label={`View image ${index + 1}`}
+              aria-label={dict.aria.viewImage.replace("{index}", String(index + 1))}
               aria-current={index === activeIndex}
             >
               <Image

@@ -12,11 +12,15 @@ import { buildPageMetadata } from "@/lib/seo";
 import { getDictionary, getLocale } from "@/i18n";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = buildPageMetadata({
-  title: "Your Cart — SG Philippo Art",
-  path: "/cart",
-  noIndex: true,
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const meta = getDictionary(locale).meta;
+  return buildPageMetadata({
+    title: meta.cartTitle,
+    path: "/cart",
+    noIndex: true,
+  });
+}
 
 export default async function CartPage() {
   const locale = await getLocale();

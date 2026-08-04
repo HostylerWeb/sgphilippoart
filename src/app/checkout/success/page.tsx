@@ -9,11 +9,15 @@ import { buildPageMetadata } from "@/lib/seo";
 import { getDictionary, getLocale } from "@/i18n";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = buildPageMetadata({
-  title: "Order Confirmed — SG Philippo Art",
-  path: "/checkout/success",
-  noIndex: true,
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const meta = getDictionary(locale).meta;
+  return buildPageMetadata({
+    title: meta.checkoutSuccessTitle,
+    path: "/checkout/success",
+    noIndex: true,
+  });
+}
 
 type PageProps = {
   searchParams: Promise<{ order?: string }>;

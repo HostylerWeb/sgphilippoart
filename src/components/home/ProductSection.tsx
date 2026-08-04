@@ -10,9 +10,17 @@ type ProductSectionProps = {
   wishlistedIds?: Set<string>;
   labels: Dictionary["home"];
   soldLabel: string;
+  badgeLabels: Pick<Dictionary["product"], "original" | "print" | "printEdition">;
 };
 
-export function ProductSection({ products, currency, wishlistedIds, labels, soldLabel }: ProductSectionProps) {
+export function ProductSection({
+  products,
+  currency,
+  wishlistedIds,
+  labels,
+  soldLabel,
+  badgeLabels,
+}: ProductSectionProps) {
   return (
     <section className={styles.section}>
       <div className="wrap">
@@ -40,6 +48,7 @@ export function ProductSection({ products, currency, wishlistedIds, labels, sold
                   isWishlisted={wishlistedIds?.has(product.id)}
                   imageSizes="(max-width: 600px) calc(100vw - 72px), (max-width: 980px) 50vw, 25vw"
                   soldLabel={soldLabel}
+                  badgeLabels={badgeLabels}
                 />
               </div>
             ))}

@@ -25,14 +25,19 @@ type PageProps = {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
+  const locale = await getLocale();
+  const dict = getDictionary(locale);
   const category = await getCategoryBySlug(slug);
-  if (!category) return { title: "Collection not found" };
+  if (!category) return { title: dict.meta.collectionNotFound };
+
+  const localizedCategory = localizeCategoryEntity(category, locale);
+  const categoryName = localizedCategory.name;
 
   return {
-    title: `${category.name} — SG Philippo Art`,
+    title: `${categoryName} — SG Philippo Art`,
     description:
-      category.description ??
-      `Browse ${category.name} from SG Philippo Art — original paintings and fine art prints.`,
+      localizedCategory.description ??
+      dict.meta.collectionDescription.replace("{name}", categoryName),
   };
 }
 
@@ -68,6 +73,7 @@ export default async function CollectionPage({ params, searchParams }: PageProps
       <section className={styles.catalog}>
         <div className="wrap">
           <Breadcrumbs
+            ariaLabel={dict.aria.breadcrumb}
             items={[
               { label: dict.breadcrumbs.home, href: "/" },
               { label: dict.breadcrumbs.collections, href: "/collections" },
@@ -110,6 +116,8 @@ export default async function CollectionPage({ params, searchParams }: PageProps
                 currency={settings}
                 wishlistedIds={wishlistedIds}
                 soldLabel={dict.product.sold}
+                emptyMessage={dict.collections.emptyGrid}
+                badgeLabels={dict.product}
               />
 
               <Pagination
@@ -118,6 +126,7 @@ export default async function CollectionPage({ params, searchParams }: PageProps
                 pageCount={result.pageCount}
                 searchParams={query}
                 labels={dict.filters}
+                ariaLabel={dict.aria.pagination}
               />
             </div>
           </div>

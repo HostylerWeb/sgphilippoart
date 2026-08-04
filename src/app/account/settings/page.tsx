@@ -27,6 +27,7 @@ export default async function AccountSettingsPage() {
         isAdmin={session.user.role === "admin"}
         activePath="/account/settings"
         labels={t}
+        collectorLabel={t.collector}
       >
         <AccountSettingsForm profile={profile} labels={t} />
       </AccountShell>

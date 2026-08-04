@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { getDictionary, getLocale } from "@/i18n";
 
-export const metadata: Metadata = {
-  title: "Create account — SG Philippo Art",
-  robots: { index: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const meta = getDictionary(locale).meta;
+  return {
+    title: meta.registerTitle,
+    robots: { index: false },
+  };
+}
 
 type PageProps = {
   searchParams: Promise<{ callbackUrl?: string }>;

@@ -2,23 +2,31 @@ import { ProductCard, type ProductCardData } from "@/components/product/ProductC
 import type { StoreSettings } from "@/lib/settings";
 import styles from "./ProductGrid.module.css";
 
+type BadgeLabels = {
+  original: string;
+  print: string;
+  printEdition: string;
+};
+
 type ProductGridProps = {
   products: ProductCardData[];
   currency?: Pick<StoreSettings, "currencyCode" | "currencyLocale">;
   emptyMessage?: string;
   wishlistedIds?: Set<string>;
   soldLabel?: string;
+  badgeLabels?: BadgeLabels;
 };
 
 export function ProductGrid({
   products,
   currency,
-  emptyMessage = "No works match your filters.",
+  emptyMessage,
   wishlistedIds,
   soldLabel,
+  badgeLabels,
 }: ProductGridProps) {
   if (products.length === 0) {
-    return <p className={styles.empty}>{emptyMessage}</p>;
+    return emptyMessage ? <p className={styles.empty}>{emptyMessage}</p> : null;
   }
 
   return (
@@ -30,6 +38,7 @@ export function ProductGrid({
           currency={currency}
           isWishlisted={wishlistedIds?.has(product.id)}
           soldLabel={soldLabel}
+          badgeLabels={badgeLabels}
         />
       ))}
     </div>

@@ -33,6 +33,7 @@ export default async function AccountOrdersPage() {
         isAdmin={session.user.role === "admin"}
         activePath="/account/orders"
         labels={t}
+        collectorLabel={t.collector}
       >
         {orders.length === 0 ? (
           <EmptyState
@@ -43,7 +44,7 @@ export default async function AccountOrdersPage() {
           />
         ) : (
           <ul className={styles.list}>
-            {orders.map((order) => (
+            {orders.map((order: (typeof orders)[number]) => (
               <li key={order.id}>
                 <Link href={`/account/orders/${order.order_number}`} className={styles.row}>
                   <div>

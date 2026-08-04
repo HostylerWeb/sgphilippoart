@@ -31,7 +31,7 @@ export function NewsletterForm({ variant = "default" }: NewsletterFormProps) {
         return;
       }
       if (result.success) {
-        setMessage(result.message ?? "Subscribed.");
+        setMessage(result.message ?? t.success);
         form.reset();
       } else if (result.message) {
         setError(result.message);

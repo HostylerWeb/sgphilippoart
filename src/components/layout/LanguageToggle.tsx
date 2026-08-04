@@ -7,9 +7,10 @@ import styles from "./LanguageToggle.module.css";
 type LanguageToggleProps = {
   locale: Locale;
   compact?: boolean;
+  ariaLabel: string;
 };
 
-export function LanguageToggle({ locale, compact = false }: LanguageToggleProps) {
+export function LanguageToggle({ locale, compact = false, ariaLabel }: LanguageToggleProps) {
   async function select(next: Locale) {
     if (next === locale) return;
     await setLocaleAction(next);
@@ -19,7 +20,7 @@ export function LanguageToggle({ locale, compact = false }: LanguageToggleProps)
     <div
       className={`${styles.toggle} ${compact ? styles.compact : ""}`}
       role="group"
-      aria-label="Language"
+      aria-label={ariaLabel}
     >
       <button
         type="button"

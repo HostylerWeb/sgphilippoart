@@ -3,6 +3,22 @@ import type { Dictionary } from "./en";
 export const fr = {
   meta: {
     siteName: "SG Philippo Art",
+    homeTitle: "SG Philippo Art — Peintures originales et estampes",
+    homeDescription:
+      "Peintures à l'huile originales et estampes d'art par SG Philippo Art. Peintes à la main, livrées dans le monde entier.",
+    cartTitle: "Votre panier — SG Philippo Art",
+    checkoutTitle: "Paiement — SG Philippo Art",
+    loginTitle: "Connexion — SG Philippo Art",
+    registerTitle: "Créer un compte — SG Philippo Art",
+    collectionsTitle: "Collections — SG Philippo Art",
+    collectionsDescription:
+      "Parcourez des collections d'œuvres originales à l'huile et d'estampes d'art.",
+    checkoutSuccessTitle: "Commande confirmée — SG Philippo Art",
+    collectionNotFound: "Collection introuvable",
+    artworkNotFound: "Œuvre introuvable",
+    collectionDescription:
+      "Parcourez {name} de SG Philippo Art — peintures originales et estampes d'art.",
+    originalArtwork: "Œuvre originale",
   },
   categories: {
     "new-arrivals": "Nouveautés",
@@ -22,6 +38,7 @@ export const fr = {
     shop: "Boutique",
     studio: "Atelier",
     support: "Assistance",
+    cart: "Panier",
   },
   footer: {
     shop: "Boutique",
@@ -75,6 +92,7 @@ export const fr = {
     testimonialsSubtitle:
       "De vrais retours de collectionneurs ayant acheté dans l'atelier.",
     verified: "Vérifié",
+    starRatingAria: "{rating} sur 5 étoiles",
   },
   collections: {
     browseEyebrow: "Parcourir",
@@ -97,6 +115,7 @@ export const fr = {
     searchCount: "{count} œuvre trouvée",
     searchCountPlural: "{count} œuvres trouvées",
     searchNoResults: "Aucune œuvre trouvée pour « {query} ».",
+    emptyGrid: "Aucune œuvre correspond à vos filtres.",
   },
   filters: {
     works: "œuvres",
@@ -137,6 +156,8 @@ export const fr = {
     related: "Vous aimerez aussi",
     home: "Accueil",
     collections: "Collections",
+    artworkNotFound: "Œuvre introuvable",
+    originalArtwork: "Œuvre originale",
   },
   status: {
     pending: "En attente",
@@ -299,6 +320,30 @@ export const fr = {
     invalidCountry: "Veuillez sélectionner un pays valide.",
     stateRequired: "{label} est requis.",
     invalidPostal: "Veuillez saisir un code postal valide pour ce pays.",
+    artworkUnavailable: "Cette œuvre n'est pas disponible.",
+    originalInCart: "Cet original est déjà dans votre panier.",
+    printOutOfStock: "Cette estampe est en rupture de stock.",
+    onlyNAvailable: "Seulement {count} disponible(s).",
+    itemNotFound: "Article introuvable.",
+    signInToWishlist: "Connectez-vous pour enregistrer des œuvres.",
+    artworkNoLongerAvailable: "« {title} » n'est plus disponible.",
+    insufficientStock: "Stock insuffisant pour « {title} » (il reste {count}).",
+    artworkReserved: "« {title} » est déjà réservé par une autre commande active.",
+    accountCreateFailed: "Impossible de créer le compte.",
+    newsletterSubscribedShort: "Inscription confirmée.",
+  },
+  aria: {
+    language: "Langue",
+    close: "Fermer",
+    addToWishlist: "Ajouter à la liste de favoris",
+    removeFromWishlist: "Retirer de la liste de favoris",
+    pagination: "Pagination",
+    breadcrumb: "Fil d'Ariane",
+    collections: "Collections",
+    featuredCollections: "Collections en vedette",
+    viewImage: "Voir l'image {index}",
+    decreaseQuantity: "Diminuer la quantité",
+    increaseQuantity: "Augmenter la quantité",
   },
   forms: {
     contact: {
@@ -354,6 +399,8 @@ export const fr = {
     settingsCardDescription:
       "Mettez à jour votre nom, téléphone et adresse de livraison par défaut.",
     contactStudio: "Contacter l'atelier",
+    collector: "Collectionneur",
+    adminCardDescription: "Consulter les commandes, commandes sur mesure et messages.",
     settingsTitle: "Profil et livraison",
     settingsDescription:
       "Gardez vos coordonnées et votre adresse de livraison à jour pour un passage en caisse plus rapide.",
@@ -411,6 +458,7 @@ export const fr = {
     placeholder: "Votre adresse e-mail",
     submit: "S'inscrire",
     submitting: "Inscription…",
+    success: "Inscription confirmée.",
   },
   pages: {
     about: {
@@ -529,5 +577,24 @@ export const fr = {
     body: "La page que vous recherchez a peut-être été déplacée ou n'existe plus.",
     home: "Retour à l'accueil",
     collections: "Parcourir les collections",
+  },
+  admin: {
+    studio: "Atelier",
+    title: "Administration",
+    viewStorefront: "Voir la boutique",
+    nav: {
+      dashboard: "Tableau de bord",
+      products: "Produits",
+      collections: "Collections",
+      heroTiles: "Tuiles hero",
+      trustItems: "Bandeau de confiance",
+      orders: "Commandes",
+      testimonials: "Avis",
+      commissions: "Commandes sur mesure",
+      messages: "Messages",
+      newsletter: "Newsletter",
+      settings: "Paramètres",
+      account: "Compte boutique",
+    },
   },
 } satisfies Dictionary;

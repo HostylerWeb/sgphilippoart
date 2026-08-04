@@ -1,0 +1,26 @@
+[Unit]
+Description=SG Philippo Art (srv1872514.hstgr.cloud)
+After=network.target docker.service
+Wants=docker.service
+
+[Service]
+Type=simple
+User=hostyler
+Group=hostyler
+WorkingDirectory=/var/www/sites/sgphilippoart
+Environment=NODE_ENV=production
+EnvironmentFile=/var/www/sites/sgphilippoart/.env
+ExecStart=/usr/bin/node node_modules/next/dist/bin/next start -p 3001 -H 127.0.0.1
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=sgphilippoart
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/var/www/sites/sgphilippoart
+
+[Install]
+WantedBy=multi-user.target

@@ -20,7 +20,7 @@ export default async function WishlistPage() {
   ]);
   const t = dict.account;
 
-  const wishlistedIds = new Set(products.map((p) => p.id));
+  const wishlistedIds = new Set<string>(products.map((p: { id: string }) => p.id));
 
   return (
     <StorefrontShell>
@@ -32,6 +32,7 @@ export default async function WishlistPage() {
         isAdmin={session.user.role === "admin"}
         activePath="/account/wishlist"
         labels={t}
+        collectorLabel={t.collector}
       >
         {products.length === 0 ? (
           <EmptyState
@@ -46,6 +47,7 @@ export default async function WishlistPage() {
             currency={settings}
             wishlistedIds={wishlistedIds}
             soldLabel={dict.product.sold}
+            badgeLabels={dict.product}
           />
         )}
       </AccountShell>

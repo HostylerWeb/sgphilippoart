@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
+import { getDictionary, getLocale } from "@/i18n";
 
 type WishlistResult = {
   success: boolean;
@@ -12,9 +13,12 @@ type WishlistResult = {
 };
 
 export async function toggleWishlist(productId: string): Promise<WishlistResult> {
+  const locale = await getLocale();
+  const v = getDictionary(locale).validation;
+
   const session = await auth();
   if (!session?.user?.id) {
-    return { success: false, requiresLogin: true, message: "Sign in to save artworks." };
+    return { success: false, requiresLogin: true, message: v.signInToWishlist };
   }
 
   const existing = await db.wishlists.findUnique({
@@ -34,7 +38,7 @@ export async function toggleWishlist(productId: string): Promise<WishlistResult>
 
   const product = await db.products.findUnique({ where: { id: productId } });
   if (!product || product.status !== "published") {
-    return { success: false, message: "This artwork is not available." };
+    return { success: false, message: v.artworkUnavailable };
   }
 
   await db.wishlists.create({

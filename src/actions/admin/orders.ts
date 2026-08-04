@@ -6,6 +6,7 @@ import { db } from "@/lib/db";
 import { sendOrderConfirmation, sendOrderStatusUpdate } from "@/lib/email";
 import { formatPrice } from "@/lib/format";
 import { restoreOrderInventory, reserveOrderInventory } from "@/lib/order-inventory";
+import { localizeInventoryError } from "@/lib/inventory-errors";
 import { getStoreSettings } from "@/lib/settings";
 import { getLocale } from "@/i18n";
 import { z } from "zod";
@@ -56,7 +57,8 @@ export async function updateOrderStatusAction(
     });
 
     if (inventoryError) {
-      return { error: inventoryError };
+      const locale = await getLocale();
+      return { error: localizeInventoryError(locale, inventoryError) };
     }
   } else {
     await db.$transaction(async (tx) => {

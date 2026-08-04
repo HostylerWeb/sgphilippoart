@@ -40,7 +40,7 @@ export function RegisterForm({
         return;
       }
       if (!result.success) {
-        setError(result.message ?? "Could not create account.");
+        setError(result.message ?? dict.validation.accountCreateFailed);
         return;
       }
 

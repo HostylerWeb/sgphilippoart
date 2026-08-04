@@ -5,10 +5,14 @@ import { AuthPageShell } from "@/components/layout/AuthPageShell";
 import { StorefrontShell } from "@/components/layout/StorefrontShell";
 import { getDictionary, getLocale } from "@/i18n";
 
-export const metadata: Metadata = {
-  title: "Sign in — SG Philippo Art",
-  robots: { index: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const meta = getDictionary(locale).meta;
+  return {
+    title: meta.loginTitle,
+    robots: { index: false },
+  };
+}
 
 type PageProps = {
   searchParams: Promise<{ callbackUrl?: string; tab?: string }>;

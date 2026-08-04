@@ -23,10 +23,19 @@ type CartDrawerProps = {
   items: CartDrawerItem[];
   subtotal: string;
   dict: Dictionary["cart"];
+  closeLabel: string;
   checkoutHref: string;
 };
 
-export function CartDrawer({ open, onClose, items, subtotal, dict, checkoutHref }: CartDrawerProps) {
+export function CartDrawer({
+  open,
+  onClose,
+  items,
+  subtotal,
+  dict,
+  closeLabel,
+  checkoutHref,
+}: CartDrawerProps) {
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
@@ -42,7 +51,7 @@ export function CartDrawer({ open, onClose, items, subtotal, dict, checkoutHref 
       <aside className={`${styles.drawer} ${styles.drawerOpen}`} aria-label={dict.title}>
         <div className={styles.head}>
           <h2>{dict.title}</h2>
-          <button type="button" className={styles.close} onClick={onClose} aria-label="Close">
+          <button type="button" className={styles.close} onClick={onClose} aria-label={closeLabel}>
             ×
           </button>
         </div>
