@@ -147,6 +147,7 @@ git push origin main
 # 2. Sync files to the VPS (excludes node_modules, .next, .env)
 rsync -az --delete \
   --exclude node_modules --exclude .next --exclude .env \
+  --exclude public/uploads/products --exclude public/uploads/hero \
   -e ssh \
   ./ root@145.223.88.74:/var/www/sites/sgphilippoart/
 

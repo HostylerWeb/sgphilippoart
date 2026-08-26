@@ -11,28 +11,27 @@ import { slugify } from "@/lib/slug";
 import { Prisma } from "@/generated/prisma/client";
 import { parseFrenchTranslationsForm } from "@/lib/i18n/content";
 import { TRANSLATION_FIELD_SETS } from "@/lib/i18n/localize";
-import { getSafeImageExtension, validateImageUpload } from "@/lib/upload";
+import { validateImageBuffer } from "@/lib/upload";
 import { categoryFormSchema, heroTileFormSchema } from "@/lib/validations/content";
 
 type ActionState = { error?: string };
 
 const HERO_UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "hero");
 
-async function saveHeroImage(formData: FormData) {
+async function saveHeroImage(formData: FormData): Promise<{ url: string } | { error: string } | null> {
   const file = formData.get("image");
   if (!(file instanceof File) || file.size === 0) return null;
 
-  const validationError = validateImageUpload(file);
-  if (validationError) {
-    throw new Error(validationError);
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const validation = validateImageBuffer(buffer, file.name, file.type);
+  if (!validation.ok) {
+    return { error: validation.error };
   }
 
   await mkdir(HERO_UPLOAD_DIR, { recursive: true });
-  const extension = getSafeImageExtension(file.name) ?? ".jpg";
-  const filename = `${randomUUID()}${extension}`;
-  const buffer = Buffer.from(await file.arrayBuffer());
+  const filename = `${randomUUID()}${validation.extension}`;
   await writeFile(path.join(HERO_UPLOAD_DIR, filename), buffer);
-  return `/uploads/hero/${filename}`;
+  return { url: `/uploads/hero/${filename}` };
 }
 
 export async function createCategoryAction(
@@ -124,8 +123,11 @@ export async function createHeroTileAction(
   formData: FormData,
 ): Promise<ActionState> {
   await requireAdmin("/admin/hero-tiles/new");
-  const imageUrl = await saveHeroImage(formData);
-  if (!imageUrl) return { error: "Hero image is required." };
+  const imageResult = await saveHeroImage(formData);
+  if (imageResult && "error" in imageResult) {
+    return { error: imageResult.error };
+  }
+  if (!imageResult) return { error: "Hero image is required." };
 
   const parsed = heroTileFormSchema.safeParse({
     eyebrow: formData.get("eyebrow"),
@@ -145,7 +147,7 @@ export async function createHeroTileAction(
   const tile = await db.hero_tiles.create({
     data: {
       ...parsed.data,
-      image_url: imageUrl,
+      image_url: imageResult.url,
       translations: translations === undefined ? Prisma.DbNull : translations,
     },
   });
@@ -159,7 +161,11 @@ export async function updateHeroTileAction(
   formData: FormData,
 ): Promise<ActionState> {
   await requireAdmin(`/admin/hero-tiles/${id}/edit`);
-  const imageUrl = await saveHeroImage(formData);
+  const imageResult = await saveHeroImage(formData);
+  if (imageResult && "error" in imageResult) {
+    return { error: imageResult.error };
+  }
+
   const parsed = heroTileFormSchema.safeParse({
     eyebrow: formData.get("eyebrow"),
     title: formData.get("title"),
@@ -180,7 +186,7 @@ export async function updateHeroTileAction(
     data: {
       ...parsed.data,
       translations: translations === undefined ? Prisma.DbNull : translations,
-      ...(imageUrl ? { image_url: imageUrl } : {}),
+      ...(imageResult ? { image_url: imageResult.url } : {}),
     },
   });
   revalidatePath("/");

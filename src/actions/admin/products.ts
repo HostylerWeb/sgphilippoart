@@ -11,7 +11,7 @@ import { slugify } from "@/lib/slug";
 import { Prisma } from "@/generated/prisma/client";
 import { parseFrenchTranslationsForm } from "@/lib/i18n/content";
 import { TRANSLATION_FIELD_SETS } from "@/lib/i18n/localize";
-import { getSafeImageExtension, validateImageUpload } from "@/lib/upload";
+import { validateImageBuffer } from "@/lib/upload";
 import { productFormSchema } from "@/lib/validations/product";
 
 const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "products");
@@ -47,27 +47,28 @@ function parseProductForm(formData: FormData) {
   });
 }
 
-async function saveUploadedImages(formData: FormData) {
+async function saveUploadedImages(
+  formData: FormData,
+): Promise<{ urls: string[] } | { error: string }> {
   const files = formData.getAll("images").filter((item): item is File => item instanceof File && item.size > 0);
-  if (files.length === 0) return [] as string[];
+  if (files.length === 0) return { urls: [] };
 
   await mkdir(UPLOAD_DIR, { recursive: true });
 
   const urls: string[] = [];
   for (const file of files) {
-    const validationError = validateImageUpload(file);
-    if (validationError) {
-      throw new Error(validationError);
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const validation = validateImageBuffer(buffer, file.name, file.type);
+    if (!validation.ok) {
+      return { error: validation.error };
     }
 
-    const extension = getSafeImageExtension(file.name) ?? ".jpg";
-    const filename = `${randomUUID()}${extension}`;
-    const buffer = Buffer.from(await file.arrayBuffer());
+    const filename = `${randomUUID()}${validation.extension}`;
     await writeFile(path.join(UPLOAD_DIR, filename), buffer);
     urls.push(`/uploads/products/${filename}`);
   }
 
-  return urls;
+  return { urls };
 }
 
 export async function createProductAction(
@@ -86,7 +87,11 @@ export async function createProductAction(
     return { error: "A product with this slug already exists." };
   }
 
-  const imageUrls = await saveUploadedImages(formData);
+  const uploadResult = await saveUploadedImages(formData);
+  if ("error" in uploadResult) {
+    return { error: uploadResult.error };
+  }
+
   const translations = parseFrenchTranslationsForm(
     formData,
     [...TRANSLATION_FIELD_SETS.product],
@@ -110,7 +115,7 @@ export async function createProductAction(
       meta_description: data.meta_description,
       translations: translations === undefined ? Prisma.DbNull : translations,
       images: {
-        create: imageUrls.map((url, index) => ({
+        create: uploadResult.urls.map((url, index) => ({
           url,
           alt_text: data.title,
           sort_order: index,
@@ -145,7 +150,11 @@ export async function updateProductAction(
     return { error: "A product with this slug already exists." };
   }
 
-  const imageUrls = await saveUploadedImages(formData);
+  const uploadResult = await saveUploadedImages(formData);
+  if ("error" in uploadResult) {
+    return { error: uploadResult.error };
+  }
+
   const translations = parseFrenchTranslationsForm(
     formData,
     [...TRANSLATION_FIELD_SETS.product],
@@ -180,10 +189,10 @@ export async function updateProductAction(
       },
     });
 
-    if (imageUrls.length > 0) {
+    if (uploadResult.urls.length > 0) {
       const startOrder = current.images.length;
       await tx.product_images.createMany({
-        data: imageUrls.map((url, index) => ({
+        data: uploadResult.urls.map((url, index) => ({
           product_id: productId,
           url,
           alt_text: data.title,

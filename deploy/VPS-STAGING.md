@@ -26,6 +26,7 @@ From your dev machine (rsync — server has no GitHub deploy key yet):
 ```bash
 rsync -az --delete \
   --exclude node_modules --exclude .next --exclude .env \
+  --exclude public/uploads/products --exclude public/uploads/hero \
   -e ssh \
   ./ root@145.223.88.74:/var/www/sites/sgphilippoart/
 
@@ -40,6 +41,12 @@ ssh root@145.223.88.74 '
 ```
 
 Or set up a GitHub deploy key on the VPS for `git pull` workflows.
+
+**Important:** `public/uploads/` is excluded from rsync so deploys do not delete uploaded product and hero images. Never remove those `--exclude` flags.
+
+## Broken product images after deploy?
+
+If `/_next/image?url=/uploads/products/...` shows "The requested resource isn't a valid image", the file is missing on disk (usually wiped by an older rsync `--delete` without upload excludes). Re-upload the image in `/admin` after deploying with the excludes above.
 
 ## Cutover to sgphilippoart.com
 
