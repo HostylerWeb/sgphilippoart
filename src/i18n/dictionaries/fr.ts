@@ -84,8 +84,8 @@ export const fr = {
   home: {
     browseEyebrow: "Parcourir",
     browseTitle: "Acheter par catégorie",
-    newArrivalsEyebrow: "Nouveautés",
-    newArrivalsTitle: "Fraîchement sorti de l'atelier",
+    newArrivalsEyebrow: "Œuvres",
+    newArrivalsTitle: "De l'atelier",
     viewAllWorks: "Voir toutes les œuvres",
     testimonialsEyebrow: "Avis",
     testimonialsTitle: "Nos collectionneurs",
@@ -111,11 +111,15 @@ export const fr = {
     searchHint:
       "Utilisez l'icône de recherche dans l'en-tête pour trouver des œuvres par titre, technique ou description en temps réel.",
     browseCollections: "Parcourir les collections",
-    browseNewArrivals: "Voir les nouveautés",
+    browseAllWorks: "Voir toutes les œuvres",
     searchCount: "{count} œuvre trouvée",
     searchCountPlural: "{count} œuvres trouvées",
     searchNoResults: "Aucune œuvre trouvée pour « {query} ».",
     emptyGrid: "Aucune œuvre correspond à vos filtres.",
+    allWorksEyebrow: "Parcourir",
+    allWorksTitle: "Toutes les œuvres",
+    allWorksDescription:
+      "Toutes les peintures et estampes actuellement disponibles dans l'atelier.",
   },
   filters: {
     works: "œuvres",

@@ -29,7 +29,7 @@ export function ProductSection({
             <span className="eyebrow">{labels.newArrivalsEyebrow}</span>
             <h2>{labels.newArrivalsTitle}</h2>
           </div>
-          <Link href="/collections/new-arrivals" className={styles.sectionHeadLink}>
+          <Link href="/works" className={styles.sectionHeadLink}>
             {labels.viewAllWorks}
           </Link>
         </div>

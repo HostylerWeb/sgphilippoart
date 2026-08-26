@@ -82,8 +82,8 @@ export const en = {
   home: {
     browseEyebrow: "Browse",
     browseTitle: "Shop by category",
-    newArrivalsEyebrow: "New Arrivals",
-    newArrivalsTitle: "Fresh from the studio",
+    newArrivalsEyebrow: "Works",
+    newArrivalsTitle: "From the studio",
     viewAllWorks: "View all works",
     testimonialsEyebrow: "Reviews",
     testimonialsTitle: "From our collectors",
@@ -108,11 +108,15 @@ export const en = {
     searchHint:
       "Use the search icon in the header to find artworks by title, medium, or description as you type.",
     browseCollections: "Browse collections",
-    browseNewArrivals: "View new arrivals",
+    browseAllWorks: "View all works",
     searchCount: "{count} work found",
     searchCountPlural: "{count} works found",
     searchNoResults: "No works found for “{query}”.",
     emptyGrid: "No works match your filters.",
+    allWorksEyebrow: "Browse",
+    allWorksTitle: "All works",
+    allWorksDescription:
+      "Every painting and print currently available from the studio.",
   },
   filters: {
     works: "works",

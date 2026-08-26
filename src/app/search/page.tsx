@@ -65,8 +65,8 @@ export default async function SearchPage({ searchParams }: PageProps) {
               <Link href="/collections" className={styles.primary}>
                 {t.browseCollections}
               </Link>
-              <Link href="/collections/new-arrivals" className={styles.secondary}>
-                {t.browseNewArrivals}
+              <Link href="/works" className={styles.secondary}>
+                {t.browseAllWorks}
               </Link>
             </div>
           </div>
