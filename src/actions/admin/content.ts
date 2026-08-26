@@ -11,7 +11,7 @@ import { slugify } from "@/lib/slug";
 import { Prisma } from "@/generated/prisma/client";
 import { parseFrenchTranslationsForm } from "@/lib/i18n/content";
 import { TRANSLATION_FIELD_SETS } from "@/lib/i18n/localize";
-import { validateImageBuffer } from "@/lib/upload";
+import { prepareUploadJpeg } from "@/lib/upload";
 import { categoryFormSchema, heroTileFormSchema } from "@/lib/validations/content";
 
 type ActionState = { error?: string };
@@ -23,14 +23,14 @@ async function saveHeroImage(formData: FormData): Promise<{ url: string } | { er
   if (!(file instanceof File) || file.size === 0) return null;
 
   const buffer = Buffer.from(await file.arrayBuffer());
-  const validation = validateImageBuffer(buffer, file.name, file.type);
-  if (!validation.ok) {
-    return { error: validation.error };
+  const prepared = await prepareUploadJpeg(buffer, file.name, file.type);
+  if (!prepared.ok) {
+    return { error: prepared.error };
   }
 
   await mkdir(HERO_UPLOAD_DIR, { recursive: true });
-  const filename = `${randomUUID()}${validation.extension}`;
-  await writeFile(path.join(HERO_UPLOAD_DIR, filename), buffer);
+  const filename = `${randomUUID()}.jpg`;
+  await writeFile(path.join(HERO_UPLOAD_DIR, filename), prepared.jpeg);
   return { url: `/uploads/hero/${filename}` };
 }
 

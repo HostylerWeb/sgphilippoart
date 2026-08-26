@@ -11,7 +11,7 @@ import { slugify } from "@/lib/slug";
 import { Prisma } from "@/generated/prisma/client";
 import { parseFrenchTranslationsForm } from "@/lib/i18n/content";
 import { TRANSLATION_FIELD_SETS } from "@/lib/i18n/localize";
-import { validateImageBuffer } from "@/lib/upload";
+import { prepareUploadJpeg } from "@/lib/upload";
 import { productFormSchema } from "@/lib/validations/product";
 
 const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "products");
@@ -58,13 +58,13 @@ async function saveUploadedImages(
   const urls: string[] = [];
   for (const file of files) {
     const buffer = Buffer.from(await file.arrayBuffer());
-    const validation = validateImageBuffer(buffer, file.name, file.type);
-    if (!validation.ok) {
-      return { error: validation.error };
+    const prepared = await prepareUploadJpeg(buffer, file.name, file.type);
+    if (!prepared.ok) {
+      return { error: prepared.error };
     }
 
-    const filename = `${randomUUID()}${validation.extension}`;
-    await writeFile(path.join(UPLOAD_DIR, filename), buffer);
+    const filename = `${randomUUID()}.jpg`;
+    await writeFile(path.join(UPLOAD_DIR, filename), prepared.jpeg);
     urls.push(`/uploads/products/${filename}`);
   }
 

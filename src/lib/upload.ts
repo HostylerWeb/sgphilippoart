@@ -1,11 +1,23 @@
+import { convertUploadToJpeg } from "@/lib/image-processing";
+
 const ALLOWED_IMAGE_TYPES = new Set([
   "image/jpeg",
   "image/png",
   "image/webp",
   "image/gif",
+  "image/heic",
+  "image/heif",
 ]);
 
-const ALLOWED_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif"]);
+const ALLOWED_EXTENSIONS = new Set([
+  ".jpg",
+  ".jpeg",
+  ".png",
+  ".webp",
+  ".gif",
+  ".heic",
+  ".heif",
+]);
 
 const EXTENSION_TO_MIME: Record<string, string> = {
   ".jpg": "image/jpeg",
@@ -13,6 +25,8 @@ const EXTENSION_TO_MIME: Record<string, string> = {
   ".png": "image/png",
   ".webp": "image/webp",
   ".gif": "image/gif",
+  ".heic": "image/heic",
+  ".heif": "image/heif",
 };
 
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024;
@@ -83,14 +97,7 @@ export function validateImageBuffer(
     return { ok: false, error: "File must be 10 MB or smaller." };
   }
 
-  if (isHeicOrHeif(buffer)) {
-    return {
-      ok: false,
-      error: "HEIC/HEIF images are not supported. Please export the photo as JPEG or PNG first.",
-    };
-  }
-
-  const sniffedType = detectImageTypeFromBuffer(buffer);
+  const sniffedType = isHeicOrHeif(buffer) ? "image/heic" : detectImageTypeFromBuffer(buffer);
   const extension = getSafeImageExtension(filename);
   const normalizedReportedType = reportedType.trim().toLowerCase();
   const extensionMime = extension ? EXTENSION_TO_MIME[extension] : null;
@@ -108,7 +115,7 @@ export function validateImageBuffer(
   if (!mimeType || !ALLOWED_IMAGE_TYPES.has(mimeType)) {
     return {
       ok: false,
-      error: "Only JPEG, PNG, WebP, and GIF images are allowed.",
+      error: "Only JPEG, PNG, WebP, GIF, and HEIC images are allowed.",
     };
   }
 
@@ -131,7 +138,7 @@ export function validateImageUpload(file: File): string | null {
   }
 
   if (!ALLOWED_IMAGE_TYPES.has(file.type) && !GENERIC_MIME_TYPES.has(file.type)) {
-    return "Only JPEG, PNG, WebP, and GIF images are allowed.";
+    return "Only JPEG, PNG, WebP, GIF, and HEIC images are allowed.";
   }
 
   const extension = getSafeImageExtension(file.name);
@@ -152,8 +159,36 @@ export function getExtensionFromMimeType(type: string): string | null {
       return ".webp";
     case "image/gif":
       return ".gif";
+    case "image/heic":
+    case "image/heif":
+      return ".heic";
     default:
       return null;
+  }
+}
+
+type PreparedUploadResult =
+  | { ok: true; jpeg: Buffer }
+  | { ok: false; error: string };
+
+export async function prepareUploadJpeg(
+  buffer: Buffer,
+  filename: string,
+  reportedType = "",
+): Promise<PreparedUploadResult> {
+  const validation = validateImageBuffer(buffer, filename, reportedType);
+  if (!validation.ok) {
+    return validation;
+  }
+
+  try {
+    const jpeg = await convertUploadToJpeg(buffer, validation.mimeType);
+    if (jpeg.length > MAX_FILE_SIZE_BYTES) {
+      return { ok: false, error: "Processed image must be 10 MB or smaller." };
+    }
+    return { ok: true, jpeg };
+  } catch {
+    return { ok: false, error: "Could not process image. Try a different file." };
   }
 }
 
