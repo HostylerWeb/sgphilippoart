@@ -28,7 +28,7 @@ git push origin main
 
 **SSH key for GitHub (this dev machine):** `~/.ssh/id_ed25519_github`
 
-The VPS does **not** have a GitHub deploy key yet — production updates use **rsync** (see below), not `git pull` on the server.
+Production updates use **`git pull` on the VPS** after you push to GitHub (see deploy section below).
 
 ---
 
@@ -141,22 +141,18 @@ From your **local machine**, in the project folder:
 ```bash
 cd /var/www/html/sgphilippoart
 
-# 1. Optional but recommended: commit and push to GitHub first
+# 1. Commit and push to GitHub
 git push origin main
 
-# 2. Sync files to the VPS (excludes node_modules, .next, .env)
-rsync -az --delete \
-  --exclude node_modules --exclude .next --exclude .env \
-  --exclude public/uploads/products --exclude public/uploads/hero \
-  -e ssh \
-  ./ root@145.223.88.74:/var/www/sites/sgphilippoart/
-
-# 3. Install, migrate, build, restart on the server
+# 2. Pull and rebuild on the VPS
 ssh root@145.223.88.74 '
-  chown -R hostyler:hostyler /var/www/sites/sgphilippoart
   cd /var/www/sites/sgphilippoart
-  sudo -u hostyler pnpm install --frozen-lockfile
+  sudo -u hostyler git fetch origin
+  sudo -u hostyler git reset --hard origin/main
+  sudo -u hostyler git clean -fd -e public/uploads -e .env
+  sudo -u hostyler pnpm install --no-frozen-lockfile
   sudo -u hostyler pnpm db:migrate:deploy
+  rm -rf .next
   sudo -u hostyler NODE_ENV=production pnpm build
   systemctl restart sgphilippoart
 '

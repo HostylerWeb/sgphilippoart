@@ -21,28 +21,31 @@ SG Philippo Art runs as **site #2** on the same Hostinger VPS as Hostyler.
 
 ## Deploy updates
 
-From your dev machine (rsync — server has no GitHub deploy key yet):
+1. **Commit and push** from your dev machine:
 
 ```bash
-rsync -az --delete \
-  --exclude node_modules --exclude .next --exclude .env \
-  --exclude public/uploads/products --exclude public/uploads/hero \
-  -e ssh \
-  ./ root@145.223.88.74:/var/www/sites/sgphilippoart/
+git push origin main
+```
 
+2. **Pull and rebuild on the VPS** (app lives at `/var/www/sites/sgphilippoart`, owned by `hostyler`):
+
+```bash
 ssh root@145.223.88.74 '
-  chown -R hostyler:hostyler /var/www/sites/sgphilippoart
   cd /var/www/sites/sgphilippoart
-  sudo -u hostyler pnpm install --frozen-lockfile
+  sudo -u hostyler git fetch origin
+  sudo -u hostyler git reset --hard origin/main
+  sudo -u hostyler git clean -fd -e public/uploads -e .env
+  sudo -u hostyler pnpm install --no-frozen-lockfile
   sudo -u hostyler pnpm db:migrate:deploy
+  rm -rf .next
   sudo -u hostyler NODE_ENV=production pnpm build
   systemctl restart sgphilippoart
 '
 ```
 
-Or set up a GitHub deploy key on the VPS for `git pull` workflows.
+The server clones from `https://github.com/HostylerWeb/sgphilippoart.git` (public read). For a private repo later, add a read-only deploy key for the `hostyler` user.
 
-**Important:** `public/uploads/` is excluded from rsync so deploys do not delete uploaded product and hero images. Never remove those `--exclude` flags.
+**Important:** `git clean` keeps `public/uploads/` and `.env` so deploys do not delete uploaded images or server secrets.
 
 ## Broken product images after deploy?
 
