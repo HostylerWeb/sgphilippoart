@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { StoreImage } from "@/components/ui/StoreImage";
 import { useActionState } from "react";
 import {
   createHeroTileAction,
@@ -89,7 +89,7 @@ export function HeroTileForm({ tile }: HeroTileFormProps) {
         <div className={styles.preview}>
           <span>Current image</span>
           <div className={styles.previewImage}>
-            <Image src={tile.image_url} alt={tile.image_alt ?? tile.title} fill sizes="200px" />
+            <StoreImage src={tile.image_url} alt={tile.image_alt ?? tile.title} fill sizes="200px" />
           </div>
         </div>
       )}

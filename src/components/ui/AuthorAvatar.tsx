@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { StoreImage } from "@/components/ui/StoreImage";
 import styles from "./AuthorAvatar.module.css";
 
 type AuthorAvatarProps = {
@@ -22,7 +22,7 @@ export function AuthorAvatar({ name, imageUrl, size = 40 }: AuthorAvatarProps) {
 
   if (imageUrl) {
     return (
-      <Image
+      <StoreImage
         src={imageUrl}
         alt=""
         width={size}

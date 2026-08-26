@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { StoreImage } from "@/components/ui/StoreImage";
 import Link from "next/link";
 import { AdminShell } from "@/components/layout/AdminShell";
 import { ProductsFilter } from "@/components/admin/ProductsFilter";
@@ -82,7 +82,7 @@ export default async function AdminProductsPage({ searchParams }: PageProps) {
                         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                           <div className={styles.thumb}>
                             {image && (
-                              <Image
+                              <StoreImage
                                 src={image.url}
                                 alt={image.alt_text ?? product.title}
                                 fill

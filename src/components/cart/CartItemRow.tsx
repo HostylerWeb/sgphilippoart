@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { StoreImage } from "@/components/ui/StoreImage";
 import Link from "next/link";
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
@@ -43,7 +43,7 @@ export function CartItemRow({ item, settings, labels }: CartItemRowProps) {
       <div className={styles.main}>
         <Link href={`/products/${item.product.slug}`} className={styles.image}>
           {item.product.image_url && (
-            <Image
+            <StoreImage
               src={item.product.image_url}
               alt={item.product.image_alt ?? item.product.title}
               fill

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import { StoreImage } from "@/components/ui/StoreImage";
 import styles from "./HeroGrid.module.css";
 
 export type HeroTileData = {
@@ -28,7 +28,7 @@ export function HeroGrid({ tiles, ariaLabel }: HeroGridProps) {
       {tiles.map((tile, index) => (
         <Link key={tile.id} href={tile.link_url} className={styles.heroTile}>
           <div className={styles.heroTileImg}>
-            <Image
+            <StoreImage
               src={tile.image_url}
               alt={tile.image_alt ?? tile.title}
               fill

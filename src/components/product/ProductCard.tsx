@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import { StoreImage } from "@/components/ui/StoreImage";
 import { WishlistButton } from "@/components/wishlist/WishlistButton";
 import { formatPrice, productBadgeLabel } from "@/lib/format";
 import type { StoreSettings } from "@/lib/settings";
@@ -49,7 +49,7 @@ export function ProductCard({
   return (
     <Link href={`/products/${product.slug}`} className={styles.product}>
       <div className={styles.productImg}>
-        <Image
+        <StoreImage
           src={product.image_url}
           alt={product.image_alt ?? product.title}
           fill

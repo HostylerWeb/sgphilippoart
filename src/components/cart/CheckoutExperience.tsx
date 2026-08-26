@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { StoreImage } from "@/components/ui/StoreImage";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { CheckoutForm, type CheckoutDefaults } from "@/components/cart/CheckoutForm";
@@ -79,7 +79,7 @@ export function CheckoutExperience({
             <li key={item.id} className={styles.item}>
               <div className={styles.thumb}>
                 {item.imageUrl && (
-                  <Image
+                  <StoreImage
                     src={item.imageUrl}
                     alt={item.imageAlt ?? item.title}
                     fill

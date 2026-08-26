@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useIsClient } from "@/hooks/use-is-client";
-import Image from "next/image";
+import { StoreImage } from "@/components/ui/StoreImage";
 import Link from "next/link";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
@@ -206,7 +206,7 @@ export function SearchModal({ labels, onNavigate }: SearchModalProps) {
                       >
                         <span className={styles.resultThumb}>
                           {result.imageUrl ? (
-                            <Image
+                            <StoreImage
                               src={result.imageUrl}
                               alt={result.imageAlt ?? result.title}
                               fill

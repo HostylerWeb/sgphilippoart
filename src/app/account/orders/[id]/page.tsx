@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import { StoreImage } from "@/components/ui/StoreImage";
 import { notFound, redirect } from "next/navigation";
 import { AccountShell } from "@/components/layout/AccountShell";
 import { StorefrontShell } from "@/components/layout/StorefrontShell";
@@ -74,7 +74,7 @@ export default async function AccountOrderDetailPage({ params }: PageProps) {
                     <div className={styles.itemMain}>
                       <span className={styles.thumb}>
                         {image?.url ? (
-                          <Image
+                          <StoreImage
                             src={image.url}
                             alt={image.alt_text ?? item.title}
                             fill

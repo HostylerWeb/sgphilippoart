@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { StoreImage } from "@/components/ui/StoreImage";
 import { useState } from "react";
 import { useI18n } from "@/components/layout/I18nProvider";
 import styles from "./ProductGallery.module.css";
@@ -27,7 +27,7 @@ export function ProductGallery({ images, title }: ProductGalleryProps) {
   return (
     <div className={styles.gallery}>
       <div className={styles.primary}>
-        <Image
+        <StoreImage
           src={active.url}
           alt={active.alt_text ?? title}
           fill
@@ -47,7 +47,7 @@ export function ProductGallery({ images, title }: ProductGalleryProps) {
               aria-label={dict.aria.viewImage.replace("{index}", String(index + 1))}
               aria-current={index === activeIndex}
             >
-              <Image
+              <StoreImage
                 src={image.url}
                 alt={image.alt_text ?? `${title} view ${index + 1}`}
                 fill

@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { StoreImage } from "@/components/ui/StoreImage";
 import { deleteProductImageAction, moveProductImageAction, setPrimaryImageAction } from "@/actions/admin/product-images";
 import styles from "./ProductImageManager.module.css";
 
@@ -27,7 +27,7 @@ export function ProductImageManager({ productId, images }: ProductImageManagerPr
         {images.map((image, index) => (
           <div key={image.id} className={styles.card}>
             <div className={styles.thumb}>
-              <Image
+              <StoreImage
                 src={image.url}
                 alt={image.alt_text ?? "Product image"}
                 fill

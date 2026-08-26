@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { StoreImage } from "@/components/ui/StoreImage";
 import Link from "next/link";
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
@@ -73,7 +73,7 @@ export function CartDrawer({
                     className={styles.thumb}
                     onClick={onClose}
                   >
-                    <Image
+                    <StoreImage
                       src={item.imageUrl}
                       alt={item.imageAlt ?? item.title}
                       fill
