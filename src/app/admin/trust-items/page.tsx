@@ -4,8 +4,14 @@ import { StorefrontShell } from "@/components/layout/StorefrontShell";
 import tableStyles from "@/components/admin/AdminTable.module.css";
 import styles from "../products/page.module.css";
 import { db } from "@/lib/db";
+import { getAdminLabels } from "@/lib/admin-dict";
 
 export default async function AdminTrustItemsPage() {
+  const admin = await getAdminLabels();
+  const p = admin.pages.trustItems;
+  const t = admin.tables;
+  const c = admin.common;
+
   const items = await db.trust_items.findMany({
     orderBy: [{ sort_order: "asc" }, { created_at: "desc" }],
   });
@@ -13,26 +19,26 @@ export default async function AdminTrustItemsPage() {
   return (
     <StorefrontShell>
       <AdminShell
-        title="Trust strip"
-        description="Manage the trust icons shown below the homepage product section."
+        title={p.title}
+        description={p.description}
         activePath="/admin/trust-items"
         actions={
           <Link href="/admin/trust-items/new" className={styles.addBtn}>
-            Add item
+            {p.add}
           </Link>
         }
       >
         {items.length === 0 ? (
-          <p className={tableStyles.empty}>No trust items yet.</p>
+          <p className={tableStyles.empty}>{admin.empty.trustItems}</p>
         ) : (
           <div className={tableStyles.tableWrap}>
             <table className={tableStyles.table}>
               <thead>
                 <tr>
-                  <th>Title</th>
-                  <th>Icon</th>
-                  <th>Status</th>
-                  <th>Order</th>
+                  <th>{t.title}</th>
+                  <th>{t.icon}</th>
+                  <th>{t.status}</th>
+                  <th>{t.sort}</th>
                   <th />
                 </tr>
               </thead>
@@ -46,10 +52,10 @@ export default async function AdminTrustItemsPage() {
                       </div>
                     </td>
                     <td>{item.icon}</td>
-                    <td>{item.is_active ? "Active" : "Hidden"}</td>
+                    <td>{item.is_active ? c.active : c.hidden}</td>
                     <td>{item.sort_order}</td>
                     <td>
-                      <Link href={`/admin/trust-items/${item.id}/edit`}>Edit</Link>
+                      <Link href={`/admin/trust-items/${item.id}/edit`}>{c.edit}</Link>
                     </td>
                   </tr>
                 ))}

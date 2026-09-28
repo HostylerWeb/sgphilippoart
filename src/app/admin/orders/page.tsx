@@ -6,8 +6,14 @@ import tableStyles from "@/components/admin/AdminTable.module.css";
 import { formatPrice } from "@/lib/format";
 import { db } from "@/lib/db";
 import { getStoreSettings } from "@/lib/settings";
+import { getAdminLabels } from "@/lib/admin-dict";
 
 export default async function AdminOrdersPage() {
+  const admin = await getAdminLabels();
+  const p = admin.pages.orders;
+  const t = admin.tables;
+  const c = admin.common;
+
   const [orders, settings] = await Promise.all([
     db.orders.findMany({
       orderBy: { created_at: "desc" },
@@ -19,22 +25,22 @@ export default async function AdminOrdersPage() {
   return (
     <StorefrontShell>
       <AdminShell
-        title="Orders"
-        description="Review customer inquiries and order status."
+        title={p.title}
+        description={p.description}
         activePath="/admin/orders"
       >
         {orders.length === 0 ? (
-          <p className={tableStyles.empty}>No orders yet.</p>
+          <p className={tableStyles.empty}>{admin.empty.orders}</p>
         ) : (
           <div className={tableStyles.tableWrap}>
             <table className={tableStyles.table}>
               <thead>
                 <tr>
-                  <th>Order</th>
-                  <th>Customer</th>
-                  <th>Date</th>
-                  <th>Status</th>
-                  <th>Total</th>
+                  <th>{t.order}</th>
+                  <th>{t.customer}</th>
+                  <th>{t.date}</th>
+                  <th>{t.status}</th>
+                  <th>{t.total}</th>
                   <th />
                 </tr>
               </thead>
@@ -54,7 +60,7 @@ export default async function AdminOrdersPage() {
                     </td>
                     <td>{formatPrice(order.total.toString(), settings)}</td>
                     <td>
-                      <Link href={`/admin/orders/${order.id}`}>View</Link>
+                      <Link href={`/admin/orders/${order.id}`}>{c.view}</Link>
                     </td>
                   </tr>
                 ))}

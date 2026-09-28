@@ -4,8 +4,14 @@ import { StorefrontShell } from "@/components/layout/StorefrontShell";
 import tableStyles from "@/components/admin/AdminTable.module.css";
 import styles from "../products/page.module.css";
 import { db } from "@/lib/db";
+import { getAdminLabels } from "@/lib/admin-dict";
 
 export default async function AdminTestimonialsPage() {
+  const admin = await getAdminLabels();
+  const p = admin.pages.testimonials;
+  const t = admin.tables;
+  const c = admin.common;
+
   const testimonials = await db.testimonials.findMany({
     orderBy: [{ sort_order: "asc" }, { created_at: "desc" }],
   });
@@ -13,27 +19,27 @@ export default async function AdminTestimonialsPage() {
   return (
     <StorefrontShell>
       <AdminShell
-        title="Reviews"
-        description="Manage customer testimonials shown on the homepage."
+        title={p.title}
+        description={p.description}
         activePath="/admin/testimonials"
         actions={
           <Link href="/admin/testimonials/new" className={styles.addBtn}>
-            Add review
+            {p.add}
           </Link>
         }
       >
         {testimonials.length === 0 ? (
-          <p className={tableStyles.empty}>No reviews yet.</p>
+          <p className={tableStyles.empty}>{admin.empty.reviews}</p>
         ) : (
           <div className={tableStyles.tableWrap}>
             <table className={tableStyles.table}>
               <thead>
                 <tr>
-                  <th>Title</th>
-                  <th>Author</th>
-                  <th>Rating</th>
-                  <th>Status</th>
-                  <th>Order</th>
+                  <th>{t.title}</th>
+                  <th>{t.author}</th>
+                  <th>{t.rating}</th>
+                  <th>{t.status}</th>
+                  <th>{t.sort}</th>
                   <th />
                 </tr>
               </thead>
@@ -49,10 +55,10 @@ export default async function AdminTestimonialsPage() {
                     </td>
                     <td>{item.author_name}</td>
                     <td>{item.rating} ★</td>
-                    <td>{item.is_published ? "Published" : "Hidden"}</td>
+                    <td>{item.is_published ? c.published : c.hidden}</td>
                     <td>{item.sort_order}</td>
                     <td>
-                      <Link href={`/admin/testimonials/${item.id}/edit`}>Edit</Link>
+                      <Link href={`/admin/testimonials/${item.id}/edit`}>{c.edit}</Link>
                     </td>
                   </tr>
                 ))}

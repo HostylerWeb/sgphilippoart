@@ -117,7 +117,11 @@ export default async function ProductPage({ params }: PageProps) {
             ]}
           />
           <div className={styles.layout}>
-            <ProductGallery images={product.images} title={localized.title} />
+            <ProductGallery
+              images={product.images}
+              videoUrl={product.video_url}
+              title={localized.title}
+            />
             <ProductDetails
               product={{
                 id: product.id,

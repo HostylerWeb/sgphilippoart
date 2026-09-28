@@ -6,8 +6,10 @@ import {
   deleteTestimonialAction,
   updateTestimonialAction,
 } from "@/actions/admin/testimonials";
-import formStyles from "@/components/forms/Form.module.css";
 import { TranslationFields } from "@/components/admin/TranslationFields";
+import { useI18n } from "@/components/layout/I18nProvider";
+import { formatMessage } from "@/i18n/format-message";
+import formStyles from "@/components/forms/Form.module.css";
 import styles from "./ContentForms.module.css";
 
 type TestimonialFormProps = {
@@ -26,6 +28,11 @@ type TestimonialFormProps = {
 };
 
 export function TestimonialForm({ testimonial }: TestimonialFormProps) {
+  const { dict } = useI18n();
+  const f = dict.admin.forms.testimonial;
+  const pf = dict.admin.forms.product;
+  const saving = dict.admin.common.saving;
+
   const action = testimonial
     ? updateTestimonialAction.bind(null, testimonial.id)
     : createTestimonialAction;
@@ -36,34 +43,36 @@ export function TestimonialForm({ testimonial }: TestimonialFormProps) {
       {state.error && <p className={formStyles.error}>{state.error}</p>}
 
       <label>
-        Review title
+        {f.reviewTitle}
         <input name="title" defaultValue={testimonial?.title} required />
       </label>
 
       <label>
-        Review body
+        {f.reviewBody}
         <textarea name="body" rows={5} defaultValue={testimonial?.body} required />
       </label>
 
       <TranslationFields
+        title={pf.frenchTranslations}
+        hint={pf.translationHint}
         fields={[
-          { name: "title", label: "Review title" },
-          { name: "body", label: "Review body", type: "textarea", rows: 5 },
+          { name: "title", label: f.reviewTitle },
+          { name: "body", label: f.reviewBody, type: "textarea", rows: 5 },
         ]}
         values={testimonial?.translationValues}
       />
 
       <div className={formStyles.gridTwo}>
         <label>
-          Author name
+          {f.authorName}
           <input name="author_name" defaultValue={testimonial?.author_name} required />
         </label>
         <label>
-          Star rating
+          {f.starRating}
           <select name="rating" defaultValue={testimonial?.rating ?? 5}>
             {[5, 4, 3, 2, 1].map((value) => (
               <option key={value} value={value}>
-                {value} stars
+                {formatMessage(f.stars, { count: value })}
               </option>
             ))}
           </select>
@@ -71,7 +80,7 @@ export function TestimonialForm({ testimonial }: TestimonialFormProps) {
       </div>
 
       <label>
-        Profile photo URL
+        {f.profilePhotoUrl}
         <input
           name="author_image_url"
           type="url"
@@ -81,24 +90,24 @@ export function TestimonialForm({ testimonial }: TestimonialFormProps) {
       </label>
 
       <label>
-        Sort order
+        {f.sortOrder}
         <input name="sort_order" type="number" min="0" defaultValue={testimonial?.sort_order ?? 0} />
       </label>
 
       <div className={styles.checkboxes}>
         <label className={styles.checkbox}>
           <input name="is_verified" type="checkbox" defaultChecked={testimonial?.is_verified ?? true} />
-          Verified buyer
+          {f.verifiedBuyer}
         </label>
         <label className={styles.checkbox}>
           <input name="is_published" type="checkbox" defaultChecked={testimonial?.is_published ?? true} />
-          Published on homepage
+          {f.publishedHomepage}
         </label>
       </div>
 
       <div className={styles.actions}>
         <button type="submit" className={formStyles.submit} disabled={pending}>
-          {pending ? "Saving…" : testimonial ? "Save review" : "Create review"}
+          {pending ? saving : testimonial ? f.saveReview : f.createReview}
         </button>
         {testimonial && (
           <button
@@ -107,7 +116,7 @@ export function TestimonialForm({ testimonial }: TestimonialFormProps) {
             className={styles.deleteBtn}
             disabled={pending}
           >
-            Delete review
+            {f.deleteReview}
           </button>
         )}
       </div>

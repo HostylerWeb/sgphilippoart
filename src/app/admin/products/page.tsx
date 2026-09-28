@@ -7,6 +7,7 @@ import { StatusBadge } from "@/components/ui/StatusBadge";
 import { formatPrice } from "@/lib/format";
 import { db } from "@/lib/db";
 import { getStoreSettings } from "@/lib/settings";
+import { getAdminLabels } from "@/lib/admin-dict";
 import styles from "./page.module.css";
 
 type PageProps = {
@@ -21,6 +22,10 @@ export default async function AdminProductsPage({ searchParams }: PageProps) {
   const { q = "", status = "" } = await searchParams;
   const query = q.trim();
   const statusFilter = VALID_STATUSES.has(status) ? (status as ProductStatus) : undefined;
+  const admin = await getAdminLabels();
+  const p = admin.pages.products;
+  const t = admin.tables;
+  const c = admin.common;
 
   const [products, settings] = await Promise.all([
     db.products.findMany({
@@ -47,29 +52,37 @@ export default async function AdminProductsPage({ searchParams }: PageProps) {
   return (
     <StorefrontShell>
       <AdminShell
-        title="Products"
-        description="Create, edit, and publish artworks for the storefront."
+        title={p.title}
+        description={p.description}
         activePath="/admin/products"
         actions={
           <Link href="/admin/products/new" className={styles.addBtn}>
-            Add product
+            {p.addProduct}
           </Link>
         }
       >
-        <ProductsFilter query={query} status={statusFilter ?? ""} />
+        <ProductsFilter
+          query={query}
+          status={statusFilter ?? ""}
+          labels={{
+            ...admin.productFilter,
+            filter: c.filter,
+            clear: c.clear,
+          }}
+        />
 
         {products.length === 0 ? (
-          <p className={styles.empty}>No products match your filters.</p>
+          <p className={styles.empty}>{p.empty}</p>
         ) : (
           <div className={styles.tableWrap}>
             <table className={styles.table}>
               <thead>
                 <tr>
-                  <th>Work</th>
-                  <th>Type</th>
-                  <th>Price</th>
-                  <th>Status</th>
-                  <th>Category</th>
+                  <th>{t.work}</th>
+                  <th>{t.type}</th>
+                  <th>{t.price}</th>
+                  <th>{t.status}</th>
+                  <th>{t.category}</th>
                   <th />
                 </tr>
               </thead>
@@ -101,12 +114,12 @@ export default async function AdminProductsPage({ searchParams }: PageProps) {
                       <td>
                         <StatusBadge status={product.status} />
                       </td>
-                      <td>{product.category?.name ?? "—"}</td>
+                      <td>{product.category?.name ?? c.dash}</td>
                       <td>
                         <div className={styles.actions}>
-                          <Link href={`/admin/products/${product.id}/edit`}>Edit</Link>
+                          <Link href={`/admin/products/${product.id}/edit`}>{c.edit}</Link>
                           <Link href={`/products/${product.slug}`} target="_blank">
-                            View
+                            {c.view}
                           </Link>
                         </div>
                       </td>

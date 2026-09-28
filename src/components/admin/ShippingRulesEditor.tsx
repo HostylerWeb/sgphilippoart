@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useI18n } from "@/components/layout/I18nProvider";
 import {
   type ShippingCountryRates,
   serializeShippingCountryRates,
@@ -17,6 +18,10 @@ export function ShippingRulesEditor({
   initialRates,
   shippingMode,
 }: ShippingRulesEditorProps) {
+  const { dict, locale } = useI18n();
+  const f = dict.admin.forms.shipping;
+  const countryLocale = locale === "fr" ? "fr" : "en";
+
   const [rates, setRates] = useState<ShippingCountryRates>(initialRates);
 
   if (shippingMode !== "by_country") {
@@ -70,7 +75,7 @@ export function ShippingRulesEditor({
       />
 
       <label className={styles.defaultRate}>
-        Default rate (all other countries)
+        {f.defaultRate}
         <input
           type="number"
           min="0"
@@ -81,8 +86,8 @@ export function ShippingRulesEditor({
       </label>
 
       <div className={styles.tableHead}>
-        <span>Country</span>
-        <span>Shipping fee</span>
+        <span>{f.country}</span>
+        <span>{f.shippingFee}</span>
         <span />
       </div>
 
@@ -92,10 +97,10 @@ export function ShippingRulesEditor({
             value={row.code}
             onChange={(event) => updateCountryRate(index, "code", event.target.value)}
           >
-            <option value="">Select country</option>
-            {sortCountriesByLocale("en").map((country) => (
+            <option value="">{f.selectCountry}</option>
+            {sortCountriesByLocale(countryLocale).map((country) => (
               <option key={country.code} value={country.code}>
-                {country.name.en}
+                {country.name[countryLocale]}
               </option>
             ))}
           </select>
@@ -107,19 +112,16 @@ export function ShippingRulesEditor({
             onChange={(event) => updateCountryRate(index, "rate", event.target.value)}
           />
           <button type="button" onClick={() => removeCountry(index)}>
-            Remove
+            {f.remove}
           </button>
         </div>
       ))}
 
       <button type="button" className={styles.addBtn} onClick={addCountry}>
-        Add country rate
+        {f.addCountryRate}
       </button>
 
-      <p className={styles.hint}>
-        Set a fee per country. Orders use the matching country rate, or the default rate if none is set.
-        Free shipping threshold (if configured) still applies to all modes.
-      </p>
+      <p className={styles.hint}>{f.hint}</p>
     </div>
   );
 }

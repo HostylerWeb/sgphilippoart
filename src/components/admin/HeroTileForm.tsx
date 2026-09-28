@@ -7,8 +7,9 @@ import {
   deleteHeroTileAction,
   updateHeroTileAction,
 } from "@/actions/admin/content";
-import formStyles from "@/components/forms/Form.module.css";
 import { TranslationFields } from "@/components/admin/TranslationFields";
+import { useI18n } from "@/components/layout/I18nProvider";
+import formStyles from "@/components/forms/Form.module.css";
 import styles from "./ContentForms.module.css";
 
 type HeroTileFormProps = {
@@ -27,6 +28,11 @@ type HeroTileFormProps = {
 };
 
 export function HeroTileForm({ tile }: HeroTileFormProps) {
+  const { dict } = useI18n();
+  const f = dict.admin.forms.heroTile;
+  const pf = dict.admin.forms.product;
+  const saving = dict.admin.common.saving;
+
   const action = tile ? updateHeroTileAction.bind(null, tile.id) : createHeroTileAction;
   const [state, formAction, pending] = useActionState(action, {});
 
@@ -40,54 +46,56 @@ export function HeroTileForm({ tile }: HeroTileFormProps) {
 
       <div className={formStyles.gridTwo}>
         <label>
-          Eyebrow
+          {f.eyebrow}
           <input name="eyebrow" defaultValue={tile?.eyebrow} required />
         </label>
         <label>
-          Title
+          {f.title}
           <input name="title" defaultValue={tile?.title} required />
         </label>
       </div>
 
       <div className={formStyles.gridTwo}>
         <label>
-          Link text
+          {f.linkText}
           <input name="link_text" defaultValue={tile?.link_text} required />
         </label>
         <label>
-          Link URL
+          {f.linkUrl}
           <input name="link_url" defaultValue={tile?.link_url} required />
         </label>
       </div>
 
       <label>
-        Image alt text
+        {f.imageAlt}
         <input name="image_alt" defaultValue={tile?.image_alt ?? ""} />
       </label>
 
       <TranslationFields
+        title={pf.frenchTranslations}
+        hint={pf.translationHint}
         fields={[
-          { name: "eyebrow", label: "Eyebrow" },
-          { name: "title", label: "Title" },
-          { name: "link_text", label: "Link text" },
-          { name: "image_alt", label: "Image alt text" },
+          { name: "eyebrow", label: f.eyebrow },
+          { name: "title", label: f.title },
+          { name: "link_text", label: f.linkText },
+          { name: "image_alt", label: f.imageAlt },
         ]}
         values={tile?.translationValues}
       />
 
       <label>
-        Sort order
+        {f.sortOrder}
         <input name="sort_order" type="number" min="0" defaultValue={tile?.sort_order ?? 0} />
       </label>
 
       <label className={styles.checkbox}>
         <input name="is_active" type="checkbox" defaultChecked={tile?.is_active ?? true} />
-        Active on homepage
+        {f.activeHomepage}
       </label>
 
       {tile && (
         <div className={styles.preview}>
-          <span>Current image</span>
+          <span>{f.currentImage}</span>
           <div className={styles.previewImage}>
             <StoreImage src={tile.image_url} alt={tile.image_alt ?? tile.title} fill sizes="200px" />
           </div>
@@ -95,13 +103,13 @@ export function HeroTileForm({ tile }: HeroTileFormProps) {
       )}
 
       <label>
-        {tile ? "Replace image (optional)" : "Hero image"}
+        {tile ? f.replaceImage : f.heroImage}
         <input name="image" type="file" accept="image/*" className={styles.fileInput} />
       </label>
 
       <div className={styles.actions}>
         <button type="submit" className={formStyles.submit} disabled={pending}>
-          {pending ? "Saving…" : tile ? "Save hero tile" : "Create hero tile"}
+          {pending ? saving : tile ? f.saveTile : f.createTile}
         </button>
         {tile && (
           <button
@@ -110,7 +118,7 @@ export function HeroTileForm({ tile }: HeroTileFormProps) {
             className={styles.deleteBtn}
             disabled={pending}
           >
-            Delete tile
+            {f.deleteTile}
           </button>
         )}
       </div>

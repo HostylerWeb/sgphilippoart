@@ -13,6 +13,7 @@ const ADMIN_NAV_ITEMS = [
   { href: "/admin/commissions", labelKey: "commissions" as const },
   { href: "/admin/messages", labelKey: "messages" as const },
   { href: "/admin/newsletter", labelKey: "newsletter" as const },
+  { href: "/admin/pages", labelKey: "pages" as const },
   { href: "/admin/settings", labelKey: "settings" as const },
   { href: "/account", labelKey: "account" as const },
 ];

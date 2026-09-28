@@ -5,37 +5,49 @@ import { CommissionForm } from "@/components/admin/CommissionForm";
 import { StorefrontShell } from "@/components/layout/StorefrontShell";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { db } from "@/lib/db";
+import { formatMessage } from "@/i18n/format-message";
+import { getLocale } from "@/i18n";
+import { getAdminLabels } from "@/lib/admin-dict";
 import styles from "./page.module.css";
 
 type PageProps = { params: Promise<{ id: string }> };
 
 export default async function AdminCommissionDetailPage({ params }: PageProps) {
   const { id } = await params;
-  const inquiry = await db.commission_inquiries.findUnique({ where: { id } });
+  const [inquiry, admin, locale] = await Promise.all([
+    db.commission_inquiries.findUnique({ where: { id } }),
+    getAdminLabels(),
+    getLocale(),
+  ]);
 
   if (!inquiry) notFound();
+
+  const d = admin.detail.commission;
+  const dateLocale = locale === "fr" ? "fr-FR" : "en-US";
 
   return (
     <StorefrontShell>
       <AdminShell
         title={inquiry.name}
-        description={`Commission inquiry · ${new Date(inquiry.created_at).toLocaleString()}`}
+        description={formatMessage(d.inquiryDate, {
+          date: new Date(inquiry.created_at).toLocaleString(dateLocale),
+        })}
         activePath="/admin/commissions"
       >
         <div className={styles.grid}>
           <section className={styles.panel}>
-            <h2>Contact</h2>
+            <h2>{d.contact}</h2>
             <p><strong>{inquiry.name}</strong></p>
             <p>
               <a href={`mailto:${inquiry.email}`}>{inquiry.email}</a>
             </p>
             {inquiry.phone && <p>{inquiry.phone}</p>}
             {inquiry.budget_range && (
-              <p><strong>Budget:</strong> {inquiry.budget_range}</p>
+              <p><strong>{d.budget}</strong> {inquiry.budget_range}</p>
             )}
             {inquiry.reference_url && (
               <p>
-                <strong>Reference:</strong>{" "}
+                <strong>{d.reference}</strong>{" "}
                 <a href={inquiry.reference_url} target="_blank" rel="noreferrer">
                   {inquiry.reference_url}
                 </a>
@@ -44,7 +56,7 @@ export default async function AdminCommissionDetailPage({ params }: PageProps) {
           </section>
 
           <section className={styles.panel}>
-            <h2>Status</h2>
+            <h2>{d.status}</h2>
             <StatusBadge status={inquiry.status} />
             <CommissionForm
               commissionId={inquiry.id}
@@ -55,12 +67,12 @@ export default async function AdminCommissionDetailPage({ params }: PageProps) {
         </div>
 
         <section className={styles.panel}>
-          <h2>Description</h2>
+          <h2>{d.brief}</h2>
           <p className={styles.description}>{inquiry.description}</p>
         </section>
 
         <Link href="/admin/commissions" className={styles.back}>
-          ← Back to commissions
+          {d.backToCommissions}
         </Link>
       </AdminShell>
     </StorefrontShell>

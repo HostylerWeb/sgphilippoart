@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ContentPage } from "@/components/layout/ContentPage";
 import { StorefrontShell } from "@/components/layout/StorefrontShell";
+import { getAboutPageContent } from "@/lib/cms/about-page";
 import { buildPageMetadata } from "@/lib/seo";
-import { getDictionary, getLocale } from "@/i18n";
+import { getLocale } from "@/i18n";
 import styles from "./page.module.css";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const dict = getDictionary(await getLocale());
-  const t = dict.pages.about;
+  const locale = await getLocale();
+  const t = await getAboutPageContent(locale);
   return buildPageMetadata({
     title: `${t.title} — SG Philippo Art`,
     description: t.description,
@@ -17,8 +18,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutPage() {
-  const dict = getDictionary(await getLocale());
-  const t = dict.pages.about;
+  const locale = await getLocale();
+  const t = await getAboutPageContent(locale);
 
   return (
     <StorefrontShell>

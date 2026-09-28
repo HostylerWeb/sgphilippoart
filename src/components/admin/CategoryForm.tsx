@@ -6,8 +6,9 @@ import {
   deleteCategoryAction,
   updateCategoryAction,
 } from "@/actions/admin/content";
-import formStyles from "@/components/forms/Form.module.css";
 import { TranslationFields } from "@/components/admin/TranslationFields";
+import { useI18n } from "@/components/layout/I18nProvider";
+import formStyles from "@/components/forms/Form.module.css";
 import styles from "./ContentForms.module.css";
 
 type CategoryFormProps = {
@@ -24,6 +25,11 @@ type CategoryFormProps = {
 };
 
 export function CategoryForm({ category }: CategoryFormProps) {
+  const { dict } = useI18n();
+  const f = dict.admin.forms.category;
+  const pf = dict.admin.forms.product;
+  const saving = dict.admin.common.saving;
+
   const action = category
     ? updateCategoryAction.bind(null, category.id)
     : createCategoryAction;
@@ -35,47 +41,49 @@ export function CategoryForm({ category }: CategoryFormProps) {
 
       <div className={formStyles.gridTwo}>
         <label>
-          Name
+          {f.name}
           <input name="name" defaultValue={category?.name} required />
         </label>
         <label>
-          Slug
-          <input name="slug" defaultValue={category?.slug} placeholder="auto-from-name" />
+          {f.slug}
+          <input name="slug" defaultValue={category?.slug} placeholder={f.slugPlaceholder} />
         </label>
       </div>
 
       <label>
-        Description
+        {f.description}
         <textarea name="description" rows={3} defaultValue={category?.description ?? ""} />
       </label>
 
       <TranslationFields
+        title={pf.frenchTranslations}
+        hint={pf.translationHint}
         fields={[
-          { name: "name", label: "Collection name" },
-          { name: "description", label: "Description", type: "textarea", rows: 3 },
+          { name: "name", label: f.collectionName },
+          { name: "description", label: f.description, type: "textarea", rows: 3 },
         ]}
         values={category?.translationValues}
       />
 
       <label>
-        Sort order
+        {f.sortOrder}
         <input name="sort_order" type="number" min="0" defaultValue={category?.sort_order ?? 0} />
       </label>
 
       <div className={styles.checkboxes}>
         <label className={styles.checkbox}>
           <input name="show_on_homepage" type="checkbox" defaultChecked={category?.show_on_homepage} />
-          Show on homepage
+          {f.showOnHomepage}
         </label>
         <label className={styles.checkbox}>
           <input name="show_in_nav" type="checkbox" defaultChecked={category?.show_in_nav ?? true} />
-          Show in navigation
+          {f.showInNav}
         </label>
       </div>
 
       <div className={styles.actions}>
         <button type="submit" className={formStyles.submit} disabled={pending}>
-          {pending ? "Saving…" : category ? "Save collection" : "Create collection"}
+          {pending ? saving : category ? f.saveCollection : f.createCollection}
         </button>
         {category && (
           <button
@@ -84,7 +92,7 @@ export function CategoryForm({ category }: CategoryFormProps) {
             className={styles.deleteBtn}
             disabled={pending}
           >
-            Delete collection
+            {f.deleteCollection}
           </button>
         )}
       </div>

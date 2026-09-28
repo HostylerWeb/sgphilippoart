@@ -1,4 +1,5 @@
-import { convertUploadToJpeg } from "@/lib/image-processing";
+import { convertUploadToWebp } from "@/lib/image-processing";
+import { convertUploadToWebm } from "@/lib/video-processing";
 
 const ALLOWED_IMAGE_TYPES = new Set([
   "image/jpeg",
@@ -167,28 +168,63 @@ export function getExtensionFromMimeType(type: string): string | null {
   }
 }
 
-type PreparedUploadResult =
-  | { ok: true; jpeg: Buffer }
-  | { ok: false; error: string };
+type PreparedWebpResult = { ok: true; webp: Buffer } | { ok: false; error: string };
 
-export async function prepareUploadJpeg(
+export async function prepareUploadWebp(
   buffer: Buffer,
   filename: string,
   reportedType = "",
-): Promise<PreparedUploadResult> {
+): Promise<PreparedWebpResult> {
   const validation = validateImageBuffer(buffer, filename, reportedType);
   if (!validation.ok) {
     return validation;
   }
 
   try {
-    const jpeg = await convertUploadToJpeg(buffer, validation.mimeType);
-    if (jpeg.length > MAX_FILE_SIZE_BYTES) {
+    const webp = await convertUploadToWebp(buffer, validation.mimeType);
+    if (webp.length > MAX_FILE_SIZE_BYTES) {
       return { ok: false, error: "Processed image must be 10 MB or smaller." };
     }
-    return { ok: true, jpeg };
+    return { ok: true, webp };
   } catch {
     return { ok: false, error: "Could not process image. Try a different file." };
+  }
+}
+
+/** @deprecated Use prepareUploadWebp */
+export async function prepareUploadJpeg(
+  buffer: Buffer,
+  filename: string,
+  reportedType = "",
+): Promise<{ ok: true; jpeg: Buffer } | { ok: false; error: string }> {
+  const result = await prepareUploadWebp(buffer, filename, reportedType);
+  if (!result.ok) return result;
+  return { ok: true, jpeg: result.webp };
+}
+
+type PreparedWebmResult = { ok: true; webm: Buffer } | { ok: false; error: string };
+
+const MAX_CONVERTED_VIDEO_BYTES = 120 * 1024 * 1024;
+
+export async function prepareUploadWebm(
+  buffer: Buffer,
+  filename: string,
+  reportedType = "",
+): Promise<PreparedWebmResult> {
+  const validation = validateVideoFile(buffer, filename, reportedType);
+  if (!validation.ok) {
+    return validation;
+  }
+
+  try {
+    const webm = await convertUploadToWebm(buffer, validation.extension);
+    if (webm.length > MAX_CONVERTED_VIDEO_BYTES) {
+      return { ok: false, error: "Converted video is too large. Try a shorter clip." };
+    }
+    return { ok: true, webm };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Could not process video.";
+    return { ok: false, error: message };
   }
 }
 
@@ -196,4 +232,79 @@ export function getSafeImageExtension(filename: string): string | null {
   const match = filename.toLowerCase().match(/\.[a-z0-9]+$/);
   const extension = match?.[0] ?? "";
   return ALLOWED_EXTENSIONS.has(extension) ? extension : null;
+}
+
+const ALLOWED_VIDEO_TYPES = new Set([
+  "video/mp4",
+  "video/webm",
+  "video/quicktime",
+  "video/x-msvideo",
+  "video/x-matroska",
+  "video/ogg",
+]);
+const ALLOWED_VIDEO_EXTENSIONS = new Set([
+  ".mp4",
+  ".webm",
+  ".mov",
+  ".avi",
+  ".mkv",
+  ".ogv",
+  ".m4v",
+]);
+const MAX_VIDEO_SIZE_BYTES = 100 * 1024 * 1024;
+
+type VideoValidationResult =
+  | { ok: true; mimeType: string; extension: string }
+  | { ok: false; error: string };
+
+export function validateVideoFile(
+  buffer: Buffer,
+  filename: string,
+  reportedType = "",
+): VideoValidationResult {
+  if (buffer.length > MAX_VIDEO_SIZE_BYTES) {
+    return { ok: false, error: "Video must be 100 MB or smaller." };
+  }
+
+  const extMatch = filename.toLowerCase().match(/\.[a-z0-9]+$/);
+  const extension = extMatch?.[0] ?? "";
+
+  let mimeType = reportedType;
+  if (!ALLOWED_VIDEO_TYPES.has(mimeType)) {
+    if (ALLOWED_VIDEO_EXTENSIONS.has(extension)) {
+      mimeType =
+        extension === ".webm"
+          ? "video/webm"
+          : extension === ".mov"
+            ? "video/quicktime"
+            : "video/mp4";
+    } else if (buffer.length >= 12 && buffer.subarray(4, 8).toString("ascii") === "ftyp") {
+      mimeType = "video/mp4";
+    } else if (buffer.length >= 4 && buffer.subarray(0, 4).toString("ascii") === "RIFF") {
+      mimeType = "video/webm";
+    } else {
+      if (ALLOWED_VIDEO_EXTENSIONS.has(extension)) {
+        mimeType = "video/mp4";
+      } else {
+        return {
+          ok: false,
+          error: "Unsupported video format. Upload MP4, MOV, WebM, AVI, or MKV.",
+        };
+      }
+    }
+  }
+
+  const safeExt = ALLOWED_VIDEO_EXTENSIONS.has(extension)
+    ? extension
+    : mimeType === "video/webm"
+      ? ".webm"
+      : mimeType === "video/quicktime"
+        ? ".mov"
+        : mimeType === "video/x-msvideo"
+          ? ".avi"
+          : mimeType === "video/x-matroska"
+            ? ".mkv"
+            : ".mp4";
+
+  return { ok: true, mimeType, extension: safeExt };
 }

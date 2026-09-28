@@ -2,6 +2,7 @@
 
 import { StoreImage } from "@/components/ui/StoreImage";
 import { deleteProductImageAction, moveProductImageAction, setPrimaryImageAction } from "@/actions/admin/product-images";
+import { useI18n } from "@/components/layout/I18nProvider";
 import styles from "./ProductImageManager.module.css";
 
 type ProductImage = {
@@ -18,22 +19,25 @@ type ProductImageManagerProps = {
 };
 
 export function ProductImageManager({ productId, images }: ProductImageManagerProps) {
+  const { dict } = useI18n();
+  const f = dict.admin.forms.images;
+
   if (images.length === 0) return null;
 
   return (
     <div className={styles.wrap}>
-      <span className={styles.label}>Gallery images</span>
+      <span className={styles.label}>{f.galleryLabel}</span>
       <div className={styles.grid}>
         {images.map((image, index) => (
           <div key={image.id} className={styles.card}>
             <div className={styles.thumb}>
               <StoreImage
                 src={image.url}
-                alt={image.alt_text ?? "Product image"}
+                alt={image.alt_text ?? f.productImageAlt}
                 fill
                 sizes="120px"
               />
-              {image.is_primary && <span className={styles.badge}>Primary</span>}
+              {image.is_primary && <span className={styles.badge}>{f.primary}</span>}
             </div>
             <div className={styles.actions}>
               {!image.is_primary && (
@@ -42,7 +46,7 @@ export function ProductImageManager({ productId, images }: ProductImageManagerPr
                   formAction={setPrimaryImageAction.bind(null, image.id, productId)}
                   className={styles.btn}
                 >
-                  Set primary
+                  {f.setPrimary}
                 </button>
               )}
               {index > 0 && (
@@ -68,7 +72,7 @@ export function ProductImageManager({ productId, images }: ProductImageManagerPr
                 formAction={deleteProductImageAction.bind(null, image.id, productId)}
                 className={styles.deleteBtn}
               >
-                Delete
+                {f.delete}
               </button>
             </div>
           </div>

@@ -127,6 +127,7 @@ model products {
   artist_name      String         @default("SG Philippo Art")
   artist_location  String         @default("United Kingdom")
   is_featured      Boolean        @default(false)
+  video_url        String?
   sort_order       Int            @default(0)
   category_id      String?
   category         categories?    @relation(fields: [category_id], references: [id])

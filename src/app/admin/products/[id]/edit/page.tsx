@@ -4,6 +4,7 @@ import { ProductForm } from "@/components/admin/ProductForm";
 import { StorefrontShell } from "@/components/layout/StorefrontShell";
 import { db } from "@/lib/db";
 import { getFrenchTranslations } from "@/lib/i18n/content";
+import { getAdminLabels } from "@/lib/admin-dict";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -11,12 +12,13 @@ type PageProps = {
 
 export default async function AdminEditProductPage({ params }: PageProps) {
   const { id } = await params;
-  const [product, categories] = await Promise.all([
+  const [product, categories, admin] = await Promise.all([
     db.products.findUnique({
       where: { id },
       include: { images: { orderBy: { sort_order: "asc" } } },
     }),
     db.categories.findMany({ orderBy: { sort_order: "asc" } }),
+    getAdminLabels(),
   ]);
 
   if (!product) notFound();
@@ -24,7 +26,7 @@ export default async function AdminEditProductPage({ params }: PageProps) {
   return (
     <StorefrontShell>
       <AdminShell
-        title="Edit product"
+        title={admin.pages.products.editProduct}
         description={product.title}
         activePath="/admin/products"
       >

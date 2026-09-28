@@ -2,15 +2,20 @@ import { AdminShell } from "@/components/layout/AdminShell";
 import { ProductForm } from "@/components/admin/ProductForm";
 import { StorefrontShell } from "@/components/layout/StorefrontShell";
 import { db } from "@/lib/db";
+import { getAdminLabels } from "@/lib/admin-dict";
 
 export default async function AdminNewProductPage() {
-  const categories = await db.categories.findMany({ orderBy: { sort_order: "asc" } });
+  const [categories, admin] = await Promise.all([
+    db.categories.findMany({ orderBy: { sort_order: "asc" } }),
+    getAdminLabels(),
+  ]);
+  const p = admin.pages.products;
 
   return (
     <StorefrontShell>
       <AdminShell
-        title="Add product"
-        description="Create a new artwork listing for the storefront."
+        title={p.addProduct}
+        description={p.newDescription}
         activePath="/admin/products"
       >
         <ProductForm categories={categories} />

@@ -4,18 +4,22 @@ import { HeroTileForm } from "@/components/admin/HeroTileForm";
 import { StorefrontShell } from "@/components/layout/StorefrontShell";
 import { db } from "@/lib/db";
 import { getFrenchTranslations } from "@/lib/i18n/content";
+import { getAdminLabels } from "@/lib/admin-dict";
 
 type PageProps = { params: Promise<{ id: string }> };
 
 export default async function AdminEditHeroTilePage({ params }: PageProps) {
   const { id } = await params;
-  const tile = await db.hero_tiles.findUnique({ where: { id } });
+  const [tile, admin] = await Promise.all([
+    db.hero_tiles.findUnique({ where: { id } }),
+    getAdminLabels(),
+  ]);
   if (!tile) notFound();
 
   return (
     <StorefrontShell>
       <AdminShell
-        title="Edit hero tile"
+        title={admin.pages.heroTiles.edit}
         description={tile.title}
         activePath="/admin/hero-tiles"
       >

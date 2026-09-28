@@ -3,6 +3,7 @@
 import { useActionState, useState } from "react";
 import { updateSettingsAction } from "@/actions/admin/settings";
 import { ShippingRulesEditor } from "@/components/admin/ShippingRulesEditor";
+import { useI18n } from "@/components/layout/I18nProvider";
 import formStyles from "@/components/forms/Form.module.css";
 import { parseShippingCountryRates } from "@/lib/shipping";
 import { SETTINGS_FIELDS, type SettingsFormValues } from "@/lib/validations/settings";
@@ -13,6 +14,10 @@ type SettingsFormProps = {
 };
 
 export function SettingsForm({ values }: SettingsFormProps) {
+  const { dict } = useI18n();
+  const f = dict.admin.forms.settings;
+  const saving = dict.admin.common.saving;
+
   const [state, formAction, pending] = useActionState(updateSettingsAction, {});
   const [shippingMode, setShippingMode] = useState(String(values.shipping_mode));
   const countryRates = parseShippingCountryRates(values.shipping_country_rates);
@@ -82,7 +87,7 @@ export function SettingsForm({ values }: SettingsFormProps) {
       ))}
 
       <button type="submit" className={formStyles.submit} disabled={pending}>
-        {pending ? "Saving…" : "Save settings"}
+        {pending ? saving : f.saveSettings}
       </button>
     </form>
   );

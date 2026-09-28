@@ -1,8 +1,6 @@
 "use server";
 
-import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin";
@@ -11,10 +9,11 @@ import { slugify } from "@/lib/slug";
 import { Prisma } from "@/generated/prisma/client";
 import { parseFrenchTranslationsForm } from "@/lib/i18n/content";
 import { TRANSLATION_FIELD_SETS } from "@/lib/i18n/localize";
-import { prepareUploadJpeg } from "@/lib/upload";
+import { saveUploadedImageFile, saveUploadedVideoFile } from "@/lib/media-storage";
 import { productFormSchema } from "@/lib/validations/product";
 
 const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "products");
+const VIDEO_UPLOAD_DIR = path.join(UPLOAD_DIR, "videos");
 
 type ActionState = {
   error?: string;
@@ -47,28 +46,82 @@ function parseProductForm(formData: FormData) {
   });
 }
 
-async function saveUploadedImages(
-  formData: FormData,
-): Promise<{ urls: string[] } | { error: string }> {
-  const files = formData.getAll("images").filter((item): item is File => item instanceof File && item.size > 0);
-  if (files.length === 0) return { urls: [] };
+function getFile(formData: FormData, name: string): File | null {
+  const value = formData.get(name);
+  if (value instanceof File && value.size > 0) return value;
+  return null;
+}
 
-  await mkdir(UPLOAD_DIR, { recursive: true });
+function getFiles(formData: FormData, name: string): File[] {
+  return formData
+    .getAll(name)
+    .filter((item): item is File => item instanceof File && item.size > 0);
+}
 
-  const urls: string[] = [];
-  for (const file of files) {
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const prepared = await prepareUploadJpeg(buffer, file.name, file.type);
-    if (!prepared.ok) {
-      return { error: prepared.error };
+async function saveImageFile(file: File): Promise<{ url: string } | { error: string }> {
+  return saveUploadedImageFile(file, UPLOAD_DIR, "/uploads/products");
+}
+
+async function saveVideoFile(file: File): Promise<{ url: string } | { error: string }> {
+  return saveUploadedVideoFile(file, VIDEO_UPLOAD_DIR, "/uploads/products/videos");
+}
+
+function parseVideoUrlField(formData: FormData): string | null {
+  const raw = String(formData.get("video_url") ?? "").trim();
+  if (!raw) return null;
+  try {
+    const url = new URL(raw);
+    if (url.protocol !== "https:" && url.protocol !== "http:") {
+      return null;
     }
+    return url.toString();
+  } catch {
+    return null;
+  }
+}
 
-    const filename = `${randomUUID()}.jpg`;
-    await writeFile(path.join(UPLOAD_DIR, filename), prepared.jpeg);
-    urls.push(`/uploads/products/${filename}`);
+type MediaUploadSuccess = {
+  mainUrl: string | null;
+  galleryUrls: string[];
+  videoUrl: string | null | undefined;
+  removeVideo: boolean;
+};
+
+async function processProductMedia(
+  formData: FormData,
+): Promise<MediaUploadSuccess | { error: string }> {
+  const removeVideo = formData.get("remove_video") === "on";
+  const mainFile = getFile(formData, "main_image");
+  const galleryFiles = getFiles(formData, "gallery_images");
+  const videoFile = getFile(formData, "video");
+  const videoUrlField = parseVideoUrlField(formData);
+
+  let mainUrl: string | null = null;
+  if (mainFile) {
+    const saved = await saveImageFile(mainFile);
+    if ("error" in saved) return { error: saved.error };
+    mainUrl = saved.url;
   }
 
-  return { urls };
+  const galleryUrls: string[] = [];
+  for (const file of galleryFiles) {
+    const saved = await saveImageFile(file);
+    if ("error" in saved) return { error: saved.error };
+    galleryUrls.push(saved.url);
+  }
+
+  let videoUrl: string | null | undefined = undefined;
+  if (removeVideo) {
+    videoUrl = null;
+  } else if (videoFile) {
+    const saved = await saveVideoFile(videoFile);
+    if ("error" in saved) return { error: saved.error };
+    videoUrl = saved.url;
+  } else if (videoUrlField) {
+    videoUrl = videoUrlField;
+  }
+
+  return { mainUrl, galleryUrls, videoUrl, removeVideo };
 }
 
 export async function createProductAction(
@@ -87,15 +140,41 @@ export async function createProductAction(
     return { error: "A product with this slug already exists." };
   }
 
-  const uploadResult = await saveUploadedImages(formData);
-  if ("error" in uploadResult) {
-    return { error: uploadResult.error };
+  const mediaResult = await processProductMedia(formData);
+  if ("error" in mediaResult) {
+    return { error: mediaResult.error };
   }
+  const media = mediaResult;
 
   const translations = parseFrenchTranslationsForm(
     formData,
     [...TRANSLATION_FIELD_SETS.product],
   );
+
+  const imagesToCreate: Array<{
+    url: string;
+    alt_text: string;
+    sort_order: number;
+    is_primary: boolean;
+  }> = [];
+
+  if (media.mainUrl) {
+    imagesToCreate.push({
+      url: media.mainUrl,
+      alt_text: data.title,
+      sort_order: 0,
+      is_primary: true,
+    });
+  }
+
+  media.galleryUrls.forEach((url, index) => {
+    imagesToCreate.push({
+      url,
+      alt_text: data.title,
+      sort_order: imagesToCreate.length + index,
+      is_primary: imagesToCreate.length === 0 && index === 0,
+    });
+  });
 
   const product = await db.products.create({
     data: {
@@ -113,14 +192,10 @@ export async function createProductAction(
       is_featured: Boolean(data.is_featured),
       meta_title: data.meta_title,
       meta_description: data.meta_description,
+      video_url: media.videoUrl ?? null,
       translations: translations === undefined ? Prisma.DbNull : translations,
       images: {
-        create: uploadResult.urls.map((url, index) => ({
-          url,
-          alt_text: data.title,
-          sort_order: index,
-          is_primary: index === 0,
-        })),
+        create: imagesToCreate,
       },
     },
   });
@@ -150,10 +225,11 @@ export async function updateProductAction(
     return { error: "A product with this slug already exists." };
   }
 
-  const uploadResult = await saveUploadedImages(formData);
-  if ("error" in uploadResult) {
-    return { error: uploadResult.error };
+  const mediaResult = await processProductMedia(formData);
+  if ("error" in mediaResult) {
+    return { error: mediaResult.error };
   }
+  const media = mediaResult;
 
   const translations = parseFrenchTranslationsForm(
     formData,
@@ -168,36 +244,65 @@ export async function updateProductAction(
   }
 
   await db.$transaction(async (tx) => {
+    const productUpdate: Prisma.productsUpdateInput = {
+      title: data.title,
+      slug: data.slug,
+      description: data.description,
+      price: data.price,
+      product_type: data.product_type,
+      status: data.status,
+      medium: data.medium,
+      dimensions: data.dimensions,
+      edition_size: data.product_type === "print" ? optionalNumber(data.edition_size) : null,
+      stock_quantity: data.product_type === "print" ? optionalNumber(data.stock_quantity) ?? 0 : null,
+      category: data.category_id
+        ? { connect: { id: data.category_id } }
+        : { disconnect: true },
+      is_featured: Boolean(data.is_featured),
+      meta_title: data.meta_title,
+      meta_description: data.meta_description,
+      translations: translations === undefined ? Prisma.DbNull : translations,
+    };
+
+    if (media.videoUrl !== undefined) {
+      productUpdate.video_url = media.videoUrl;
+    }
+
     await tx.products.update({
       where: { id: productId },
-      data: {
-        title: data.title,
-        slug: data.slug,
-        description: data.description,
-        price: data.price,
-        product_type: data.product_type,
-        status: data.status,
-        medium: data.medium,
-        dimensions: data.dimensions,
-        edition_size: data.product_type === "print" ? optionalNumber(data.edition_size) : null,
-        stock_quantity: data.product_type === "print" ? optionalNumber(data.stock_quantity) ?? 0 : null,
-        category_id: data.category_id || null,
-        is_featured: Boolean(data.is_featured),
-        meta_title: data.meta_title,
-        meta_description: data.meta_description,
-        translations: translations === undefined ? Prisma.DbNull : translations,
-      },
+      data: productUpdate,
     });
 
-    if (uploadResult.urls.length > 0) {
-      const startOrder = current.images.length;
+    if (media.mainUrl) {
+      await tx.product_images.updateMany({
+        where: { product_id: productId },
+        data: { is_primary: false },
+      });
+      await tx.product_images.create({
+        data: {
+          product_id: productId,
+          url: media.mainUrl,
+          alt_text: data.title,
+          sort_order: 0,
+          is_primary: true,
+        },
+      });
+    }
+
+    if (media.galleryUrls.length > 0) {
+      const startOrder =
+        current.images.length > 0
+          ? Math.max(...current.images.map((image) => image.sort_order)) + 1
+          : media.mainUrl
+            ? 1
+            : 0;
       await tx.product_images.createMany({
-        data: uploadResult.urls.map((url, index) => ({
+        data: media.galleryUrls.map((url, index) => ({
           product_id: productId,
           url,
           alt_text: data.title,
           sort_order: startOrder + index,
-          is_primary: current.images.length === 0 && index === 0,
+          is_primary: current.images.length === 0 && !media.mainUrl && index === 0,
         })),
       });
     }

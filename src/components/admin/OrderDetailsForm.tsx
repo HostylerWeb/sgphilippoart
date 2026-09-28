@@ -5,6 +5,7 @@ import {
   resendOrderConfirmationAction,
   updateOrderDetailsAction,
 } from "@/actions/admin/orders";
+import { useI18n } from "@/components/layout/I18nProvider";
 import formStyles from "@/components/forms/Form.module.css";
 import styles from "./OrderDetailsForm.module.css";
 
@@ -19,6 +20,10 @@ export function OrderDetailsForm({
   trackingNumber,
   adminNotes,
 }: OrderDetailsFormProps) {
+  const { dict } = useI18n();
+  const f = dict.admin.forms.order;
+  const saving = dict.admin.common.saving;
+
   const [detailsState, detailsAction, detailsPending] = useActionState(
     updateOrderDetailsAction.bind(null, orderId),
     {},
@@ -32,24 +37,24 @@ export function OrderDetailsForm({
     <div className={styles.wrap}>
       <form action={detailsAction} className={styles.form}>
         <label>
-          Tracking number
+          {f.trackingNumber}
           <input
             name="tracking_number"
             defaultValue={trackingNumber ?? ""}
-            placeholder="Carrier tracking ID"
+            placeholder={f.trackingPlaceholder}
           />
         </label>
         <label>
-          Admin notes (internal)
+          {f.adminNotes}
           <textarea
             name="admin_notes"
             rows={4}
             defaultValue={adminNotes ?? ""}
-            placeholder="Internal notes — not visible to customer"
+            placeholder={f.adminNotesPlaceholder}
           />
         </label>
         <button type="submit" className={formStyles.submit} disabled={detailsPending}>
-          {detailsPending ? "Saving…" : "Save details"}
+          {detailsPending ? saving : f.saveDetails}
         </button>
         {detailsState.error && <p className={formStyles.error}>{detailsState.error}</p>}
         {detailsState.success && <p className={formStyles.success}>{detailsState.success}</p>}
@@ -57,7 +62,7 @@ export function OrderDetailsForm({
 
       <form action={emailAction}>
         <button type="submit" className={styles.resendBtn} disabled={emailPending}>
-          {emailPending ? "Sending…" : "Resend confirmation email"}
+          {emailPending ? f.sending : f.resendConfirmation}
         </button>
         {emailState.error && <p className={formStyles.error}>{emailState.error}</p>}
         {emailState.success && <p className={formStyles.success}>{emailState.success}</p>}

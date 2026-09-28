@@ -1,8 +1,6 @@
 "use server";
 
-import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin";
@@ -11,7 +9,7 @@ import { slugify } from "@/lib/slug";
 import { Prisma } from "@/generated/prisma/client";
 import { parseFrenchTranslationsForm } from "@/lib/i18n/content";
 import { TRANSLATION_FIELD_SETS } from "@/lib/i18n/localize";
-import { prepareUploadJpeg } from "@/lib/upload";
+import { saveUploadedImageFile } from "@/lib/media-storage";
 import { categoryFormSchema, heroTileFormSchema } from "@/lib/validations/content";
 
 type ActionState = { error?: string };
@@ -22,16 +20,7 @@ async function saveHeroImage(formData: FormData): Promise<{ url: string } | { er
   const file = formData.get("image");
   if (!(file instanceof File) || file.size === 0) return null;
 
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const prepared = await prepareUploadJpeg(buffer, file.name, file.type);
-  if (!prepared.ok) {
-    return { error: prepared.error };
-  }
-
-  await mkdir(HERO_UPLOAD_DIR, { recursive: true });
-  const filename = `${randomUUID()}.jpg`;
-  await writeFile(path.join(HERO_UPLOAD_DIR, filename), prepared.jpeg);
-  return { url: `/uploads/hero/${filename}` };
+  return saveUploadedImageFile(file, HERO_UPLOAD_DIR, "/uploads/hero");
 }
 
 export async function createCategoryAction(

@@ -4,8 +4,14 @@ import { StorefrontShell } from "@/components/layout/StorefrontShell";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import tableStyles from "@/components/admin/AdminTable.module.css";
 import { db } from "@/lib/db";
+import { getAdminLabels } from "@/lib/admin-dict";
 
 export default async function AdminCommissionsPage() {
+  const admin = await getAdminLabels();
+  const p = admin.pages.commissions;
+  const t = admin.tables;
+  const c = admin.common;
+
   const inquiries = await db.commission_inquiries.findMany({
     orderBy: { created_at: "desc" },
   });
@@ -13,22 +19,22 @@ export default async function AdminCommissionsPage() {
   return (
     <StorefrontShell>
       <AdminShell
-        title="Commissions"
-        description="Portrait and custom artwork inquiries from the storefront."
+        title={p.title}
+        description={p.description}
         activePath="/admin/commissions"
       >
         {inquiries.length === 0 ? (
-          <p className={tableStyles.empty}>No commission inquiries yet.</p>
+          <p className={tableStyles.empty}>{admin.empty.commissions}</p>
         ) : (
           <div className={tableStyles.tableWrap}>
             <table className={tableStyles.table}>
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Budget</th>
-                  <th>Status</th>
-                  <th>Received</th>
+                  <th>{t.name}</th>
+                  <th>{t.email}</th>
+                  <th>{t.budget}</th>
+                  <th>{t.status}</th>
+                  <th>{t.received}</th>
                   <th />
                 </tr>
               </thead>
@@ -43,13 +49,13 @@ export default async function AdminCommissionsPage() {
                       </div>
                     </td>
                     <td>{item.email}</td>
-                    <td>{item.budget_range ?? "—"}</td>
+                    <td>{item.budget_range ?? c.dash}</td>
                     <td>
                       <StatusBadge status={item.status} />
                     </td>
                     <td>{new Date(item.created_at).toLocaleDateString()}</td>
                     <td>
-                      <Link href={`/admin/commissions/${item.id}`}>View</Link>
+                      <Link href={`/admin/commissions/${item.id}`}>{c.view}</Link>
                     </td>
                   </tr>
                 ))}

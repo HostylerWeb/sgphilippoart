@@ -7,8 +7,9 @@ import {
   deleteProductAction,
   updateProductAction,
 } from "@/actions/admin/products";
-import { ProductImageManager } from "@/components/admin/ProductImageManager";
+import { ProductMediaSection } from "@/components/admin/ProductMediaSection";
 import { TranslationFields } from "@/components/admin/TranslationFields";
+import { useI18n } from "@/components/layout/I18nProvider";
 import formStyles from "@/components/forms/Form.module.css";
 import styles from "./ProductForm.module.css";
 
@@ -44,11 +45,17 @@ type ProductFormProps = {
     meta_title: string | null;
     meta_description: string | null;
     images: ProductImage[];
+    video_url: string | null;
     translationValues?: Record<string, string>;
   };
 };
 
 export function ProductForm({ categories, product }: ProductFormProps) {
+  const { dict } = useI18n();
+  const f = dict.admin.forms.product;
+  const pf = dict.admin.productFilter;
+  const saving = dict.admin.common.saving;
+
   const action = product
     ? updateProductAction.bind(null, product.id)
     : createProductAction;
@@ -60,29 +67,29 @@ export function ProductForm({ categories, product }: ProductFormProps) {
 
       <div className={formStyles.gridTwo}>
         <label>
-          Title
+          {f.title}
           <input name="title" defaultValue={product?.title} required />
         </label>
         <label>
-          Slug
-          <input name="slug" defaultValue={product?.slug} placeholder="auto-from-title" />
+          {f.slug}
+          <input name="slug" defaultValue={product?.slug} placeholder={f.slugPlaceholder} />
         </label>
       </div>
 
       <label>
-        Description
+        {f.description}
         <textarea name="description" rows={5} defaultValue={product?.description ?? ""} />
       </label>
 
       <div className={formStyles.gridTwo}>
         <label>
-          Price
+          {f.price}
           <input name="price" type="number" step="0.01" min="0" defaultValue={product?.price} required />
         </label>
         <label>
-          Category
+          {f.category}
           <select name="category_id" defaultValue={product?.category_id ?? ""}>
-            <option value="">No category</option>
+            <option value="">{f.noCategory}</option>
             {categories.map((category) => (
               <option key={category.id} value={category.id}>
                 {category.name}
@@ -94,37 +101,37 @@ export function ProductForm({ categories, product }: ProductFormProps) {
 
       <div className={formStyles.gridTwo}>
         <label>
-          Type
+          {f.type}
           <select name="product_type" defaultValue={product?.product_type ?? "original"}>
-            <option value="original">Original</option>
-            <option value="print">Print</option>
+            <option value="original">{f.typeOriginal}</option>
+            <option value="print">{f.typePrint}</option>
           </select>
         </label>
         <label>
-          Status
+          {f.status}
           <select name="status" defaultValue={product?.status ?? "published"}>
-            <option value="draft">Draft</option>
-            <option value="published">Published</option>
-            <option value="sold">Sold</option>
-            <option value="archived">Archived</option>
+            <option value="draft">{pf.statusDraft}</option>
+            <option value="published">{pf.statusPublished}</option>
+            <option value="sold">{pf.statusSold}</option>
+            <option value="archived">{pf.statusArchived}</option>
           </select>
         </label>
       </div>
 
       <div className={formStyles.gridTwo}>
         <label>
-          Medium
-          <input name="medium" defaultValue={product?.medium ?? ""} placeholder="Oil on canvas" />
+          {f.medium}
+          <input name="medium" defaultValue={product?.medium ?? ""} placeholder={f.mediumPlaceholder} />
         </label>
         <label>
-          Dimensions
-          <input name="dimensions" defaultValue={product?.dimensions ?? ""} placeholder='24" × 36"' />
+          {f.dimensions}
+          <input name="dimensions" defaultValue={product?.dimensions ?? ""} placeholder={f.dimensionsPlaceholder} />
         </label>
       </div>
 
       <div className={formStyles.gridTwo}>
         <label>
-          Edition size (prints)
+          {f.editionSize}
           <input
             name="edition_size"
             type="number"
@@ -133,7 +140,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
           />
         </label>
         <label>
-          Stock quantity (prints)
+          {f.stockQuantity}
           <input
             name="stock_quantity"
             type="number"
@@ -145,7 +152,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
 
       <div className={formStyles.gridTwo}>
         <label>
-          Meta title
+          {f.metaTitle}
           <input name="meta_title" defaultValue={product?.meta_title ?? ""} />
         </label>
         <label className={styles.checkbox}>
@@ -154,46 +161,49 @@ export function ProductForm({ categories, product }: ProductFormProps) {
             type="checkbox"
             defaultChecked={product?.is_featured}
           />
-          Featured on homepage
+          {f.featuredHomepage}
         </label>
       </div>
 
       <label>
-        Meta description
+        {f.metaDescription}
         <textarea name="meta_description" rows={3} defaultValue={product?.meta_description ?? ""} />
       </label>
 
       <TranslationFields
+        title={f.frenchTranslations}
+        hint={f.translationHint}
         fields={[
-          { name: "title", label: "Title" },
-          { name: "description", label: "Description", type: "textarea", rows: 5 },
-          { name: "medium", label: "Medium" },
-          { name: "meta_title", label: "Meta title" },
-          { name: "meta_description", label: "Meta description", type: "textarea", rows: 3 },
+          { name: "title", label: f.title },
+          { name: "description", label: f.description, type: "textarea", rows: 5 },
+          { name: "medium", label: f.medium },
+          { name: "meta_title", label: f.metaTitle },
+          { name: "meta_description", label: f.metaDescription, type: "textarea", rows: 3 },
         ]}
         values={product?.translationValues}
       />
 
-      {product && product.images.length > 0 && (
-        <ProductImageManager productId={product.id} images={product.images} />
-      )}
-
-      <label>
-        Upload images
-        <input name="images" type="file" accept="image/*" multiple className={styles.fileInput} />
-        <span className={styles.uploadHint}>
-          Select multiple files for a full gallery. The first image is used as the main photo.
-        </span>
-      </label>
+      <ProductMediaSection
+        product={
+          product
+            ? {
+                id: product.id,
+                title: product.title,
+                images: product.images,
+                video_url: product.video_url,
+              }
+            : undefined
+        }
+      />
 
       <div className={styles.actions}>
         <button type="submit" className={formStyles.submit} disabled={pending}>
-          {pending ? "Saving…" : product ? "Save changes" : "Create product"}
+          {pending ? saving : product ? f.saveChanges : f.createProduct}
         </button>
         {product && (
           <>
             <Link href={`/products/${product.slug}`} className={styles.previewLink} target="_blank">
-              Preview on storefront
+              {f.previewStorefront}
             </Link>
             <button
               type="submit"
@@ -201,7 +211,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
               className={styles.deleteBtn}
               disabled={pending}
             >
-              Delete product
+              {f.deleteProduct}
             </button>
           </>
         )}
