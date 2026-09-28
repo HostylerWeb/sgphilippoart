@@ -125,7 +125,7 @@ model products {
   edition_size     Int?
   stock_quantity   Int?
   artist_name      String         @default("SG Philippo Art")
-  artist_location  String         @default("United Kingdom")
+  artist_location  String         @default("Belgium & Luxembourg")
   is_featured      Boolean        @default(false)
   video_url        String?
   sort_order       Int            @default(0)
