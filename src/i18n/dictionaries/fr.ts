@@ -233,6 +233,7 @@ export const fr = {
       "Payez en toute sécurité avec PayPal, carte, Apple Pay ou Google Pay. La commande est confirmée une fois le paiement effectué.",
     paymentSection: "Paiement",
     paymentProcessing: "Traitement du paiement…",
+    paymentLoading: "Chargement des options de paiement…",
     submit: "Envoyer la demande",
     submitError: "Impossible d'envoyer votre commande.",
     submitting: "Envoi…",

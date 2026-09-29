@@ -45,7 +45,6 @@ type CheckoutExperienceProps = {
   defaults?: CheckoutDefaults;
   dict: Dictionary;
   paypalClientId?: string | null;
-  paypalEnvironment?: "sandbox" | "production";
 };
 
 export function CheckoutExperience({
@@ -55,7 +54,6 @@ export function CheckoutExperience({
   defaults,
   dict,
   paypalClientId,
-  paypalEnvironment,
 }: CheckoutExperienceProps) {
   const t = dict.checkout;
   const cartLabels = dict.cart;
@@ -77,7 +75,6 @@ export function CheckoutExperience({
           paymentMode={settings.paymentMode}
           currencyCode={settings.currencyCode}
           paypalClientId={paypalClientId}
-          paypalEnvironment={paypalEnvironment}
         />
       </div>
 

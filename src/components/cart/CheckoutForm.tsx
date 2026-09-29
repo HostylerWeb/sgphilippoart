@@ -3,10 +3,14 @@
 import { useMemo, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { submitOrderInquiry } from "@/actions/cart";
-import {
-  PayPalCheckout,
-  type CheckoutPayload,
-} from "@/components/cart/PayPalCheckout";
+import dynamic from "next/dynamic";
+import type { CheckoutPayload } from "@/components/cart/PayPalCheckout";
+
+const PayPalCheckout = dynamic(
+  () =>
+    import("@/components/cart/PayPalCheckout").then((mod) => mod.PayPalCheckout),
+  { ssr: false },
+);
 import { useI18n } from "@/components/layout/I18nProvider";
 import {
   getCountryAddressFormat,
@@ -34,7 +38,6 @@ type CheckoutFormProps = {
   paymentMode?: "inquiry" | "manual" | "stripe" | "paypal";
   currencyCode?: string;
   paypalClientId?: string | null;
-  paypalEnvironment?: "sandbox" | "production";
 };
 
 export function CheckoutForm({
@@ -43,7 +46,6 @@ export function CheckoutForm({
   paymentMode = "inquiry",
   currencyCode = "EUR",
   paypalClientId,
-  paypalEnvironment = "sandbox",
 }: CheckoutFormProps) {
   const { locale, dict } = useI18n();
   const t = dict.checkout;
@@ -279,10 +281,10 @@ export function CheckoutForm({
               <h2>{t.paymentSection}</h2>
               <PayPalCheckout
                 clientId={paypalClientId!}
-                environment={paypalEnvironment}
                 currencyCode={currencyCode}
                 getPayload={getPayloadForPayPal}
                 processingLabel={t.paymentProcessing}
+                loadingLabel={t.paymentLoading}
                 onPaid={(orderNumber) => {
                   router.push(
                     `/checkout/success?order=${encodeURIComponent(orderNumber)}`,

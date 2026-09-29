@@ -230,6 +230,7 @@ export const en = {
       "Pay securely with PayPal, card, Apple Pay, or Google Pay. Your order is confirmed once payment is completed.",
     paymentSection: "Payment",
     paymentProcessing: "Processing payment…",
+    paymentLoading: "Loading payment options…",
     submit: "Submit order inquiry",
     submitError: "Could not submit your order.",
     submitting: "Submitting…",
