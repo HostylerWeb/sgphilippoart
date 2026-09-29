@@ -10,8 +10,10 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   experimental: {
     serverActions: {
-      bodySizeLimit: "12mb",
+      // Product form: multiple images (10 MB each) + video (up to 100 MB).
+      bodySizeLimit: "150mb",
     },
+    proxyClientMaxBodySize: "150mb",
   },
   async headers() {
     return [
