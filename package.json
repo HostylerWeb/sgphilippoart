@@ -15,6 +15,7 @@
     "audit": "pnpm audit",
     "smtp:test": "tsx scripts/test-smtp.ts",
     "email:test": "tsx scripts/test-emails.ts",
+    "email:welcome": "tsx scripts/send-welcome-test.ts",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:migrate:deploy": "prisma migrate deploy",
@@ -25,6 +26,7 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.3",
+    "@paypal/react-paypal-js": "^10.5.1",
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
     "bcryptjs": "^3.0.3",
