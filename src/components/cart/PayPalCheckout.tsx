@@ -24,6 +24,7 @@ export type CheckoutPayload = {
 
 type PayPalCheckoutProps = {
   clientId: string;
+  environment: "sandbox" | "production";
   currencyCode: string;
   getPayload: () => CheckoutPayload | null;
   onPaid: (orderNumber: string) => void;
@@ -33,6 +34,7 @@ type PayPalCheckoutProps = {
 
 export function PayPalCheckout({
   clientId,
+  environment,
   currencyCode,
   getPayload,
   onPaid,
@@ -46,11 +48,11 @@ export function PayPalCheckout({
 
   const scriptOptions: ReactPayPalScriptOptions = {
     clientId,
+    environment,
     currency: currencyCode,
     intent: "capture",
     components: "buttons",
-    enableFunding: "paylater",
-    disableFunding: "venmo",
+    disableFunding: "venmo,paylater",
   };
 
   async function ensureShopOrder() {

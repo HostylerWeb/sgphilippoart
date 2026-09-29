@@ -34,6 +34,7 @@ type CheckoutFormProps = {
   paymentMode?: "inquiry" | "manual" | "stripe" | "paypal";
   currencyCode?: string;
   paypalClientId?: string | null;
+  paypalEnvironment?: "sandbox" | "production";
 };
 
 export function CheckoutForm({
@@ -42,6 +43,7 @@ export function CheckoutForm({
   paymentMode = "inquiry",
   currencyCode = "EUR",
   paypalClientId,
+  paypalEnvironment = "sandbox",
 }: CheckoutFormProps) {
   const { locale, dict } = useI18n();
   const t = dict.checkout;
@@ -277,6 +279,7 @@ export function CheckoutForm({
               <h2>{t.paymentSection}</h2>
               <PayPalCheckout
                 clientId={paypalClientId!}
+                environment={paypalEnvironment}
                 currencyCode={currencyCode}
                 getPayload={getPayloadForPayPal}
                 processingLabel={t.paymentProcessing}
