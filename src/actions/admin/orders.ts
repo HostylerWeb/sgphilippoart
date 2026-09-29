@@ -8,6 +8,7 @@ import { formatPrice } from "@/lib/format";
 import { restoreOrderInventory, reserveOrderInventory } from "@/lib/order-inventory";
 import { localizeInventoryError } from "@/lib/inventory-errors";
 import { getStoreSettings } from "@/lib/settings";
+import { getAdminFeedback } from "@/lib/admin-feedback";
 import { getLocale } from "@/i18n";
 import { z } from "zod";
 
@@ -28,14 +29,15 @@ export async function updateOrderStatusAction(
   formData: FormData,
 ): Promise<ActionState> {
   await requireAdmin(`/admin/orders/${orderId}`);
+  const feedback = await getAdminFeedback();
   const parsed = orderStatusSchema.safeParse(formData.get("status"));
   if (!parsed.success) {
-    return { error: "Invalid order status." };
+    return { error: feedback.orderStatusInvalid };
   }
 
   const existing = await db.orders.findUnique({ where: { id: orderId } });
   if (!existing) {
-    return { error: "Order not found." };
+    return { error: feedback.orderNotFound };
   }
 
   const nextStatus = parsed.data;
@@ -89,7 +91,7 @@ export async function updateOrderStatusAction(
   revalidatePath("/admin/orders");
   revalidatePath("/admin");
   revalidatePath("/collections", "layout");
-  return { success: "Order status updated." };
+  return { success: feedback.orderStatusUpdated };
 }
 
 export async function updateOrderDetailsAction(
@@ -98,13 +100,14 @@ export async function updateOrderDetailsAction(
   formData: FormData,
 ): Promise<ActionState> {
   await requireAdmin(`/admin/orders/${orderId}`);
+  const feedback = await getAdminFeedback();
 
   const trackingNumber = String(formData.get("tracking_number") ?? "").trim();
   const adminNotes = String(formData.get("admin_notes") ?? "").trim();
 
   const existing = await db.orders.findUnique({ where: { id: orderId } });
   if (!existing) {
-    return { error: "Order not found." };
+    return { error: feedback.orderNotFound };
   }
 
   await db.orders.update({
@@ -127,7 +130,7 @@ export async function updateOrderDetailsAction(
   }
 
   revalidatePath(`/admin/orders/${orderId}`);
-  return { success: "Order details saved." };
+  return { success: feedback.orderDetailsSaved };
 }
 
 export async function resendOrderConfirmationAction(
@@ -135,6 +138,7 @@ export async function resendOrderConfirmationAction(
   _prev: ActionState,
 ): Promise<ActionState> {
   await requireAdmin(`/admin/orders/${orderId}`);
+  const feedback = await getAdminFeedback();
 
   const [order, settings] = await Promise.all([
     db.orders.findUnique({ where: { id: orderId } }),
@@ -142,11 +146,11 @@ export async function resendOrderConfirmationAction(
   ]);
 
   if (!order) {
-    return { error: "Order not found." };
+    return { error: feedback.orderNotFound };
   }
 
   if (order.status === "cancelled") {
-    return { error: "Cannot resend confirmation for a cancelled order." };
+    return { error: feedback.orderResendCancelled };
   }
 
   const sent = await sendOrderConfirmation({
@@ -157,10 +161,10 @@ export async function resendOrderConfirmationAction(
   }, await getLocale());
 
   if (!sent) {
-    return { error: "Failed to send confirmation email." };
+    return { error: feedback.orderResendFailed };
   }
 
-  return { success: "Confirmation email resent." };
+  return { success: feedback.orderResendSuccess };
 }
 
 export async function markMessageReadAction(messageId: string) {

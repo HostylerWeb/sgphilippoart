@@ -4,8 +4,11 @@ import tableStyles from "@/components/admin/AdminTable.module.css";
 import { markMessageReadAction } from "@/actions/admin/orders";
 import { db } from "@/lib/db";
 import { getAdminLabels } from "@/lib/admin-dict";
+import { getLocale } from "@/i18n";
 
 export default async function AdminMessagesPage() {
+  const locale = await getLocale();
+  const dateLocale = locale === "fr" ? "fr-FR" : "en-US";
   const admin = await getAdminLabels();
   const p = admin.pages.messages;
   const t = admin.tables;
@@ -49,7 +52,7 @@ export default async function AdminMessagesPage() {
                       {item.message}
                     </td>
                     <td>{item.is_read ? c.read : c.new}</td>
-                    <td>{new Date(item.created_at).toLocaleDateString()}</td>
+                    <td>{new Date(item.created_at).toLocaleDateString(dateLocale)}</td>
                     <td>
                       {!item.is_read && (
                         <form action={markMessageReadAction.bind(null, item.id)}>

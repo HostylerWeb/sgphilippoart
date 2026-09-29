@@ -7,6 +7,7 @@ import { StatusBadge } from "@/components/ui/StatusBadge";
 import { formatPrice } from "@/lib/format";
 import { db } from "@/lib/db";
 import { getStoreSettings } from "@/lib/settings";
+import { getDictionary, getLocale } from "@/i18n";
 import { getAdminLabels } from "@/lib/admin-dict";
 import styles from "./page.module.css";
 
@@ -22,10 +23,14 @@ export default async function AdminProductsPage({ searchParams }: PageProps) {
   const { q = "", status = "" } = await searchParams;
   const query = q.trim();
   const statusFilter = VALID_STATUSES.has(status) ? (status as ProductStatus) : undefined;
+  const locale = await getLocale();
+  const dict = getDictionary(locale);
   const admin = await getAdminLabels();
   const p = admin.pages.products;
   const t = admin.tables;
   const c = admin.common;
+  const productTypeLabel = (type: "original" | "print") =>
+    type === "print" ? dict.product.print : dict.product.original;
 
   const [products, settings] = await Promise.all([
     db.products.findMany({
@@ -109,7 +114,7 @@ export default async function AdminProductsPage({ searchParams }: PageProps) {
                           </div>
                         </div>
                       </td>
-                      <td>{product.product_type}</td>
+                      <td>{productTypeLabel(product.product_type)}</td>
                       <td>{formatPrice(product.price.toString(), settings)}</td>
                       <td>
                         <StatusBadge status={product.status} />

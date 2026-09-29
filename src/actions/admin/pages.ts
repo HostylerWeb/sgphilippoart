@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { getAdminFeedback } from "@/lib/admin-feedback";
 import { requireAdmin } from "@/lib/admin";
 import { CMS_ABOUT_SETTING_KEY } from "@/lib/cms/about-page";
 import { db } from "@/lib/db";
@@ -31,9 +32,10 @@ export async function updateAboutPageAction(
 ): Promise<ActionState> {
   await requireAdmin("/admin/pages/about");
 
+  const feedback = await getAdminFeedback();
   const parsed = parseAboutForm(formData);
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid page content." };
+    return { error: parsed.error.issues[0]?.message ?? feedback.pageContentInvalid };
   }
 
   await db.site_settings.upsert({
@@ -45,5 +47,5 @@ export async function updateAboutPageAction(
   revalidatePath("/about");
   revalidatePath("/admin/pages/about");
 
-  return { success: "About page saved." };
+  return { success: feedback.aboutPageSaved };
 }

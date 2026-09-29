@@ -40,8 +40,9 @@ const DEFAULTS: SettingsFormValues = {
     "Get complimentary one-on-one advice on choosing a piece that fits your taste, room, and budget.",
   concierge_cta: "Connect with the studio",
   ...socialDefaults,
-  announcement_text_fr: "",
-  announcement_highlight_fr: "",
+  announcement_text_fr:
+    "Œuvres originales peintes à la main · Découvrez la nouvelle série Femmes guerrières",
+  announcement_highlight_fr: 'Nouvelle série · « Femmes guerrières »',
   footer_description_fr: "",
   concierge_eyebrow_fr: "",
   concierge_title_fr: "",

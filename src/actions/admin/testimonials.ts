@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { getAdminFeedback } from "@/lib/admin-feedback";
 import { requireAdmin } from "@/lib/admin";
 import { db } from "@/lib/db";
 import { Prisma } from "@/generated/prisma/client";
@@ -29,9 +30,10 @@ export async function createTestimonialAction(
   formData: FormData,
 ): Promise<ActionState> {
   await requireAdmin("/admin/testimonials/new");
+  const feedback = await getAdminFeedback();
   const parsed = parseTestimonialForm(formData);
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid review data." };
+    return { error: parsed.error.issues[0]?.message ?? feedback.reviewInvalid };
   }
 
   const translations = parseFrenchTranslationsForm(
@@ -56,9 +58,10 @@ export async function updateTestimonialAction(
   formData: FormData,
 ): Promise<ActionState> {
   await requireAdmin(`/admin/testimonials/${id}/edit`);
+  const feedback = await getAdminFeedback();
   const parsed = parseTestimonialForm(formData);
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid review data." };
+    return { error: parsed.error.issues[0]?.message ?? feedback.reviewInvalid };
   }
 
   const translations = parseFrenchTranslationsForm(

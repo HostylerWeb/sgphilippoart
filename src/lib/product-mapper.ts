@@ -1,5 +1,6 @@
 import type { ProductCardData } from "@/components/product/ProductCard";
 import type { Locale } from "@/i18n/config";
+import { localizeArtistLocation } from "@/lib/i18n/artist-location";
 import { localizeProduct } from "@/lib/i18n/localize";
 
 type ProductWithImages = {
@@ -39,7 +40,7 @@ export function mapProductToCard(
     product_type: product.product_type,
     edition_size: product.edition_size,
     artist_name: product.artist_name,
-    artist_location: product.artist_location,
+    artist_location: localizeArtistLocation(product.artist_location, locale),
     medium: localized.medium,
     dimensions: product.dimensions,
     image_url: primary?.url ?? "",

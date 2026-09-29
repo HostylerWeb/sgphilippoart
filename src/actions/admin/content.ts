@@ -3,6 +3,7 @@
 import path from "node:path";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { getAdminFeedback } from "@/lib/admin-feedback";
 import { requireAdmin } from "@/lib/admin";
 import { db } from "@/lib/db";
 import { slugify } from "@/lib/slug";
@@ -28,6 +29,7 @@ export async function createCategoryAction(
   formData: FormData,
 ): Promise<ActionState> {
   await requireAdmin("/admin/collections/new");
+  const feedback = await getAdminFeedback();
   const parsed = categoryFormSchema.safeParse({
     name: formData.get("name"),
     slug: formData.get("slug") || slugify(String(formData.get("name") ?? "")),
@@ -37,11 +39,11 @@ export async function createCategoryAction(
     show_in_nav: formData.get("show_in_nav") === "on",
   });
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid collection data." };
+    return { error: parsed.error.issues[0]?.message ?? feedback.collectionInvalid };
   }
 
   const existing = await db.categories.findUnique({ where: { slug: parsed.data.slug } });
-  if (existing) return { error: "A collection with this slug already exists." };
+  if (existing) return { error: feedback.collectionSlugExists };
 
   const translations = parseFrenchTranslationsForm(
     formData,
@@ -65,6 +67,7 @@ export async function updateCategoryAction(
   formData: FormData,
 ): Promise<ActionState> {
   await requireAdmin(`/admin/collections/${id}/edit`);
+  const feedback = await getAdminFeedback();
   const parsed = categoryFormSchema.safeParse({
     name: formData.get("name"),
     slug: formData.get("slug"),
@@ -74,13 +77,13 @@ export async function updateCategoryAction(
     show_in_nav: formData.get("show_in_nav") === "on",
   });
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid collection data." };
+    return { error: parsed.error.issues[0]?.message ?? feedback.collectionInvalid };
   }
 
   const existing = await db.categories.findFirst({
     where: { slug: parsed.data.slug, NOT: { id } },
   });
-  if (existing) return { error: "A collection with this slug already exists." };
+  if (existing) return { error: feedback.collectionSlugExists };
 
   const translations = parseFrenchTranslationsForm(
     formData,
@@ -112,11 +115,12 @@ export async function createHeroTileAction(
   formData: FormData,
 ): Promise<ActionState> {
   await requireAdmin("/admin/hero-tiles/new");
+  const feedback = await getAdminFeedback();
   const imageResult = await saveHeroImage(formData);
   if (imageResult && "error" in imageResult) {
     return { error: imageResult.error };
   }
-  if (!imageResult) return { error: "Hero image is required." };
+  if (!imageResult) return { error: feedback.heroImageRequired };
 
   const parsed = heroTileFormSchema.safeParse({
     eyebrow: formData.get("eyebrow"),
@@ -128,7 +132,7 @@ export async function createHeroTileAction(
     is_active: formData.get("is_active") === "on",
   });
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid hero tile data." };
+    return { error: parsed.error.issues[0]?.message ?? feedback.heroTileInvalid };
   }
 
   const translations = parseFrenchTranslationsForm(formData, [...TRANSLATION_FIELD_SETS.hero]);
@@ -150,6 +154,7 @@ export async function updateHeroTileAction(
   formData: FormData,
 ): Promise<ActionState> {
   await requireAdmin(`/admin/hero-tiles/${id}/edit`);
+  const feedback = await getAdminFeedback();
   const imageResult = await saveHeroImage(formData);
   if (imageResult && "error" in imageResult) {
     return { error: imageResult.error };
@@ -165,7 +170,7 @@ export async function updateHeroTileAction(
     is_active: formData.get("is_active") === "on",
   });
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid hero tile data." };
+    return { error: parsed.error.issues[0]?.message ?? feedback.heroTileInvalid };
   }
 
   const translations = parseFrenchTranslationsForm(formData, [...TRANSLATION_FIELD_SETS.hero]);

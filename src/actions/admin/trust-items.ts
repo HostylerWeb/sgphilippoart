@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { getAdminFeedback } from "@/lib/admin-feedback";
 import { requireAdmin } from "@/lib/admin";
 import { db } from "@/lib/db";
 import { Prisma } from "@/generated/prisma/client";
@@ -26,9 +27,10 @@ export async function createTrustItemAction(
   formData: FormData,
 ): Promise<ActionState> {
   await requireAdmin("/admin/trust-items/new");
+  const feedback = await getAdminFeedback();
   const parsed = parseTrustItemForm(formData);
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid trust item data." };
+    return { error: parsed.error.issues[0]?.message ?? feedback.trustItemInvalid };
   }
 
   const translations = parseFrenchTranslationsForm(
@@ -52,9 +54,10 @@ export async function updateTrustItemAction(
   formData: FormData,
 ): Promise<ActionState> {
   await requireAdmin(`/admin/trust-items/${id}/edit`);
+  const feedback = await getAdminFeedback();
   const parsed = parseTrustItemForm(formData);
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid trust item data." };
+    return { error: parsed.error.issues[0]?.message ?? feedback.trustItemInvalid };
   }
 
   const translations = parseFrenchTranslationsForm(

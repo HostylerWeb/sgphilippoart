@@ -3,6 +3,7 @@
 import path from "node:path";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { getAdminFeedback } from "@/lib/admin-feedback";
 import { requireAdmin } from "@/lib/admin";
 import { db } from "@/lib/db";
 import { slugify } from "@/lib/slug";
@@ -129,15 +130,16 @@ export async function createProductAction(
   formData: FormData,
 ): Promise<ActionState> {
   await requireAdmin("/admin/products/new");
+  const feedback = await getAdminFeedback();
   const parsed = parseProductForm(formData);
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid product data." };
+    return { error: parsed.error.issues[0]?.message ?? feedback.productInvalid };
   }
 
   const data = parsed.data;
   const existing = await db.products.findUnique({ where: { slug: data.slug } });
   if (existing) {
-    return { error: "A product with this slug already exists." };
+    return { error: feedback.productSlugExists };
   }
 
   const mediaResult = await processProductMedia(formData);
@@ -212,9 +214,10 @@ export async function updateProductAction(
   formData: FormData,
 ): Promise<ActionState> {
   await requireAdmin(`/admin/products/${productId}/edit`);
+  const feedback = await getAdminFeedback();
   const parsed = parseProductForm(formData);
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid product data." };
+    return { error: parsed.error.issues[0]?.message ?? feedback.productInvalid };
   }
 
   const data = parsed.data;
@@ -222,7 +225,7 @@ export async function updateProductAction(
     where: { slug: data.slug, NOT: { id: productId } },
   });
   if (existing) {
-    return { error: "A product with this slug already exists." };
+    return { error: feedback.productSlugExists };
   }
 
   const mediaResult = await processProductMedia(formData);
@@ -240,7 +243,7 @@ export async function updateProductAction(
     include: { images: { orderBy: { sort_order: "asc" } } },
   });
   if (!current) {
-    return { error: "Product not found." };
+    return { error: feedback.productNotFound };
   }
 
   await db.$transaction(async (tx) => {

@@ -8,15 +8,15 @@ export type TranslationFieldConfig = {
 };
 
 type TranslationFieldsProps = {
-  title?: string;
+  title: string;
   hint?: string;
   fields: TranslationFieldConfig[];
   values?: Record<string, string | undefined>;
 };
 
 export function TranslationFields({
-  title = "French (FR) translation",
-  hint = "Optional. When filled in, French visitors see these instead of the English fields above.",
+  title,
+  hint,
   fields,
   values = {},
 }: TranslationFieldsProps) {

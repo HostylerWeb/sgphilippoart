@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
 import { db } from "@/lib/db";
+import { getAdminFeedback } from "@/lib/admin-feedback";
 import { settingsFormSchema } from "@/lib/validations/settings";
 
 type ActionState = {
@@ -20,9 +21,10 @@ export async function updateSettingsAction(
     settingsFormSchema.keyof().options.map((key) => [key, formData.get(key)]),
   );
 
+  const feedback = await getAdminFeedback();
   const parsed = settingsFormSchema.safeParse(values);
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid settings." };
+    return { error: parsed.error.issues[0]?.message ?? feedback.settingsInvalid };
   }
 
   await db.$transaction(
@@ -37,5 +39,5 @@ export async function updateSettingsAction(
 
   revalidatePath("/", "layout");
 
-  return { success: "Settings saved. Changes are live on the storefront." };
+  return { success: feedback.settingsSaved };
 }

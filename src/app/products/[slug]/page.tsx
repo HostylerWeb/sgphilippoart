@@ -10,6 +10,7 @@ import { getProductBySlug, getRelatedProducts } from "@/lib/queries";
 import { buildPageMetadata } from "@/lib/seo";
 import { getStoreSettings } from "@/lib/settings";
 import { getDictionary, getLocale } from "@/i18n";
+import { localizeArtistLocation } from "@/lib/i18n/artist-location";
 import { localizeCategoryEntity, localizeProduct } from "@/lib/i18n/localize";
 import styles from "./page.module.css";
 
@@ -133,7 +134,7 @@ export default async function ProductPage({ params }: PageProps) {
                 stock_quantity: product.stock_quantity,
                 status: product.status,
                 artist_name: product.artist_name,
-                artist_location: product.artist_location,
+                artist_location: localizeArtistLocation(product.artist_location, locale),
                 medium: localized.medium,
                 dimensions: product.dimensions,
                 description: localized.description,

@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { getAdminFeedback } from "@/lib/admin-feedback";
 import { requireAdmin } from "@/lib/admin";
 import { db } from "@/lib/db";
 import { z } from "zod";
@@ -22,9 +23,10 @@ export async function updateCommissionAction(
 ): Promise<ActionState> {
   await requireAdmin(`/admin/commissions/${commissionId}`);
 
+  const feedback = await getAdminFeedback();
   const statusParsed = commissionStatusSchema.safeParse(formData.get("status"));
   if (!statusParsed.success) {
-    return { error: "Invalid commission status." };
+    return { error: feedback.commissionStatusInvalid };
   }
 
   const adminNotes = String(formData.get("admin_notes") ?? "").trim();
@@ -40,5 +42,5 @@ export async function updateCommissionAction(
   revalidatePath(`/admin/commissions/${commissionId}`);
   revalidatePath("/admin/commissions");
   revalidatePath("/admin");
-  return { success: "Commission inquiry updated." };
+  return { success: feedback.commissionUpdated };
 }
