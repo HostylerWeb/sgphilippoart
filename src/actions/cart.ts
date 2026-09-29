@@ -288,3 +288,131 @@ export async function submitOrderInquiry(
 
   return { success: true, orderNumber };
 }
+
+export async function preparePayPalCheckout(
+  input: CheckoutInput,
+): Promise<{
+  success: boolean;
+  message?: string;
+  orderId?: string;
+  orderNumber?: string;
+}> {
+  const locale = await getLocale();
+  const v = getDictionary(locale).validation;
+
+  const limited = await enforceRateLimit("checkout", 5, 15 * 60 * 1000);
+  if (!limited.ok) {
+    return { success: false, message: v.checkoutRateLimited };
+  }
+
+  const ctx = await getCartContext();
+  const [cart, settings] = await Promise.all([
+    getCart(ctx, locale),
+    getStoreSettings(locale),
+  ]);
+
+  if (settings.paymentMode !== "paypal") {
+    return { success: false, message: v.checkoutFailed };
+  }
+
+  if (cart.items.length === 0) {
+    return { success: false, message: v.cartEmpty };
+  }
+
+  if (!ctx.userId) {
+    return { success: false, message: v.checkoutSignInRequired };
+  }
+
+  if (cart.subtotal < settings.minOrderAmount) {
+    return {
+      success: false,
+      message: v.minOrderAmount
+        .replace("{amount}", String(settings.minOrderAmount))
+        .replace("{currency}", settings.currencyCode),
+    };
+  }
+
+  const parsed = parseCheckoutInput(input, locale);
+  if (!parsed.success) {
+    return { success: false, message: parsed.message };
+  }
+
+  const checkout = parsed.data;
+  const totals = calculateOrderTotals(cart.subtotal, settings, input.countryCode);
+
+  try {
+    const result = await db.$transaction(async (tx) => {
+      const inventoryError = await reserveCartItems(
+        tx,
+        cart.items.map((item) => ({
+          product_id: item.product.id,
+          title: item.product.title,
+          quantity: item.quantity,
+        })),
+      );
+      if (inventoryError) {
+        throw new Error(localizeInventoryError(locale, inventoryError));
+      }
+
+      const number = await generateOrderNumber();
+
+      const order = await tx.orders.create({
+        data: {
+          order_number: number,
+          user_id: ctx.userId,
+          status: "pending",
+          payment_status: "awaiting_payment",
+          subtotal: totals.subtotal,
+          shipping_cost: totals.shippingCost,
+          tax: totals.tax,
+          handling_fee: totals.handlingFee,
+          total: totals.total,
+          currency: settings.currencyCode,
+          customer_name: checkout.customerName,
+          customer_email: checkout.customerEmail,
+          customer_phone: checkout.customerPhone,
+          shipping_address: {
+            line1: checkout.addressLine1,
+            line2: checkout.addressLine2?.trim() || null,
+            city: checkout.city,
+            state: checkout.state?.trim() || null,
+            postal_code: checkout.postalCode,
+            country: checkout.country,
+          },
+          notes: checkout.notes?.trim() || null,
+          items: {
+            create: cart.items.map((item) => ({
+              product_id: item.product.id,
+              title: item.product.title,
+              price: item.product.price,
+              quantity: item.quantity,
+            })),
+          },
+        },
+      });
+
+      await tx.users.update({
+        where: { id: ctx.userId! },
+        data: {
+          name: checkout.customerName,
+          phone: checkout.customerPhone,
+          shipping_address: {
+            line1: checkout.addressLine1,
+            line2: checkout.addressLine2?.trim() || null,
+            city: checkout.city,
+            state: checkout.state?.trim() || null,
+            postal_code: checkout.postalCode,
+            country: checkout.country,
+          },
+        },
+      });
+
+      return { orderId: order.id, orderNumber: number };
+    });
+
+    return { success: true, ...result };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : v.checkoutFailed;
+    return { success: false, message };
+  }
+}

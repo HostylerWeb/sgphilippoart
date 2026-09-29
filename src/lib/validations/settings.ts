@@ -24,7 +24,7 @@ export const settingsFormSchema = z.object({
   min_order_amount: z.coerce.number().min(0),
   returns_days: z.coerce.number().int().min(0),
   returns_policy_summary: z.string().min(1),
-  payment_mode: z.enum(["inquiry", "manual", "stripe"]),
+  payment_mode: z.enum(["inquiry", "manual", "stripe", "paypal"]),
   contact_email: z.string().email(),
   commission_enabled: z.enum(["true", "false"]),
   announcement_text: z.string().min(1),

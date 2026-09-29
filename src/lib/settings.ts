@@ -22,7 +22,7 @@ export type StoreSettings = {
   minOrderAmount: number;
   returnsDays: number;
   returnsPolicySummary: string;
-  paymentMode: "inquiry" | "manual" | "stripe";
+  paymentMode: "inquiry" | "manual" | "stripe" | "paypal";
   contactEmail: string;
   commissionEnabled: boolean;
   announcementText: string;

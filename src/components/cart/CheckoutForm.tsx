@@ -1,8 +1,12 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { submitOrderInquiry } from "@/actions/cart";
+import {
+  PayPalCheckout,
+  type CheckoutPayload,
+} from "@/components/cart/PayPalCheckout";
 import { useI18n } from "@/components/layout/I18nProvider";
 import {
   getCountryAddressFormat,
@@ -27,15 +31,26 @@ export type CheckoutDefaults = {
 type CheckoutFormProps = {
   defaults?: CheckoutDefaults;
   onCountryChange?: (countryCode: string) => void;
+  paymentMode?: "inquiry" | "manual" | "stripe" | "paypal";
+  currencyCode?: string;
+  paypalClientId?: string | null;
 };
 
-export function CheckoutForm({ defaults, onCountryChange }: CheckoutFormProps) {
+export function CheckoutForm({
+  defaults,
+  onCountryChange,
+  paymentMode = "inquiry",
+  currencyCode = "EUR",
+  paypalClientId,
+}: CheckoutFormProps) {
   const { locale, dict } = useI18n();
   const t = dict.checkout;
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const [countryCode, setCountryCode] = useState(() => resolveCountryCode(defaults?.country));
+  const formRef = useRef<HTMLFormElement>(null);
+  const usePayPal = paymentMode === "paypal" && Boolean(paypalClientId);
 
   const countries = useMemo(() => sortCountriesByLocale(locale), [locale]);
   const addressFormat = getCountryAddressFormat(countryCode);
@@ -44,8 +59,35 @@ export function CheckoutForm({ defaults, onCountryChange }: CheckoutFormProps) {
     return addressFormat.labels?.[key]?.[locale] ?? t[key];
   }
 
+  function readPayload(form: HTMLFormElement): CheckoutPayload {
+    const formData = new FormData(form);
+    return {
+      customerName: String(formData.get("customerName") ?? ""),
+      customerEmail: String(formData.get("customerEmail") ?? ""),
+      customerPhone: String(formData.get("customerPhone") ?? ""),
+      addressLine1: String(formData.get("addressLine1") ?? ""),
+      addressLine2: String(formData.get("addressLine2") ?? ""),
+      city: String(formData.get("city") ?? ""),
+      state: String(formData.get("state") ?? ""),
+      postalCode: String(formData.get("postalCode") ?? ""),
+      countryCode: String(formData.get("countryCode") ?? ""),
+      notes: String(formData.get("notes") ?? ""),
+    };
+  }
+
+  function getPayloadForPayPal(): CheckoutPayload | null {
+    const form = formRef.current;
+    if (!form) return null;
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return null;
+    }
+    return readPayload(form);
+  }
+
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (usePayPal) return;
     setError(null);
     const form = new FormData(event.currentTarget);
 
@@ -114,7 +156,7 @@ export function CheckoutForm({ defaults, onCountryChange }: CheckoutFormProps) {
   ) : null;
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form ref={formRef} className={styles.form} onSubmit={handleSubmit}>
       <section className={styles.section}>
         <h2>{t.yourDetails}</h2>
         <div className={styles.grid}>
@@ -228,10 +270,33 @@ export function CheckoutForm({ defaults, onCountryChange }: CheckoutFormProps) {
       {error && <p className={styles.error}>{error}</p>}
 
       <div className={styles.footer}>
-        <p className={styles.note}>{t.inquiryNote}</p>
-        <button type="submit" disabled={isPending} className={styles.submit}>
-          {isPending ? t.submitting : t.submit}
-        </button>
+        {usePayPal ? (
+          <>
+            <p className={styles.note}>{t.paymentNote}</p>
+            <section className={styles.section}>
+              <h2>{t.paymentSection}</h2>
+              <PayPalCheckout
+                clientId={paypalClientId!}
+                currencyCode={currencyCode}
+                getPayload={getPayloadForPayPal}
+                processingLabel={t.paymentProcessing}
+                onPaid={(orderNumber) => {
+                  router.push(
+                    `/checkout/success?order=${encodeURIComponent(orderNumber)}`,
+                  );
+                }}
+                onError={(message) => setError(message)}
+              />
+            </section>
+          </>
+        ) : (
+          <>
+            <p className={styles.note}>{t.inquiryNote}</p>
+            <button type="submit" disabled={isPending} className={styles.submit}>
+              {isPending ? t.submitting : t.submit}
+            </button>
+          </>
+        )}
       </div>
     </form>
   );

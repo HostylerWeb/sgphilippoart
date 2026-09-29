@@ -22,6 +22,7 @@ type CheckoutItem = {
 
 type SerializableSettings = Pick<
   StoreSettings,
+  | "paymentMode"
   | "currencyCode"
   | "currencyLocale"
   | "taxEnabled"
@@ -43,6 +44,7 @@ type CheckoutExperienceProps = {
   settings: SerializableSettings;
   defaults?: CheckoutDefaults;
   dict: Dictionary;
+  paypalClientId?: string | null;
 };
 
 export function CheckoutExperience({
@@ -51,6 +53,7 @@ export function CheckoutExperience({
   settings,
   defaults,
   dict,
+  paypalClientId,
 }: CheckoutExperienceProps) {
   const t = dict.checkout;
   const cartLabels = dict.cart;
@@ -69,6 +72,9 @@ export function CheckoutExperience({
         <CheckoutForm
           defaults={defaults}
           onCountryChange={setCountryCode}
+          paymentMode={settings.paymentMode}
+          currencyCode={settings.currencyCode}
+          paypalClientId={paypalClientId}
         />
       </div>
 

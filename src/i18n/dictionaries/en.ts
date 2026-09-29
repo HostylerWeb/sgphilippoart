@@ -226,6 +226,10 @@ export const en = {
     notesPlaceholder: "Gift message, delivery instructions, etc.",
     inquiryNote:
       "This is an order inquiry — no payment is taken online. The studio will confirm availability, shipping, and payment details by email.",
+    paymentNote:
+      "Pay securely with PayPal, card, Apple Pay, or Google Pay. Your order is confirmed once payment is completed.",
+    paymentSection: "Payment",
+    paymentProcessing: "Processing payment…",
     submit: "Submit order inquiry",
     submitError: "Could not submit your order.",
     submitting: "Submitting…",
@@ -894,6 +898,7 @@ export const en = {
           shipping_mode_by_country: "Rate by country",
           payment_mode_inquiry: "Inquiry / manual checkout",
           payment_mode_manual: "Manual",
+          payment_mode_paypal: "PayPal (card, Apple Pay, Google Pay)",
         },
         socialFields: {
           social_instagram: "Instagram URL (leave blank to hide)",

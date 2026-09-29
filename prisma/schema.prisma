@@ -28,6 +28,13 @@ enum order_status {
   cancelled
 }
 
+enum payment_status {
+  not_required
+  awaiting_payment
+  paid
+  failed
+}
+
 enum user_role {
   customer
   admin
@@ -219,6 +226,10 @@ model orders {
   user_id          String?
   user             users?       @relation(fields: [user_id], references: [id])
   status           order_status @default(pending)
+  payment_status   payment_status @default(not_required)
+  paypal_order_id  String?
+  paypal_capture_id String?
+  paid_at          DateTime?
   subtotal         Decimal      @db.Decimal(10, 2)
   shipping_cost    Decimal      @db.Decimal(10, 2) @default(0)
   tax              Decimal      @db.Decimal(10, 2) @default(0)
@@ -240,6 +251,7 @@ model orders {
   @@index([status])
   @@index([order_number])
   @@index([customer_email])
+  @@index([paypal_order_id])
 }
 
 model order_items {

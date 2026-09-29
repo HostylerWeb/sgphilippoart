@@ -80,7 +80,7 @@ export const SETTINGS_FIELD_GROUPS: Array<{
       {
         key: "payment_mode",
         type: "select",
-        optionValues: ["inquiry", "manual"],
+        optionValues: ["inquiry", "manual", "paypal"],
       },
     ],
   },

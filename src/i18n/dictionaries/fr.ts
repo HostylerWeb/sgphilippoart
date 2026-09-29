@@ -229,6 +229,10 @@ export const fr = {
     notesPlaceholder: "Message cadeau, instructions de livraison, etc.",
     inquiryNote:
       "Il s'agit d'une demande de commande — aucun paiement en ligne. L'atelier confirmera la disponibilité, la livraison et le paiement par e-mail.",
+    paymentNote:
+      "Payez en toute sécurité avec PayPal, carte, Apple Pay ou Google Pay. La commande est confirmée une fois le paiement effectué.",
+    paymentSection: "Paiement",
+    paymentProcessing: "Traitement du paiement…",
     submit: "Envoyer la demande",
     submitError: "Impossible d'envoyer votre commande.",
     submitting: "Envoi…",
@@ -917,6 +921,7 @@ export const fr = {
           shipping_mode_by_country: "Tarif par pays",
           payment_mode_inquiry: "Demande / paiement manuel",
           payment_mode_manual: "Manuel",
+          payment_mode_paypal: "PayPal (carte, Apple Pay, Google Pay)",
         },
         socialFields: {
           social_instagram: "URL Instagram (vide pour masquer)",
