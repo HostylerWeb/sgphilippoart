@@ -145,6 +145,7 @@ export const en = {
     print: "Print",
     printEdition: "Print · Ed. {size}",
     addToCart: "Add to cart",
+    buyNow: "Buy now",
     adding: "Adding…",
     addError: "Could not add to cart.",
     sold: "Sold",

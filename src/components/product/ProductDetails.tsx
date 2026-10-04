@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
+import addToCartStyles from "@/components/cart/AddToCartButton.module.css";
 import {
   formatPrice,
   productBadgeLabel,
@@ -77,13 +77,15 @@ export function ProductDetails({ product, settings, labels }: ProductDetailsProp
         </p>
       ) : (
         <div className={styles.actions}>
-          <AddToCartButton productId={product.id} />
-          <Link
-            href={`/contact?work=${encodeURIComponent(product.slug)}`}
-            className={styles.secondaryBtn}
-          >
-            {settings.paymentMode === "inquiry" ? labels.inquireInstead : labels.contactPurchase}
-          </Link>
+          <AddToCartButton
+            productId={product.id}
+            label={labels.buyNow}
+            checkoutAfterAdd
+          />
+          <AddToCartButton
+            productId={product.id}
+            className={`${addToCartStyles.button} ${addToCartStyles.outline}`}
+          />
         </div>
       )}
     </div>

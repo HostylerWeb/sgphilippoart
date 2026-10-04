@@ -10,12 +10,15 @@ type AddToCartButtonProps = {
   productId: string;
   label?: string;
   className?: string;
+  /** After a successful add, go straight to checkout (still adds this item to the cart). */
+  checkoutAfterAdd?: boolean;
 };
 
 export function AddToCartButton({
   productId,
   label,
   className,
+  checkoutAfterAdd = false,
 }: AddToCartButtonProps) {
   const { dict } = useI18n();
   const t = dict.product;
@@ -28,7 +31,11 @@ export function AddToCartButton({
     startTransition(async () => {
       const result = await addToCart(productId);
       if (result.success) {
-        router.refresh();
+        if (checkoutAfterAdd) {
+          router.push("/checkout");
+        } else {
+          router.refresh();
+        }
       } else {
         setMessage(result.message ?? t.addError);
       }

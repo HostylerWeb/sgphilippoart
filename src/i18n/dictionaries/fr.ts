@@ -148,6 +148,7 @@ export const fr = {
     print: "Estampe",
     printEdition: "Estampe · Éd. {size}",
     addToCart: "Ajouter au panier",
+    buyNow: "Acheter maintenant",
     adding: "Ajout…",
     addError: "Impossible d'ajouter au panier.",
     sold: "Vendu",

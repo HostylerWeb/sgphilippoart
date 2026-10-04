@@ -17,6 +17,12 @@
   cursor: wait;
 }
 
+.outline {
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+
 .error {
   margin-top: 8px;
   font-size: 13px;
