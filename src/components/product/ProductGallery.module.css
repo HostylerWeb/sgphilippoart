@@ -2,6 +2,10 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .primary {
@@ -15,6 +19,9 @@
   display: flex;
   gap: 10px;
   overflow-x: auto;
+  max-width: 100%;
+  min-width: 0;
+  -webkit-overflow-scrolling: touch;
 }
 
 .thumb {
@@ -74,23 +81,13 @@
 }
 
 @media (max-width: 980px) {
-  .gallery {
-    align-items: center;
-  }
-
   .primary,
   .placeholder {
     width: 100%;
-    max-width: 400px;
+    max-width: 100%;
     margin-inline: auto;
     max-height: min(58vh, 480px);
     aspect-ratio: 3 / 4;
-  }
-
-  .thumbs {
-    width: 100%;
-    max-width: 400px;
-    margin-inline: auto;
   }
 
   .image {
@@ -101,13 +98,8 @@
 @media (max-width: 600px) {
   .primary,
   .placeholder {
-    max-width: min(100%, 300px);
     max-height: min(48vh, 380px);
     aspect-ratio: 4 / 5;
-  }
-
-  .thumbs {
-    max-width: min(100%, 300px);
   }
 
   .thumb {

@@ -7,6 +7,12 @@
   grid-template-columns: 1fr 1fr;
   gap: 48px;
   align-items: start;
+  min-width: 0;
+}
+
+.layout > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .related {
