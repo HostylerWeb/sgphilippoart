@@ -58,7 +58,7 @@ export function ProductGallery({ images, videoUrl, title }: ProductGalleryProps)
             alt={activeImage.alt_text ?? title}
             fill
             priority
-            sizes="(max-width: 980px) 100vw, 50vw"
+            sizes="(max-width: 600px) 300px, (max-width: 980px) 400px, 50vw"
             className={styles.image}
           />
         ) : null}
