@@ -11,6 +11,10 @@ import { Prisma } from "@/generated/prisma/client";
 import { parseFrenchTranslationsForm } from "@/lib/i18n/content";
 import { TRANSLATION_FIELD_SETS } from "@/lib/i18n/localize";
 import { saveUploadedImageFile, saveUploadedVideoFile } from "@/lib/media-storage";
+import {
+  ADMIN_PRODUCT_NOTICES,
+  adminProductsListUrl,
+} from "@/lib/admin-product-notices";
 import { productFormSchema } from "@/lib/validations/product";
 
 const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "products");
@@ -205,7 +209,7 @@ export async function createProductAction(
   revalidatePath("/");
   revalidatePath("/collections");
   revalidatePath(`/products/${product.slug}`);
-  redirect(`/admin/products/${product.id}/edit`);
+  redirect(adminProductsListUrl(ADMIN_PRODUCT_NOTICES.created));
 }
 
 export async function updateProductAction(
@@ -314,7 +318,7 @@ export async function updateProductAction(
   revalidatePath("/");
   revalidatePath("/collections");
   revalidatePath(`/products/${data.slug}`);
-  return {};
+  redirect(adminProductsListUrl(ADMIN_PRODUCT_NOTICES.updated));
 }
 
 export async function deleteProductAction(productId: string) {
@@ -325,5 +329,5 @@ export async function deleteProductAction(productId: string) {
   await db.products.delete({ where: { id: productId } });
   revalidatePath("/");
   revalidatePath("/collections");
-  redirect("/admin/products");
+  redirect(adminProductsListUrl(ADMIN_PRODUCT_NOTICES.deleted));
 }

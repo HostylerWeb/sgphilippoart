@@ -57,27 +57,38 @@
 }
 
 .videoThumb {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
+  background: var(--paper-alt);
   color: var(--paper);
 }
 
-.playIcon {
-  font-size: 14px;
-  line-height: 1;
-  opacity: 0.9;
+.videoThumbFrame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
 }
 
-.videoThumbLabel {
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  opacity: 0.85;
+.videoThumbOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    180deg,
+    rgb(0 0 0 / 0.08) 0%,
+    rgb(0 0 0 / 0.35) 100%
+  );
+  pointer-events: none;
+}
+
+.playIcon {
+  font-size: 16px;
+  line-height: 1;
+  opacity: 0.95;
+  text-shadow: 0 1px 4px rgb(0 0 0 / 0.5);
 }
 
 @media (max-width: 980px) {

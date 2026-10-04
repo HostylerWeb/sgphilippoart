@@ -64,6 +64,11 @@ export function ProductForm({ categories, product }: ProductFormProps) {
   return (
     <form action={formAction} className={`${formStyles.form} ${styles.form}`} encType="multipart/form-data">
       {state.error && <p className={formStyles.error}>{state.error}</p>}
+      {pending && (
+        <p className={formStyles.success} role="status">
+          {f.savingProductHint}
+        </p>
+      )}
 
       <div className={formStyles.gridTwo}>
         <label>

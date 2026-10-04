@@ -9,10 +9,12 @@ import { db } from "@/lib/db";
 import { getStoreSettings } from "@/lib/settings";
 import { getDictionary, getLocale } from "@/i18n";
 import { getAdminLabels } from "@/lib/admin-dict";
+import { getAdminProductNoticeMessage } from "@/lib/admin-product-notices";
+import { AdminFlashNotice } from "@/components/admin/AdminFlashNotice";
 import styles from "./page.module.css";
 
 type PageProps = {
-  searchParams: Promise<{ q?: string; status?: string }>;
+  searchParams: Promise<{ q?: string; status?: string; notice?: string }>;
 };
 
 type ProductStatus = "draft" | "published" | "sold" | "archived";
@@ -20,7 +22,7 @@ type ProductStatus = "draft" | "published" | "sold" | "archived";
 const VALID_STATUSES = new Set<string>(["draft", "published", "sold", "archived"]);
 
 export default async function AdminProductsPage({ searchParams }: PageProps) {
-  const { q = "", status = "" } = await searchParams;
+  const { q = "", status = "", notice } = await searchParams;
   const query = q.trim();
   const statusFilter = VALID_STATUSES.has(status) ? (status as ProductStatus) : undefined;
   const locale = await getLocale();
@@ -29,6 +31,14 @@ export default async function AdminProductsPage({ searchParams }: PageProps) {
   const p = admin.pages.products;
   const t = admin.tables;
   const c = admin.common;
+  const noticeMessage = getAdminProductNoticeMessage(notice, admin.feedback);
+  const noticeClearHref =
+    query || statusFilter
+      ? `/admin/products?${new URLSearchParams({
+          ...(query ? { q: query } : {}),
+          ...(statusFilter ? { status: statusFilter } : {}),
+        }).toString()}`
+      : "/admin/products";
   const productTypeLabel = (type: "original" | "print") =>
     type === "print" ? dict.product.print : dict.product.original;
 
@@ -66,6 +76,7 @@ export default async function AdminProductsPage({ searchParams }: PageProps) {
           </Link>
         }
       >
+        <AdminFlashNotice message={noticeMessage} clearHref={noticeClearHref} />
         <ProductsFilter
           query={query}
           status={statusFilter ?? ""}

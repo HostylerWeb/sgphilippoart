@@ -1,6 +1,7 @@
 "use client";
 
 import { StoreImage } from "@/components/ui/StoreImage";
+import { useVideoPosterUrl } from "@/hooks/use-video-poster-url";
 import { useMemo, useState } from "react";
 import { useI18n } from "@/components/layout/I18nProvider";
 import styles from "./ProductGallery.module.css";
@@ -21,6 +22,7 @@ type ActiveView = { kind: "image"; index: number } | { kind: "video" };
 
 export function ProductGallery({ images, videoUrl, title }: ProductGalleryProps) {
   const { dict } = useI18n();
+  const videoPosterUrl = useVideoPosterUrl(videoUrl);
   const orderedImages = useMemo(() => {
     if (images.length === 0) return [];
     const primary = images.find((image) => image.is_primary);
@@ -50,7 +52,7 @@ export function ProductGallery({ images, videoUrl, title }: ProductGalleryProps)
             controls
             playsInline
             preload="metadata"
-            poster={orderedImages[0]?.url}
+            poster={orderedImages[0]?.url ?? videoPosterUrl}
           />
         ) : activeImage ? (
           <StoreImage
@@ -98,8 +100,33 @@ export function ProductGallery({ images, videoUrl, title }: ProductGalleryProps)
               aria-label={dict.product.viewVideo}
               aria-selected={active.kind === "video"}
             >
-              <span className={styles.playIcon} aria-hidden>▶</span>
-              <span className={styles.videoThumbLabel}>{dict.product.videoLabel}</span>
+              {videoPosterUrl ? (
+                <img
+                  src={videoPosterUrl}
+                  alt=""
+                  className={styles.videoThumbFrame}
+                  draggable={false}
+                />
+              ) : (
+                <video
+                  className={styles.videoThumbFrame}
+                  src={videoUrl}
+                  muted
+                  playsInline
+                  preload="metadata"
+                  aria-hidden
+                  tabIndex={-1}
+                  onLoadedMetadata={(event) => {
+                    const el = event.currentTarget;
+                    if (el.currentTime === 0) {
+                      el.currentTime = 0.05;
+                    }
+                  }}
+                />
+              )}
+              <span className={styles.videoThumbOverlay} aria-hidden>
+                <span className={styles.playIcon}>▶</span>
+              </span>
             </button>
           )}
         </div>

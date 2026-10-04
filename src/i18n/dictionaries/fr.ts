@@ -837,6 +837,8 @@ export const fr = {
           "Sélectionnez plusieurs fichiers pour une galerie complète. La première image est la photo principale.",
         saveChanges: "Enregistrer",
         createProduct: "Créer le produit",
+        savingProductHint:
+          "Téléversement et enregistrement en cours… Les vidéos volumineuses peuvent prendre une minute. Gardez cet onglet ouvert.",
         deleteProduct: "Supprimer le produit",
         previewStorefront: "Aperçu sur la boutique",
         frenchTranslations: "Traduction française (FR)",
@@ -1017,11 +1019,11 @@ export const fr = {
         videoHint:
           "Présentation ou clip d'atelier facultatif. Téléversez un fichier ou collez une URL directe.",
         videoChoose: "Téléverser une vidéo",
-        videoFormats: "Tout format vidéo courant — converti en WebM (max. 100 Mo).",
+        videoFormats: "MP4, WebM ou MOV recommandés (max. 100 Mo). Les autres formats sont convertis en MP4.",
         videoUrlLabel: "Ou URL de la vidéo",
         videoUrlPlaceholder: "https://…",
         videoUrlHint:
-          "URL HTTPS externe facultative (non convertie). Le fichier téléversé est converti en WebM et prioritaire.",
+          "URL HTTPS externe facultative (non convertie). Le fichier téléversé est prioritaire.",
         removeVideo: "Supprimer la vidéo actuelle à l'enregistrement",
         newUploadBadge: "Nouveau",
       },
@@ -1071,6 +1073,9 @@ export const fr = {
       productInvalid: "Données produit invalides.",
       productSlugExists: "Un produit avec cet identifiant URL existe déjà.",
       productNotFound: "Produit introuvable.",
+      productCreated: "Produit créé. Il apparaît dans la liste ci-dessous.",
+      productSaved: "Produit enregistré avec succès.",
+      productDeleted: "Produit supprimé.",
       collectionInvalid: "Données de collection invalides.",
       collectionSlugExists: "Une collection avec cet identifiant URL existe déjà.",
       heroImageRequired: "L'image hero est obligatoire.",

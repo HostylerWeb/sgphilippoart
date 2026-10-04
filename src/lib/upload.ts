@@ -1,5 +1,5 @@
 import { convertUploadToWebp } from "@/lib/image-processing";
-import { convertUploadToWebm } from "@/lib/video-processing";
+import { convertUploadToMp4 } from "@/lib/video-processing";
 
 const ALLOWED_IMAGE_TYPES = new Set([
   "image/jpeg",
@@ -202,30 +202,53 @@ export async function prepareUploadJpeg(
   return { ok: true, jpeg: result.webp };
 }
 
-type PreparedWebmResult = { ok: true; webm: Buffer } | { ok: false; error: string };
+type PreparedVideoResult =
+  | { ok: true; data: Buffer; extension: string }
+  | { ok: false; error: string };
 
-const MAX_CONVERTED_VIDEO_BYTES = 120 * 1024 * 1024;
+const MAX_STORED_VIDEO_BYTES = 120 * 1024 * 1024;
 
-export async function prepareUploadWebm(
+/** Browser-friendly formats stored as-is (avoids slow re-encode behind Cloudflare ~100s limit). */
+const PASSTHROUGH_VIDEO_EXTENSIONS = new Set([".webm", ".mp4", ".m4v", ".mov"]);
+
+export async function prepareUploadVideo(
   buffer: Buffer,
   filename: string,
   reportedType = "",
-): Promise<PreparedWebmResult> {
+): Promise<PreparedVideoResult> {
   const validation = validateVideoFile(buffer, filename, reportedType);
   if (!validation.ok) {
     return validation;
   }
 
   try {
-    const webm = await convertUploadToWebm(buffer, validation.extension);
-    if (webm.length > MAX_CONVERTED_VIDEO_BYTES) {
+    if (PASSTHROUGH_VIDEO_EXTENSIONS.has(validation.extension)) {
+      if (buffer.length > MAX_STORED_VIDEO_BYTES) {
+        return { ok: false, error: "Video is too large. Try a shorter clip or lower resolution." };
+      }
+      return { ok: true, data: buffer, extension: validation.extension };
+    }
+
+    const mp4 = await convertUploadToMp4(buffer, validation.extension);
+    if (mp4.length > MAX_STORED_VIDEO_BYTES) {
       return { ok: false, error: "Converted video is too large. Try a shorter clip." };
     }
-    return { ok: true, webm };
+    return { ok: true, data: mp4, extension: ".mp4" };
   } catch (error) {
     const message = error instanceof Error ? error.message : "Could not process video.";
     return { ok: false, error: message };
   }
+}
+
+/** @deprecated Use prepareUploadVideo */
+export async function prepareUploadWebm(
+  buffer: Buffer,
+  filename: string,
+  reportedType = "",
+): Promise<{ ok: true; webm: Buffer } | { ok: false; error: string }> {
+  const result = await prepareUploadVideo(buffer, filename, reportedType);
+  if (!result.ok) return result;
+  return { ok: true, webm: result.data };
 }
 
 export function getSafeImageExtension(filename: string): string | null {
