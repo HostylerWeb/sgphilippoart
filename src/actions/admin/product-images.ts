@@ -55,11 +55,7 @@ export async function setPrimaryImageAction(imageId: string, productId: string) 
   if (product) revalidatePath(`/products/${product.slug}`);
 }
 
-export async function moveProductImageAction(
-  imageId: string,
-  productId: string,
-  direction: "up" | "down",
-) {
+export async function reorderProductImagesAction(productId: string, imageIds: string[]) {
   await requireAdmin(`/admin/products/${productId}/edit`);
 
   const images = await db.product_images.findMany({
@@ -67,20 +63,18 @@ export async function moveProductImageAction(
     orderBy: { sort_order: "asc" },
   });
 
-  const index = images.findIndex((image) => image.id === imageId);
-  if (index === -1) return;
+  if (imageIds.length !== images.length) return;
 
-  const swapIndex = direction === "up" ? index - 1 : index + 1;
-  if (swapIndex < 0 || swapIndex >= images.length) return;
+  const ownedIds = new Set(images.map((image) => image.id));
+  if (!imageIds.every((id) => ownedIds.has(id))) return;
 
-  const reordered = [...images];
-  const [moved] = reordered.splice(index, 1);
-  reordered.splice(swapIndex, 0, moved);
+  const unique = new Set(imageIds);
+  if (unique.size !== imageIds.length) return;
 
   await db.$transaction(
-    reordered.map((image, sortOrder) =>
+    imageIds.map((id, sortOrder) =>
       db.product_images.update({
-        where: { id: image.id },
+        where: { id },
         data: { sort_order: sortOrder },
       }),
     ),
@@ -88,5 +82,7 @@ export async function moveProductImageAction(
 
   revalidatePath(`/admin/products/${productId}/edit`);
   const product = await db.products.findUnique({ where: { id: productId } });
+  revalidatePath("/");
+  revalidatePath("/collections");
   if (product) revalidatePath(`/products/${product.slug}`);
 }

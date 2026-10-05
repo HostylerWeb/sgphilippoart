@@ -10,6 +10,7 @@ import { TranslationFields } from "@/components/admin/TranslationFields";
 import { useI18n } from "@/components/layout/I18nProvider";
 import formStyles from "@/components/forms/Form.module.css";
 import styles from "./ContentForms.module.css";
+import productStyles from "./ProductForm.module.css";
 
 const ICON_OPTIONS = ["shield", "truck", "return", "star", "heart", "globe"] as const;
 
@@ -21,7 +22,7 @@ type TrustItemFormProps = {
     icon: string;
     sort_order: number;
     is_active: boolean;
-    translationValues?: Record<string, string>;
+    translationValuesEn?: Record<string, string>;
     translationValuesNl?: Record<string, string>;
   };
 };
@@ -29,46 +30,57 @@ type TrustItemFormProps = {
 export function TrustItemForm({ item }: TrustItemFormProps) {
   const { dict } = useI18n();
   const f = dict.admin.forms.trustItem;
-  const pf = dict.admin.forms.product;
+  const p = dict.admin.forms.product;
   const saving = dict.admin.common.saving;
 
   const action = item ? updateTrustItemAction.bind(null, item.id) : createTrustItemAction;
   const [state, formAction, pending] = useActionState(action, {});
 
+  const translationFields = [
+    { name: "title", label: f.title },
+    { name: "body", label: f.body, type: "textarea" as const, rows: 3 },
+  ];
+  const autoTranslateSources = { title: "title", body: "body" };
+
   return (
     <form action={formAction} className={`${formStyles.form} ${styles.form}`}>
       {state.error && <p className={formStyles.error}>{state.error}</p>}
 
-      <label>
-        {f.title}
-        <input name="title" defaultValue={item?.title} required />
-      </label>
+      <section className={productStyles.localeBlock}>
+        <h2 className={productStyles.localeHeading}>{p.frenchPrimary}</h2>
+        <p className={productStyles.localeHint}>{p.frenchPrimaryHint}</p>
 
-      <label>
-        {f.body}
-        <textarea name="body" rows={3} defaultValue={item?.body} required />
-      </label>
+        <label>
+          {f.title}
+          <input name="title" defaultValue={item?.title} required />
+        </label>
+
+        <label>
+          {f.body}
+          <textarea name="body" rows={3} defaultValue={item?.body} required />
+        </label>
+      </section>
 
       <TranslationFields
-        locale="fr"
-        title={pf.frenchTranslations}
-        hint={pf.translationHint}
-        fields={[
-          { name: "title", label: f.title },
-          { name: "body", label: f.body, type: "textarea", rows: 3 },
-        ]}
-        values={item?.translationValues}
+        locale="en"
+        title={p.englishTranslations}
+        hint={p.translationHintEn}
+        fields={translationFields}
+        values={item?.translationValuesEn}
+        autoTranslate={{ sourceFields: autoTranslateSources }}
+        autoTranslateLabel={p.autoTranslate}
+        autoTranslatingLabel={p.autoTranslating}
       />
 
       <TranslationFields
         locale="nl"
-        title={pf.dutchTranslations}
-        hint={pf.translationHint}
-        fields={[
-          { name: "title", label: f.title },
-          { name: "body", label: f.body, type: "textarea", rows: 3 },
-        ]}
+        title={p.dutchTranslations}
+        hint={p.translationHintNl}
+        fields={translationFields}
         values={item?.translationValuesNl}
+        autoTranslate={{ sourceFields: autoTranslateSources }}
+        autoTranslateLabel={p.autoTranslate}
+        autoTranslatingLabel={p.autoTranslating}
       />
 
       <div className={formStyles.gridTwo}>

@@ -3,7 +3,7 @@ import { AdminShell } from "@/components/layout/AdminShell";
 import { CategoryForm } from "@/components/admin/CategoryForm";
 import { StorefrontShell } from "@/components/layout/StorefrontShell";
 import { db } from "@/lib/db";
-import { getDutchTranslations, getFrenchTranslations } from "@/lib/i18n/content";
+import { adminEntityTranslationProps } from "@/lib/i18n/admin-edit-props";
 import { getAdminLabels } from "@/lib/admin-dict";
 
 type PageProps = { params: Promise<{ id: string }> };
@@ -16,6 +16,9 @@ export default async function AdminEditCollectionPage({ params }: PageProps) {
   ]);
   if (!category) notFound();
 
+  const { entity, translationValuesEn, translationValuesNl } =
+    adminEntityTranslationProps(category, "category");
+
   return (
     <StorefrontShell>
       <AdminShell
@@ -25,9 +28,9 @@ export default async function AdminEditCollectionPage({ params }: PageProps) {
       >
         <CategoryForm
           category={{
-            ...category,
-            translationValues: getFrenchTranslations(category),
-            translationValuesNl: getDutchTranslations(category),
+            ...entity,
+            translationValuesEn,
+            translationValuesNl,
           }}
         />
       </AdminShell>

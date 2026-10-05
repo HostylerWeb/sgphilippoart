@@ -11,6 +11,7 @@ import { useI18n } from "@/components/layout/I18nProvider";
 import { formatMessage } from "@/i18n/format-message";
 import formStyles from "@/components/forms/Form.module.css";
 import styles from "./ContentForms.module.css";
+import productStyles from "./ProductForm.module.css";
 
 type TestimonialFormProps = {
   testimonial?: {
@@ -23,7 +24,7 @@ type TestimonialFormProps = {
     sort_order: number;
     is_verified: boolean;
     is_published: boolean;
-    translationValues?: Record<string, string>;
+    translationValuesEn?: Record<string, string>;
     translationValuesNl?: Record<string, string>;
   };
 };
@@ -31,7 +32,7 @@ type TestimonialFormProps = {
 export function TestimonialForm({ testimonial }: TestimonialFormProps) {
   const { dict } = useI18n();
   const f = dict.admin.forms.testimonial;
-  const pf = dict.admin.forms.product;
+  const p = dict.admin.forms.product;
   const saving = dict.admin.common.saving;
 
   const action = testimonial
@@ -39,40 +40,51 @@ export function TestimonialForm({ testimonial }: TestimonialFormProps) {
     : createTestimonialAction;
   const [state, formAction, pending] = useActionState(action, {});
 
+  const translationFields = [
+    { name: "title", label: f.reviewTitle },
+    { name: "body", label: f.reviewBody, type: "textarea" as const, rows: 5 },
+  ];
+  const autoTranslateSources = { title: "title", body: "body" };
+
   return (
     <form action={formAction} className={`${formStyles.form} ${styles.form}`}>
       {state.error && <p className={formStyles.error}>{state.error}</p>}
 
-      <label>
-        {f.reviewTitle}
-        <input name="title" defaultValue={testimonial?.title} required />
-      </label>
+      <section className={productStyles.localeBlock}>
+        <h2 className={productStyles.localeHeading}>{p.frenchPrimary}</h2>
+        <p className={productStyles.localeHint}>{p.frenchPrimaryHint}</p>
 
-      <label>
-        {f.reviewBody}
-        <textarea name="body" rows={5} defaultValue={testimonial?.body} required />
-      </label>
+        <label>
+          {f.reviewTitle}
+          <input name="title" defaultValue={testimonial?.title} required />
+        </label>
+
+        <label>
+          {f.reviewBody}
+          <textarea name="body" rows={5} defaultValue={testimonial?.body} required />
+        </label>
+      </section>
 
       <TranslationFields
-        locale="fr"
-        title={pf.frenchTranslations}
-        hint={pf.translationHint}
-        fields={[
-          { name: "title", label: f.reviewTitle },
-          { name: "body", label: f.reviewBody, type: "textarea", rows: 5 },
-        ]}
-        values={testimonial?.translationValues}
+        locale="en"
+        title={p.englishTranslations}
+        hint={p.translationHintEn}
+        fields={translationFields}
+        values={testimonial?.translationValuesEn}
+        autoTranslate={{ sourceFields: autoTranslateSources }}
+        autoTranslateLabel={p.autoTranslate}
+        autoTranslatingLabel={p.autoTranslating}
       />
 
       <TranslationFields
         locale="nl"
-        title={pf.dutchTranslations}
-        hint={pf.translationHint}
-        fields={[
-          { name: "title", label: f.reviewTitle },
-          { name: "body", label: f.reviewBody, type: "textarea", rows: 5 },
-        ]}
+        title={p.dutchTranslations}
+        hint={p.translationHintNl}
+        fields={translationFields}
         values={testimonial?.translationValuesNl}
+        autoTranslate={{ sourceFields: autoTranslateSources }}
+        autoTranslateLabel={p.autoTranslate}
+        autoTranslatingLabel={p.autoTranslating}
       />
 
       <div className={formStyles.gridTwo}>

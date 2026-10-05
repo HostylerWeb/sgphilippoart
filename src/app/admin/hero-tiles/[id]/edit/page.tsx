@@ -3,7 +3,7 @@ import { AdminShell } from "@/components/layout/AdminShell";
 import { HeroTileForm } from "@/components/admin/HeroTileForm";
 import { StorefrontShell } from "@/components/layout/StorefrontShell";
 import { db } from "@/lib/db";
-import { getDutchTranslations, getFrenchTranslations } from "@/lib/i18n/content";
+import { adminEntityTranslationProps } from "@/lib/i18n/admin-edit-props";
 import { getAdminLabels } from "@/lib/admin-dict";
 
 type PageProps = { params: Promise<{ id: string }> };
@@ -16,6 +16,9 @@ export default async function AdminEditHeroTilePage({ params }: PageProps) {
   ]);
   if (!tile) notFound();
 
+  const { entity, translationValuesEn, translationValuesNl } =
+    adminEntityTranslationProps(tile, "hero");
+
   return (
     <StorefrontShell>
       <AdminShell
@@ -25,9 +28,9 @@ export default async function AdminEditHeroTilePage({ params }: PageProps) {
       >
         <HeroTileForm
           tile={{
-            ...tile,
-            translationValues: getFrenchTranslations(tile),
-            translationValuesNl: getDutchTranslations(tile),
+            ...entity,
+            translationValuesEn,
+            translationValuesNl,
           }}
         />
       </AdminShell>

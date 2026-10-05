@@ -3,7 +3,7 @@ import { AdminShell } from "@/components/layout/AdminShell";
 import { ProductForm } from "@/components/admin/ProductForm";
 import { StorefrontShell } from "@/components/layout/StorefrontShell";
 import { db } from "@/lib/db";
-import { getDutchTranslations, getFrenchTranslations } from "@/lib/i18n/content";
+import { adminEntityTranslationProps } from "@/lib/i18n/admin-edit-props";
 import { getAdminLabels } from "@/lib/admin-dict";
 
 type PageProps = {
@@ -23,6 +23,9 @@ export default async function AdminEditProductPage({ params }: PageProps) {
 
   if (!product) notFound();
 
+  const { entity, translationValuesEn, translationValuesNl } =
+    adminEntityTranslationProps(product, "product");
+
   return (
     <StorefrontShell>
       <AdminShell
@@ -33,10 +36,10 @@ export default async function AdminEditProductPage({ params }: PageProps) {
         <ProductForm
           categories={categories}
           product={{
-            ...product,
+            ...entity,
             price: product.price.toString(),
-            translationValues: getFrenchTranslations(product),
-            translationValuesNl: getDutchTranslations(product),
+            translationValuesEn,
+            translationValuesNl,
           }}
         />
       </AdminShell>

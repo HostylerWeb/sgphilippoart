@@ -1,10 +1,12 @@
 import type { Locale } from "@/i18n/config";
 import { getCmsNlField } from "@/i18n/cms-nl";
 
-export type ContentLocale = "fr" | "nl";
+export type ContentLocale = "en" | "nl";
 
 export type ContentTranslations = {
+  /** @deprecated Legacy — French now lives in main entity columns. Still read for old rows. */
   fr?: Record<string, string>;
+  en?: Record<string, string>;
   nl?: Record<string, string>;
 };
 
@@ -23,7 +25,13 @@ export function getLocaleTranslations(
 export function getFrenchTranslations(entity: {
   translations?: unknown;
 }): Record<string, string> {
-  return getLocaleTranslations(entity, "fr");
+  return parseContentTranslations(entity.translations).fr ?? {};
+}
+
+export function getEnglishTranslations(entity: {
+  translations?: unknown;
+}): Record<string, string> {
+  return getLocaleTranslations(entity, "en");
 }
 
 export function getDutchTranslations(entity: {
@@ -40,13 +48,18 @@ export function getLocalizedField(
   cmsScope?: string,
 ): string {
   const base = fallback ?? "";
-  if (locale === "en") return base;
-
   const translations = parseContentTranslations(entity.translations);
+  const legacyFrench = translations.fr?.[field]?.trim();
 
   if (locale === "fr") {
-    const french = translations.fr?.[field]?.trim();
-    return french || base;
+    return legacyFrench || base;
+  }
+
+  if (locale === "en") {
+    const english = translations.en?.[field]?.trim();
+    if (english) return english;
+    if (legacyFrench) return base;
+    return base;
   }
 
   const dutchFromDb = translations.nl?.[field]?.trim();
@@ -57,8 +70,10 @@ export function getLocalizedField(
     if (dutchFromCms) return dutchFromCms;
   }
 
-  const frenchFallback = translations.fr?.[field]?.trim();
-  if (frenchFallback) return frenchFallback;
+  const englishFallback = translations.en?.[field]?.trim();
+  if (englishFallback) return englishFallback;
+
+  if (legacyFrench) return base;
 
   return base;
 }
@@ -70,7 +85,9 @@ function readTranslationFields(
 ): Record<string, string> {
   const out: Record<string, string> = {};
   for (const field of fields) {
-    const value = String(formData.get(`translation_${contentLocale}_${field}`) ?? "").trim();
+    const value = String(
+      formData.get(`translation_${contentLocale}_${field}`) ?? "",
+    ).trim();
     if (value) out[field] = value;
   }
   return out;
@@ -80,10 +97,10 @@ export function parseContentTranslationsForm(
   formData: FormData,
   fields: string[],
 ): ContentTranslations | undefined {
-  const fr = readTranslationFields(formData, fields, "fr");
+  const en = readTranslationFields(formData, fields, "en");
   const nl = readTranslationFields(formData, fields, "nl");
   const out: ContentTranslations = {};
-  if (Object.keys(fr).length > 0) out.fr = fr;
+  if (Object.keys(en).length > 0) out.en = en;
   if (Object.keys(nl).length > 0) out.nl = nl;
   return Object.keys(out).length > 0 ? out : undefined;
 }
@@ -106,11 +123,14 @@ export function mergeContentTranslationsFromForm(
 
   const prev = parseContentTranslations(existing);
   const merged: ContentTranslations = {
-    fr: incoming.fr ?? prev.fr,
+    en: incoming.en ?? prev.en,
     nl: incoming.nl ?? prev.nl,
   };
 
-  if (!merged.fr && !merged.nl) return undefined;
+  if (!merged.en || Object.keys(merged.en).length === 0) delete merged.en;
+  if (!merged.nl || Object.keys(merged.nl).length === 0) delete merged.nl;
+
+  if (!merged.en && !merged.nl) return undefined;
   return merged;
 }
 

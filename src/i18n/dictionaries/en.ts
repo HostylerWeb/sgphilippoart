@@ -826,10 +826,18 @@ export const en = {
           "Uploading and saving… Large videos can take a minute. Please keep this tab open.",
         deleteProduct: "Delete product",
         previewStorefront: "Preview on storefront",
-        frenchTranslations: "French (FR) translation",
+        frenchPrimary: "French (default language)",
+        frenchPrimaryHint:
+          "Primary copy for the storefront. French visitors see these fields unless a translation is provided below.",
+        englishTranslations: "English (EN) translation",
         dutchTranslations: "Dutch (NL) translation",
-        translationHint:
-          "Optional. When filled in, French visitors see these instead of the English fields above.",
+        translationHintEn:
+          "Optional. English visitors see these when filled in; otherwise they see the French fields above.",
+        translationHintNl:
+          "Optional. Dutch visitors see these when filled in; otherwise they see the French fields above.",
+        commerceSection: "Commerce & catalog",
+        autoTranslate: "Auto-translate from French",
+        autoTranslating: "Translating…",
       },
       order: {
         orderStatus: "Order status",
@@ -857,7 +865,6 @@ export const en = {
           announcement: "Announcement bar",
           homepageFooter: "Homepage & footer",
           social: "Social",
-          frenchStorefront: "French translations (storefront)",
         },
         fields: {
           site_name: "Site name",
@@ -982,6 +989,10 @@ export const en = {
       },
       images: {
         galleryLabel: "Gallery images",
+        dragToReorder: "Drag images to reorder (mouse or touch).",
+        dragImageAria: "Drag to reorder gallery image",
+        savingOrder: "Saving order…",
+        reorderFailed: "Could not save image order. Try again.",
         productImageAlt: "Product image",
         primary: "Primary",
         setPrimary: "Set primary",

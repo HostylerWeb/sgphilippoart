@@ -851,10 +851,18 @@ export const nl = {
           "Uploaden en opslaan… Grote video's kunnen een minuut duren. Houd dit tabblad open.",
         deleteProduct: "Product verwijderen",
         previewStorefront: "Voorbeeld in webshop",
-        frenchTranslations: "Franse vertaling (FR)",
+        frenchPrimary: "Frans (standaardtaal)",
+        frenchPrimaryHint:
+          "Hoofdtekst voor de webshop. Franse bezoekers zien deze velden tenzij hieronder een vertaling staat.",
+        englishTranslations: "Engelse vertaling (EN)",
         dutchTranslations: "Nederlandse vertaling (NL)",
-        translationHint:
-          "Optioneel. Indien ingevuld zien Franse bezoekers deze teksten in plaats van de Engelse velden hierboven.",
+        translationHintEn:
+          "Optioneel. Engelse bezoekers zien deze teksten indien ingevuld; anders de Franse velden hierboven.",
+        translationHintNl:
+          "Optioneel. Nederlandse bezoekers zien deze teksten indien ingevuld; anders de Franse velden hierboven.",
+        commerceSection: "Handel en catalogus",
+        autoTranslate: "Automatisch vertalen uit het Frans",
+        autoTranslating: "Bezig met vertalen…",
       },
       order: {
         orderStatus: "Bestelstatus",
@@ -882,7 +890,6 @@ export const nl = {
           announcement: "Aankondigingsbalk",
           homepageFooter: "Homepage en footer",
           social: "Social media",
-          frenchStorefront: "Franse vertalingen (webshop)",
         },
         fields: {
           site_name: "Sitenaam",
@@ -1007,6 +1014,10 @@ export const nl = {
       },
       images: {
         galleryLabel: "Galerijafbeeldingen",
+        dragToReorder: "Sleep afbeeldingen om te herschikken (muis of touch).",
+        dragImageAria: "Sleep om galerijafbeelding te herschikken",
+        savingOrder: "Volgorde opslaan…",
+        reorderFailed: "Volgorde kon niet worden opgeslagen. Probeer opnieuw.",
         productImageAlt: "Productafbeelding",
         primary: "Hoofd",
         setPrimary: "Als hoofd instellen",

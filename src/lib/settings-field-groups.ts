@@ -9,8 +9,7 @@ export type SettingsSectionKey =
   | "payments"
   | "announcement"
   | "homepageFooter"
-  | "social"
-  | "frenchStorefront";
+  | "social";
 
 type FieldConfig = {
   key: keyof SettingsFormValues;
@@ -47,6 +46,7 @@ export const SETTINGS_FIELD_GROUPS: Array<{
     fields: [
       { key: "tax_enabled", type: "select", optionValues: ["true", "false"] },
       { key: "tax_rate", type: "number" },
+      { key: "tax_label_fr" },
       { key: "tax_label" },
       { key: "tax_inclusive", type: "select", optionValues: ["true", "false"] },
     ],
@@ -60,9 +60,11 @@ export const SETTINGS_FIELD_GROUPS: Array<{
         optionValues: ["free_worldwide", "flat_rate", "by_country"],
       },
       { key: "shipping_flat_rate", type: "number" },
+      { key: "shipping_label_fr" },
       { key: "shipping_label" },
       { key: "free_shipping_threshold", type: "number" },
       { key: "handling_fee", type: "number" },
+      { key: "handling_fee_label_fr" },
       { key: "handling_fee_label" },
       { key: "min_order_amount", type: "number" },
     ],
@@ -71,6 +73,7 @@ export const SETTINGS_FIELD_GROUPS: Array<{
     sectionKey: "returns",
     fields: [
       { key: "returns_days", type: "number" },
+      { key: "returns_policy_summary_fr", type: "textarea" },
       { key: "returns_policy_summary", type: "textarea" },
     ],
   },
@@ -87,6 +90,8 @@ export const SETTINGS_FIELD_GROUPS: Array<{
   {
     sectionKey: "announcement",
     fields: [
+      { key: "announcement_text_fr", type: "textarea" },
+      { key: "announcement_highlight_fr" },
       { key: "announcement_text", type: "textarea" },
       { key: "announcement_highlight" },
     ],
@@ -94,6 +99,11 @@ export const SETTINGS_FIELD_GROUPS: Array<{
   {
     sectionKey: "homepageFooter",
     fields: [
+      { key: "footer_description_fr", type: "textarea" },
+      { key: "concierge_eyebrow_fr" },
+      { key: "concierge_title_fr", type: "textarea" },
+      { key: "concierge_body_fr", type: "textarea" },
+      { key: "concierge_cta_fr" },
       { key: "footer_description", type: "textarea" },
       { key: "concierge_eyebrow" },
       { key: "concierge_title", type: "textarea" },
@@ -104,21 +114,5 @@ export const SETTINGS_FIELD_GROUPS: Array<{
   {
     sectionKey: "social",
     fields: [],
-  },
-  {
-    sectionKey: "frenchStorefront",
-    fields: [
-      { key: "announcement_text_fr", type: "textarea" },
-      { key: "announcement_highlight_fr" },
-      { key: "footer_description_fr", type: "textarea" },
-      { key: "concierge_eyebrow_fr" },
-      { key: "concierge_title_fr", type: "textarea" },
-      { key: "concierge_body_fr", type: "textarea" },
-      { key: "concierge_cta_fr" },
-      { key: "shipping_label_fr" },
-      { key: "returns_policy_summary_fr", type: "textarea" },
-      { key: "tax_label_fr" },
-      { key: "handling_fee_label_fr" },
-    ],
   },
 ];

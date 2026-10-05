@@ -848,10 +848,18 @@ export const fr = {
           "Téléversement et enregistrement en cours… Les vidéos volumineuses peuvent prendre une minute. Gardez cet onglet ouvert.",
         deleteProduct: "Supprimer le produit",
         previewStorefront: "Aperçu sur la boutique",
-        frenchTranslations: "Traduction française (FR)",
+        frenchPrimary: "Français (langue par défaut)",
+        frenchPrimaryHint:
+          "Texte principal de la boutique. Les visiteurs en français voient ces champs sauf si une traduction est renseignée ci-dessous.",
+        englishTranslations: "Traduction anglaise (EN)",
         dutchTranslations: "Traduction néerlandaise (NL)",
-        translationHint:
-          "Facultatif. Si renseigné, les visiteurs en français verront ces textes plutôt que les champs anglais ci-dessus.",
+        translationHintEn:
+          "Facultatif. Les visiteurs en anglais voient ces textes s'ils sont renseignés ; sinon les champs français ci-dessus.",
+        translationHintNl:
+          "Facultatif. Les visiteurs en néerlandais voient ces textes s'ils sont renseignés ; sinon les champs français ci-dessus.",
+        commerceSection: "Commerce et catalogue",
+        autoTranslate: "Traduction automatique depuis le français",
+        autoTranslating: "Traduction en cours…",
       },
       order: {
         orderStatus: "Statut de la commande",
@@ -879,7 +887,6 @@ export const fr = {
           announcement: "Bandeau d'annonce",
           homepageFooter: "Accueil et pied de page",
           social: "Réseaux sociaux",
-          frenchStorefront: "Traductions françaises (boutique)",
         },
         fields: {
           site_name: "Nom du site",
@@ -1004,6 +1011,10 @@ export const fr = {
       },
       images: {
         galleryLabel: "Images de la galerie",
+        dragToReorder: "Glissez les images pour les réordonner (souris ou écran tactile).",
+        dragImageAria: "Glisser pour réordonner l'image de la galerie",
+        savingOrder: "Enregistrement de l'ordre…",
+        reorderFailed: "Impossible d'enregistrer l'ordre. Réessayez.",
         productImageAlt: "Image du produit",
         primary: "Principale",
         setPrimary: "Définir comme principale",
