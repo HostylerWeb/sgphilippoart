@@ -2,11 +2,8 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getLocale } from "@/i18n";
 import { isPayPalConfigured } from "@/lib/paypal/config";
-import {
-  capturePayPalOrder,
-  verifyPayPalWebhookSignature,
-} from "@/lib/paypal/client";
-import { markOrderPaidFromPayPalCapture } from "@/lib/paypal/orders";
+import { verifyPayPalWebhookSignature } from "@/lib/paypal/client";
+import { fulfillPayPalOrderPayment } from "@/lib/paypal/fulfill-payment";
 
 type WebhookEvent = {
   event_type: string;
@@ -50,11 +47,13 @@ export async function POST(request: Request) {
       });
 
       if (order) {
-        try {
-          const capture = await capturePayPalOrder(paypalOrderId);
-          await markOrderPaidFromPayPalCapture(capture, paypalOrderId, locale);
-        } catch (error) {
-          console.error("[paypal:webhook] capture failed", error);
+        const result = await fulfillPayPalOrderPayment(
+          order.id,
+          paypalOrderId,
+          locale,
+        );
+        if (!result.ok) {
+          console.error("[paypal:webhook] fulfill failed", result.error);
         }
       }
     }
@@ -77,11 +76,13 @@ export async function POST(request: Request) {
             },
           });
           if (pending) {
-            try {
-              const capture = await capturePayPalOrder(paypalOrderId);
-              await markOrderPaidFromPayPalCapture(capture, paypalOrderId, locale);
-            } catch (error) {
-              console.error("[paypal:webhook] fulfill failed", error);
+            const result = await fulfillPayPalOrderPayment(
+              pending.id,
+              paypalOrderId,
+              locale,
+            );
+            if (!result.ok) {
+              console.error("[paypal:webhook] fulfill failed", result.error);
             }
           }
         }

@@ -42,3 +42,11 @@ export function getPayPalClientSecret(): string | null {
 export function getPayPalWebhookId(): string | null {
   return process.env.PAYPAL_WEBHOOK_ID?.trim() || null;
 }
+
+/** PayPal JS SDK `environment` (use `NEXT_PUBLIC_PAYPAL_MODE` in the browser bundle). */
+export function getPayPalScriptEnvironment(): "sandbox" | "production" {
+  const raw =
+    process.env.NEXT_PUBLIC_PAYPAL_MODE?.trim().toLowerCase() ||
+    process.env.PAYPAL_MODE?.trim().toLowerCase();
+  return raw === "live" ? "production" : "sandbox";
+}

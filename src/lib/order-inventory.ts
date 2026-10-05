@@ -27,10 +27,41 @@ async function hasOtherActiveOrderForProduct(
   return Boolean(otherItem);
 }
 
+export async function checkCartItemsAvailable(
+  db: DbClient,
+  items: Array<{ product_id: string; title: string; quantity: number }>,
+): Promise<InventoryError | null> {
+  for (const item of items) {
+    const product = await db.products.findUnique({ where: { id: item.product_id } });
+    if (!product || product.status !== "published") {
+      return { code: "not_available", title: item.title };
+    }
+
+    if (product.product_type === "original") {
+      continue;
+    }
+
+    if (product.stock_quantity !== null && product.stock_quantity < item.quantity) {
+      return {
+        code: "insufficient_stock",
+        title: item.title,
+        count: product.stock_quantity,
+      };
+    }
+  }
+
+  return null;
+}
+
 export async function reserveCartItems(
   db: DbClient,
   items: Array<{ product_id: string; title: string; quantity: number }>,
 ): Promise<InventoryError | null> {
+  const availability = await checkCartItemsAvailable(db, items);
+  if (availability) {
+    return availability;
+  }
+
   for (const item of items) {
     const product = await db.products.findUnique({ where: { id: item.product_id } });
     if (!product || product.status !== "published") {
@@ -46,14 +77,6 @@ export async function reserveCartItems(
     }
 
     if (product.stock_quantity !== null) {
-      if (product.stock_quantity < item.quantity) {
-        return {
-          code: "insufficient_stock",
-          title: item.title,
-          count: product.stock_quantity,
-        };
-      }
-
       await db.products.update({
         where: { id: product.id },
         data: { stock_quantity: { decrement: item.quantity } },

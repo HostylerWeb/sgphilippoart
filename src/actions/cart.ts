@@ -14,7 +14,10 @@ import { formatPrice } from "@/lib/format";
 import { getStoreSettings } from "@/lib/settings";
 import { getDictionary, getLocale } from "@/i18n";
 import { enforceRateLimit } from "@/lib/rate-limit";
-import { reserveCartItems, restoreOrderInventory } from "@/lib/order-inventory";
+import {
+  checkCartItemsAvailable,
+  reserveCartItems,
+} from "@/lib/order-inventory";
 import { auth } from "@/lib/auth";
 import { localizeInventoryError } from "@/lib/inventory-errors";
 import { parseCheckoutInput } from "@/lib/validations/checkout";
@@ -312,12 +315,9 @@ export async function abandonPayPalCheckoutOrder(
     return { success: true };
   }
 
-  await db.$transaction(async (tx) => {
-    await restoreOrderInventory(tx, orderId);
-    await tx.orders.update({
-      where: { id: orderId },
-      data: { status: "cancelled", payment_status: "failed" },
-    });
+  await db.orders.update({
+    where: { id: orderId },
+    data: { status: "cancelled", payment_status: "failed" },
   });
 
   revalidatePath("/collections", "layout");
@@ -379,7 +379,7 @@ export async function preparePayPalCheckout(
 
   try {
     const result = await db.$transaction(async (tx) => {
-      const inventoryError = await reserveCartItems(
+      const inventoryError = await checkCartItemsAvailable(
         tx,
         cart.items.map((item) => ({
           product_id: item.product.id,
@@ -415,6 +415,7 @@ export async function preparePayPalCheckout(
             state: checkout.state?.trim() || null,
             postal_code: checkout.postalCode,
             country: checkout.country,
+            country_code: checkout.countryCode,
           },
           notes: checkout.notes?.trim() || null,
           items: {
@@ -440,6 +441,7 @@ export async function preparePayPalCheckout(
             state: checkout.state?.trim() || null,
             postal_code: checkout.postalCode,
             country: checkout.country,
+            country_code: checkout.countryCode,
           },
         },
       });

@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   PayPalButtons,
   PayPalScriptProvider,
   type ReactPayPalScriptOptions,
 } from "@paypal/react-paypal-js";
-import { PAYPAL_SDK_BASE_URL } from "@/lib/paypal/config";
+import {
+  getPayPalScriptEnvironment,
+  PAYPAL_SDK_BASE_URL,
+} from "@/lib/paypal/config";
 import {
   abandonPayPalCheckoutOrder,
   preparePayPalCheckout,
@@ -29,6 +32,7 @@ export type CheckoutPayload = {
 type PayPalCheckoutProps = {
   clientId: string;
   currencyCode: string;
+  buyerCountryCode: string;
   getPayload: () => CheckoutPayload | null;
   onPaid: (orderNumber: string) => void;
   onError: (message: string) => void;
@@ -39,6 +43,7 @@ type PayPalCheckoutProps = {
 export function PayPalCheckout({
   clientId,
   currencyCode,
+  buyerCountryCode,
   getPayload,
   onPaid,
   onError,
@@ -55,22 +60,33 @@ export function PayPalCheckout({
     setMounted(true);
   }, []);
 
-  const scriptOptions: ReactPayPalScriptOptions = {
-    clientId,
-    sdkBaseUrl: PAYPAL_SDK_BASE_URL,
-    currency: currencyCode,
-    intent: "capture",
-    components: "buttons",
-    disableFunding: "venmo",
-  };
+  const buyerCountry = buyerCountryCode.trim().toUpperCase();
 
-  async function releasePendingShopOrder() {
+  const releasePendingShopOrder = useCallback(async () => {
     const pending = shopOrderRef.current;
     shopOrderRef.current = null;
     if (pending) {
       await abandonPayPalCheckoutOrder(pending.orderId);
     }
-  }
+  }, []);
+
+  useEffect(() => {
+    void releasePendingShopOrder();
+  }, [buyerCountry, releasePendingShopOrder]);
+
+  const scriptOptions: ReactPayPalScriptOptions = useMemo(
+    () => ({
+      clientId,
+      environment: getPayPalScriptEnvironment(),
+      sdkBaseUrl: PAYPAL_SDK_BASE_URL,
+      currency: currencyCode,
+      intent: "capture",
+      components: "buttons",
+      disableFunding: "venmo",
+      buyerCountry,
+    }),
+    [buyerCountry, clientId, currencyCode],
+  );
 
   async function ensureShopOrder() {
     if (shopOrderRef.current) {
@@ -154,7 +170,10 @@ export function PayPalCheckout({
   }
 
   return (
-    <PayPalScriptProvider options={scriptOptions}>
+    <PayPalScriptProvider
+      key={`${clientId}-${buyerCountry}`}
+      options={scriptOptions}
+    >
       <div className={styles.wrap}>
         {processing && <p className={styles.processing}>{processingLabel}</p>}
         <PayPalButtons

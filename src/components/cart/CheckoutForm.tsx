@@ -292,6 +292,7 @@ export function CheckoutForm({
               <PayPalCheckout
                 clientId={paypalClientId!}
                 currencyCode={currencyCode}
+                buyerCountryCode={countryCode}
                 getPayload={getPayloadForPayPal}
                 processingLabel={t.paymentProcessing}
                 loadingLabel={t.paymentLoading}

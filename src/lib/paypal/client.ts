@@ -78,6 +78,7 @@ export type PayPalCreateOrderInput = {
   shopOrderId: string;
   orderNumber: string;
   currencyCode: string;
+  buyerCountryCode: string;
   subtotal: string;
   shipping: string;
   tax: string;
@@ -145,6 +146,11 @@ export async function createPayPalCheckoutOrder(
           },
         },
       ],
+      payer: {
+        address: {
+          country_code: input.buyerCountryCode,
+        },
+      },
       application_context: {
         brand_name: process.env.SMTP_FROM_NAME?.trim() || "SG Philippo Art",
         shipping_preference: "NO_SHIPPING",

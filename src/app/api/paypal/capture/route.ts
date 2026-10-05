@@ -3,8 +3,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getLocale } from "@/i18n";
 import { isPayPalConfigured } from "@/lib/paypal/config";
-import { capturePayPalOrder } from "@/lib/paypal/client";
-import { markOrderPaidFromPayPalCapture } from "@/lib/paypal/orders";
+import { fulfillPayPalOrderPayment } from "@/lib/paypal/fulfill-payment";
 
 export async function POST(request: Request) {
   if (!isPayPalConfigured()) {
@@ -27,32 +26,21 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Missing orderId or paypalOrderId" }, { status: 400 });
   }
 
-  const order = await db.orders.findFirst({
-    where: {
-      id: orderId,
-      user_id: session.user.id,
-      payment_status: "awaiting_payment",
-    },
+  const owned = await db.orders.findFirst({
+    where: { id: orderId, user_id: session.user.id },
+    select: { id: true },
   });
 
-  if (!order) {
+  if (!owned) {
     return NextResponse.json({ error: "Order not found" }, { status: 404 });
   }
 
-  if (order.paypal_order_id && order.paypal_order_id !== paypalOrderId) {
-    return NextResponse.json({ error: "PayPal order mismatch" }, { status: 409 });
-  }
-
-  const capture = await capturePayPalOrder(paypalOrderId);
   const locale = await getLocale();
-  const paid = await markOrderPaidFromPayPalCapture(capture, paypalOrderId, locale);
+  const result = await fulfillPayPalOrderPayment(orderId, paypalOrderId, locale);
 
-  if (!paid) {
-    return NextResponse.json({ error: "Payment was not completed" }, { status: 422 });
+  if (!result.ok) {
+    return NextResponse.json({ error: result.error }, { status: result.status });
   }
 
-  return NextResponse.json({
-    orderNumber: paid.orderNumber,
-    status: capture.status,
-  });
+  return NextResponse.json({ orderNumber: result.orderNumber });
 }

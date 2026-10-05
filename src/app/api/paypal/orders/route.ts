@@ -6,6 +6,7 @@ import {
   createPayPalCheckoutOrder,
 } from "@/lib/paypal/client";
 import { formatPayPalAmount } from "@/lib/paypal/format-amount";
+import { shippingCountryCodeFromOrder } from "@/lib/paypal/shipping-country";
 
 export async function POST(request: Request) {
   if (!isPayPalConfigured()) {
@@ -40,6 +41,7 @@ export async function POST(request: Request) {
       shopOrderId: order.id,
       orderNumber: order.order_number,
       currencyCode: order.currency,
+      buyerCountryCode: shippingCountryCodeFromOrder(order.shipping_address),
       subtotal: formatPayPalAmount(Number(order.subtotal)),
       shipping: formatPayPalAmount(Number(order.shipping_cost)),
       tax: formatPayPalAmount(Number(order.tax)),
