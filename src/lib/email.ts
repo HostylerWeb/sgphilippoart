@@ -143,7 +143,7 @@ export async function sendOrderConfirmation(
 ) {
   const studioEmail = await getStudioEmail();
   const copy = getEmailCopy(locale);
-  const trackUrl = `${siteUrl}/track-order`;
+  const trackUrl = `${siteUrl}/account/orders`;
 
   const customerSent = await sendEmail({
     to: input.email,
@@ -187,7 +187,7 @@ export async function sendOrderStatusUpdate(
   const trackingLine = input.trackingNumber
     ? `<p><strong>${copy.trackingLabel}:</strong> ${escapeHtml(input.trackingNumber)}</p>`
     : "";
-  const trackUrl = `${siteUrl}/track-order`;
+  const trackUrl = `${siteUrl}/account/orders`;
 
   return sendEmail({
     to: input.email,

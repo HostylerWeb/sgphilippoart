@@ -39,6 +39,15 @@ const nextConfig: NextConfig = {
     "10.107.145.3",
     ...extraDevOrigins,
   ],
+  async redirects() {
+    return [
+      {
+        source: "/track-order",
+        destination: "/account/orders",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     localPatterns: [
       {

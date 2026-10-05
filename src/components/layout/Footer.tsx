@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
+import { LanguageToggle } from "@/components/layout/LanguageToggle";
 import { SocialLinks } from "@/components/layout/SocialLinks";
 import { getSocialLinks } from "@/lib/social-links";
 import type { StoreSettings } from "@/lib/settings";
+import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import styles from "./Footer.module.css";
 
@@ -10,9 +12,10 @@ type FooterProps = {
   settings: StoreSettings;
   dict: Dictionary;
   categories: Array<{ name: string; slug: string }>;
+  locale: Locale;
 };
 
-export function Footer({ settings, dict, categories }: FooterProps) {
+export function Footer({ settings, dict, categories, locale }: FooterProps) {
   const t = dict.footer;
   const socialLinks = getSocialLinks(settings);
 
@@ -61,7 +64,6 @@ export function Footer({ settings, dict, categories }: FooterProps) {
               <li><Link href="/terms">{t.terms}</Link></li>
               <li><Link href="/cookies">{t.cookies}</Link></li>
               <li><Link href="/legal">{t.legalNotice}</Link></li>
-              <li><Link href="/track-order">{t.trackOrder}</Link></li>
             </ul>
           </div>
           <div className={styles.newsletterBox}>
@@ -76,7 +78,14 @@ export function Footer({ settings, dict, categories }: FooterProps) {
           <span>
             &copy; {new Date().getFullYear()} {settings.siteName}. {t.rights}
           </span>
-          <span>{settings.localeDisplay}</span>
+          <div className={styles.footerBottomEnd}>
+            <LanguageToggle
+              locale={locale}
+              compact
+              ariaLabel={dict.aria.language}
+            />
+            <span>{settings.localeDisplay}</span>
+          </div>
         </div>
       </div>
     </footer>

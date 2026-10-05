@@ -143,6 +143,13 @@
   color: var(--ink-soft);
 }
 
+.footerBottomEnd {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
 @media (max-width: 980px) {
   .footerTop {
     grid-template-columns: 1fr 1fr;

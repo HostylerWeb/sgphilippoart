@@ -48,7 +48,7 @@ docker compose run --rm -e ADMIN_SEED_PASSWORD='your-strong-password' app npx ts
 - [ ] Test contact, commission, newsletter, and order inquiry emails
 - [ ] Submit `https://sgphilippoart.com/sitemap.xml` in Google Search Console
 - [ ] Verify cookie banner and `/cookies` policy page
-- [ ] Test order tracking at `/track-order`
+- [ ] Test order history at `/account/orders`
 
 ## 5. Local development
 

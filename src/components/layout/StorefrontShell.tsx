@@ -61,7 +61,12 @@ export async function StorefrontShell({ children, activeSlug }: StorefrontShellP
         commissionEnabled={settings.commissionEnabled}
       />
       <main>{children}</main>
-      <Footer settings={settings} dict={dict} categories={translatedCategories} />
+      <Footer
+        settings={settings}
+        dict={dict}
+        categories={translatedCategories}
+        locale={locale}
+      />
       <CookieConsent labels={dict.cookies} />
     </I18nProvider>
   );
