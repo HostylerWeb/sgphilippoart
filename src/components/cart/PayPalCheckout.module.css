@@ -47,6 +47,14 @@
   min-height: 48px;
 }
 
+/* Card buttons only support black/white in the PayPal SDK; frame with gold for contrast */
+.payButtonSlotCard {
+  padding: 2px;
+  border-radius: 4px;
+  background: #ffc439;
+  box-sizing: border-box;
+}
+
 .payButtonSlot:empty {
   display: none;
 }

@@ -160,11 +160,11 @@ function PayPalCheckoutInner({
           style={{ ...payPalButtonStyle, color: "blue" }}
         />
       </div>
-      <div className={styles.payButtonSlot}>
+      <div className={`${styles.payButtonSlot} ${styles.payButtonSlotCard}`}>
         <PayPalButtons
           {...payPalButtonEvents}
           fundingSource={FUNDING.CARD}
-          style={{ ...payPalButtonStyle, color: "gold" }}
+          style={{ ...payPalButtonStyle, color: "white" }}
         />
       </div>
     </div>
