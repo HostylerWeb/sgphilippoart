@@ -41,28 +41,125 @@ export function HeaderNav({
   commissionEnabled = true,
 }: HeaderNavProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuMounted, setMenuMounted] = useState(false);
+  const [menuRevealed, setMenuRevealed] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const mounted = useIsClient();
 
+  const scrollLocked = menuMounted || cartOpen;
+
   useEffect(() => {
-    document.body.style.overflow = menuOpen || cartOpen ? "hidden" : "";
+    const body = document.body;
+    const scrollKey = "data-scroll-lock-y";
+
+    if (!scrollLocked) {
+      const savedY = body.getAttribute(scrollKey);
+      body.style.position = "";
+      body.style.top = "";
+      body.style.left = "";
+      body.style.width = "";
+      body.style.maxWidth = "";
+      body.style.overflow = "";
+      body.removeAttribute("data-scroll-lock");
+      body.removeAttribute(scrollKey);
+      if (savedY) {
+        window.scrollTo(0, Number.parseInt(savedY, 10));
+      }
+      return;
+    }
+
+    const scrollY = window.scrollY;
+    const lockedWidth = document.documentElement.clientWidth;
+    body.setAttribute(scrollKey, String(scrollY));
+    body.setAttribute("data-scroll-lock", "");
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.width = `${lockedWidth}px`;
+    body.style.maxWidth = `${lockedWidth}px`;
+    body.style.overflow = "hidden";
+
     return () => {
-      document.body.style.overflow = "";
+      const savedY = body.getAttribute(scrollKey);
+      body.style.position = "";
+      body.style.top = "";
+      body.style.left = "";
+      body.style.width = "";
+      body.style.maxWidth = "";
+      body.style.overflow = "";
+      body.removeAttribute("data-scroll-lock");
+      body.removeAttribute(scrollKey);
+      if (savedY) {
+        window.scrollTo(0, Number.parseInt(savedY, 10));
+      }
     };
-  }, [menuOpen, cartOpen]);
+  }, [scrollLocked]);
+
+  useEffect(() => {
+    if (menuOpen) {
+      setMenuMounted(true);
+      const frame = requestAnimationFrame(() => {
+        requestAnimationFrame(() => setMenuRevealed(true));
+      });
+      return () => cancelAnimationFrame(frame);
+    }
+    setMenuRevealed(false);
+  }, [menuOpen]);
+
+  useEffect(() => {
+    if (!menuOpen && menuMounted && !menuRevealed) {
+      const timeout = window.setTimeout(() => setMenuMounted(false), 700);
+      return () => window.clearTimeout(timeout);
+    }
+  }, [menuOpen, menuMounted, menuRevealed]);
+
+  function closeMenu() {
+    setMenuOpen(false);
+  }
+
+  function handleMenuPanelTransitionEnd(
+    event: React.TransitionEvent<HTMLDivElement>,
+  ) {
+    if (event.propertyName !== "transform" || menuOpen || menuRevealed) {
+      return;
+    }
+    setMenuMounted(false);
+  }
 
   const accountLabel = user ? dict.header.account : dict.header.login;
 
   const mobileMenu =
     mounted &&
-    menuOpen &&
+    menuMounted &&
     createPortal(
-      <>
+      <div className={styles.mobileMenuRoot} aria-hidden={!menuMounted}>
         <div
-          className={`${styles.mobileOverlay} ${styles.mobileOverlayOpen}`}
-          onClick={() => setMenuOpen(false)}
+          className={`${styles.mobileOverlay} ${menuRevealed ? styles.mobileOverlayVisible : ""}`}
+          onClick={closeMenu}
+          aria-hidden={!menuRevealed}
         />
-        <div className={`${styles.mobilePanel} ${styles.mobilePanelOpen}`}>
+        <div
+          className={`${styles.mobilePanel} ${menuRevealed ? styles.mobilePanelVisible : ""}`}
+          role="dialog"
+          aria-modal="true"
+          aria-label={dict.header.shop}
+          onTransitionEnd={handleMenuPanelTransitionEnd}
+        >
+          <Link
+            href="/"
+            className={styles.mobilePanelBrand}
+            onClick={closeMenu}
+            aria-label={dict.meta.siteName}
+          >
+            <StoreImage
+              src="/images/sgplogo.png"
+              alt=""
+              width={2056}
+              height={765}
+              className={styles.mobilePanelLogo}
+              aria-hidden
+            />
+          </Link>
           <div className={styles.mobilePanelHead}>
             <span className="eyebrow">{dict.header.shop}</span>
             <LanguageToggle locale={locale} compact ariaLabel={dict.aria.language} />
@@ -73,7 +170,7 @@ export function HeaderNav({
                 key={category.slug}
                 href={`/collections/${category.slug}`}
                 className={category.slug === activeSlug ? styles.mobileActive : undefined}
-                onClick={() => setMenuOpen(false)}
+                onClick={closeMenu}
               >
                 {category.name}
               </Link>
@@ -84,15 +181,15 @@ export function HeaderNav({
             <span className="eyebrow">{dict.header.studio}</span>
           </div>
           <nav className={styles.mobileLinks}>
-            <Link href="/about" onClick={() => setMenuOpen(false)}>
+            <Link href="/about" onClick={closeMenu}>
               {dict.footer.about}
             </Link>
             {commissionEnabled && (
-              <Link href="/commissions" onClick={() => setMenuOpen(false)}>
+              <Link href="/commissions" onClick={closeMenu}>
                 {dict.footer.commissions}
               </Link>
             )}
-            <Link href="/contact" onClick={() => setMenuOpen(false)}>
+            <Link href="/contact" onClick={closeMenu}>
               {dict.footer.contact}
             </Link>
           </nav>
@@ -101,18 +198,18 @@ export function HeaderNav({
             <span className="eyebrow">{dict.header.support}</span>
           </div>
           <nav className={styles.mobileLinks}>
-            <Link href="/shipping" onClick={() => setMenuOpen(false)}>
+            <Link href="/shipping" onClick={closeMenu}>
               {dict.footer.shipping}
             </Link>
-            <Link href="/returns" onClick={() => setMenuOpen(false)}>
+            <Link href="/returns" onClick={closeMenu}>
               {dict.footer.returns}
             </Link>
-            <Link href="/faq" onClick={() => setMenuOpen(false)}>
+            <Link href="/faq" onClick={closeMenu}>
               {dict.footer.faq}
             </Link>
           </nav>
         </div>
-      </>,
+      </div>,
       document.body,
     );
 

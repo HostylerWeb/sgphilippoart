@@ -168,6 +168,10 @@
   display: none;
 }
 
+.mobileMenuRoot {
+  display: none;
+}
+
 @media (max-width: 980px) {
   .catnav {
     gap: 22px;
@@ -239,30 +243,156 @@
     display: none;
   }
 
-  .mobileOverlay {
+  .mobileMenuRoot {
     display: block;
     position: fixed;
     inset: 0;
-    background: rgba(23, 19, 15, 0.45);
     z-index: 10000;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .mobileMenuRoot .mobileOverlay,
+  .mobileMenuRoot .mobilePanel {
+    pointer-events: auto;
+  }
+
+  .mobileMenuRoot .mobileOverlay:not(.mobileOverlayVisible) {
+    pointer-events: none;
+  }
+
+  .mobileOverlay {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(
+      ellipse 120% 80% at 0% 40%,
+      rgba(92, 32, 38, 0.22),
+      rgba(23, 19, 15, 0.55)
+    );
+    opacity: 0;
+    backdrop-filter: blur(0);
+    -webkit-backdrop-filter: blur(0);
+    transition:
+      opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+      backdrop-filter 0.55s ease,
+      -webkit-backdrop-filter 0.55s ease;
+    pointer-events: none;
+  }
+
+  .mobileOverlayVisible {
+    opacity: 1;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    pointer-events: auto;
   }
 
   .mobilePanel {
     display: block;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: min(320px, 88vw);
-    height: 100dvh;
-    background: var(--paper);
-    border-right: 1px solid var(--line);
-    padding: 88px 0 32px;
+    height: 100%;
+    max-height: 100dvh;
+    padding: 0 0 32px;
+    overflow-x: hidden;
     overflow-y: auto;
-    z-index: 10001;
+    z-index: 1;
+    background: linear-gradient(
+      165deg,
+      var(--paper) 0%,
+      color-mix(in srgb, var(--paper) 92%, var(--oxblood) 8%) 100%
+    );
+    border-right: 1px solid var(--line);
+    box-shadow: 24px 0 48px rgba(23, 19, 15, 0.12);
+    transform: translate3d(-108%, 0, 0);
+    opacity: 0;
+    transition:
+      transform 0.62s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.45s ease;
+    will-change: transform, opacity;
   }
 
-  .mobilePanelOpen {
-    transform: none;
+  .mobilePanel::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 4px;
+    background: linear-gradient(
+      180deg,
+      transparent 8%,
+      color-mix(in srgb, var(--oxblood) 70%, transparent) 35%,
+      var(--oxblood) 50%,
+      color-mix(in srgb, var(--oxblood) 70%, transparent) 65%,
+      transparent 92%
+    );
+    opacity: 0;
+    transform: scaleY(0.2);
+    transform-origin: center top;
+    transition:
+      opacity 0.5s ease 0.12s,
+      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.08s;
+  }
+
+  .mobilePanel::after {
+    content: "";
+    position: absolute;
+    top: 72px;
+    right: -40%;
+    width: 70%;
+    height: 40%;
+    background: radial-gradient(
+      ellipse at center,
+      color-mix(in srgb, var(--oxblood) 12%, transparent),
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.7s ease 0.2s;
+    pointer-events: none;
+  }
+
+  .mobilePanelVisible {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+
+  .mobilePanelVisible::before {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+
+  .mobilePanelVisible::after {
+    opacity: 1;
+  }
+
+  .mobilePanelBrand {
+    display: block;
+    padding: 24px 22px 20px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--line-soft);
+    line-height: 0;
+    opacity: 0;
+    transform: translateX(-14px);
+    transition:
+      opacity 0.45s ease,
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .mobilePanelLogo {
+    display: block;
+    height: 48px;
+    width: auto;
+    max-width: min(100%, 240px);
+    object-fit: contain;
+    object-position: left center;
+  }
+
+  .mobilePanelVisible .mobilePanelBrand {
+    opacity: 1;
+    transform: translateX(0);
+    transition-delay: 0.1s;
   }
 
   .mobilePanelHead {
@@ -270,7 +400,29 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 0 22px 12px;
+    padding: 16px 22px 12px;
+    opacity: 0;
+    transform: translateX(-14px);
+    transition:
+      opacity 0.45s ease,
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .mobilePanelVisible .mobilePanelHead {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .mobilePanelVisible .mobilePanelHead:nth-of-type(1) {
+    transition-delay: 0.18s;
+  }
+
+  .mobilePanelVisible .mobilePanelHead:nth-of-type(2) {
+    transition-delay: 0.32s;
+  }
+
+  .mobilePanelVisible .mobilePanelHead:nth-of-type(3) {
+    transition-delay: 0.44s;
   }
 
   .mobileLinks {
@@ -287,6 +439,76 @@
     font-size: 15px;
     font-weight: 500;
     color: var(--ink);
+    opacity: 0;
+    transform: translateX(-18px);
+    transition:
+      opacity 0.42s ease,
+      transform 0.48s cubic-bezier(0.22, 1, 0.36, 1),
+      color 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .mobilePanelVisible .mobileLinks a {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .mobilePanelVisible .mobileLinks:nth-of-type(1) a:nth-child(1) {
+    transition-delay: 0.18s;
+  }
+  .mobilePanelVisible .mobileLinks:nth-of-type(1) a:nth-child(2) {
+    transition-delay: 0.22s;
+  }
+  .mobilePanelVisible .mobileLinks:nth-of-type(1) a:nth-child(3) {
+    transition-delay: 0.26s;
+  }
+  .mobilePanelVisible .mobileLinks:nth-of-type(1) a:nth-child(4) {
+    transition-delay: 0.3s;
+  }
+  .mobilePanelVisible .mobileLinks:nth-of-type(1) a:nth-child(5) {
+    transition-delay: 0.34s;
+  }
+  .mobilePanelVisible .mobileLinks:nth-of-type(1) a:nth-child(6) {
+    transition-delay: 0.38s;
+  }
+  .mobilePanelVisible .mobileLinks:nth-of-type(2) a:nth-child(1) {
+    transition-delay: 0.32s;
+  }
+  .mobilePanelVisible .mobileLinks:nth-of-type(2) a:nth-child(2) {
+    transition-delay: 0.36s;
+  }
+  .mobilePanelVisible .mobileLinks:nth-of-type(2) a:nth-child(3) {
+    transition-delay: 0.4s;
+  }
+  .mobilePanelVisible .mobileLinks:nth-of-type(3) a:nth-child(1) {
+    transition-delay: 0.42s;
+  }
+  .mobilePanelVisible .mobileLinks:nth-of-type(3) a:nth-child(2) {
+    transition-delay: 0.46s;
+  }
+  .mobilePanelVisible .mobileLinks:nth-of-type(3) a:nth-child(3) {
+    transition-delay: 0.5s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobileOverlay,
+    .mobilePanel,
+    .mobilePanel::before,
+    .mobilePanel::after,
+    .mobilePanelBrand,
+    .mobilePanelHead,
+    .mobileLinks a {
+      transition-duration: 0.01ms !important;
+      transition-delay: 0ms !important;
+    }
+
+    .mobilePanel {
+      transform: none;
+    }
+
+    .mobilePanel:not(.mobilePanelVisible) {
+      opacity: 0;
+    }
   }
 
   .mobileActive {

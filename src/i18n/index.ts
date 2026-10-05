@@ -1,5 +1,10 @@
-import { cookies } from "next/headers";
-import { DEFAULT_LOCALE, LOCALE_COOKIE, type Locale, isLocale } from "@/i18n/config";
+import { cookies, headers } from "next/headers";
+import {
+  LOCALE_COOKIE,
+  type Locale,
+  isLocale,
+  localeFromAcceptLanguage,
+} from "@/i18n/config";
 import { en, type Dictionary } from "@/i18n/dictionaries/en";
 import { fr } from "@/i18n/dictionaries/fr";
 import { nl } from "@/i18n/dictionaries/nl";
@@ -13,7 +18,10 @@ const dictionaries = { en, fr, nl };
 export async function getLocale(): Promise<Locale> {
   const cookieStore = await cookies();
   const value = cookieStore.get(LOCALE_COOKIE)?.value;
-  return value && isLocale(value) ? value : DEFAULT_LOCALE;
+  if (value && isLocale(value)) return value;
+
+  const headerStore = await headers();
+  return localeFromAcceptLanguage(headerStore.get("accept-language"));
 }
 
 export function getDictionary(locale: Locale): Dictionary {

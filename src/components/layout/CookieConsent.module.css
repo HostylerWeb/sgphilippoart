@@ -4,11 +4,11 @@
   left: 0;
   right: 0;
   z-index: 200;
-  padding: 16px;
-  background: rgba(20, 18, 16, 0.96);
+  padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+  background: rgba(23, 19, 15, 0.94);
   color: #f5f0ea;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(169, 128, 63, 0.45);
+  backdrop-filter: blur(10px);
 }
 
 .inner {
@@ -16,7 +16,7 @@
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 14px 20px;
   align-items: center;
   justify-content: space-between;
 }
@@ -73,19 +73,56 @@
   padding-inline: 12px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 760px) {
+  .cookieBanner {
+    left: 12px;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    padding: 14px 14px 12px;
+    border: 1px solid rgba(169, 128, 63, 0.4);
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(23, 19, 15, 0.28);
+  }
+
   .inner {
     flex-direction: column;
     align-items: stretch;
+    gap: 10px;
+  }
+
+  .copy {
+    flex: none;
+  }
+
+  .copy strong {
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+
+  .copy p {
+    font-size: 12px;
+    line-height: 1.4;
   }
 
   .actions {
-    justify-content: stretch;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .link {
+    grid-column: 1 / -1;
+    justify-self: start;
+    order: -1;
+    padding: 0;
+    font-size: 12px;
+    font-weight: 500;
   }
 
   .accept,
   .reject {
-    flex: 1;
+    padding: 9px 10px;
+    font-size: 12px;
     text-align: center;
   }
 }

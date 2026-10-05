@@ -2,7 +2,6 @@
 
 import { StoreImage } from "@/components/ui/StoreImage";
 import Link from "next/link";
-import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import styles from "./CartDrawer.module.css";
@@ -36,13 +35,6 @@ export function CartDrawer({
   closeLabel,
   checkoutHref,
 }: CartDrawerProps) {
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
-
   if (!open) return null;
 
   return createPortal(
