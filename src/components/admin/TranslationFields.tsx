@@ -10,6 +10,7 @@ export type TranslationFieldConfig = {
 type TranslationFieldsProps = {
   title: string;
   hint?: string;
+  locale: "fr" | "nl";
   fields: TranslationFieldConfig[];
   values?: Record<string, string | undefined>;
 };
@@ -17,6 +18,7 @@ type TranslationFieldsProps = {
 export function TranslationFields({
   title,
   hint,
+  locale,
   fields,
   values = {},
 }: TranslationFieldsProps) {
@@ -33,13 +35,13 @@ export function TranslationFields({
             {field.label}
             {field.type === "textarea" ? (
               <textarea
-                name={`translation_fr_${field.name}`}
+                name={`translation_${locale}_${field.name}`}
                 rows={field.rows ?? 4}
                 defaultValue={values[field.name] ?? ""}
               />
             ) : (
               <input
-                name={`translation_fr_${field.name}`}
+                name={`translation_${locale}_${field.name}`}
                 defaultValue={values[field.name] ?? ""}
               />
             )}

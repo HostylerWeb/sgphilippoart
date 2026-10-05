@@ -1,6 +1,6 @@
-import type { LegalPageContent } from "@/i18n/legal/types";
+import type { LocalizedLegalPage } from "@/i18n/legal/types";
 
-export const terms: Record<"en" | "fr", LegalPageContent> = {
+export const terms: LocalizedLegalPage = {
   en: {
     eyebrow: "Legal",
     title: "Terms of service",
@@ -216,6 +216,116 @@ export const terms: Record<"en" | "fr", LegalPageContent> = {
         title: "Contact",
         paragraphs: [
           "Pour toute question concernant ces Conditions, écrivez à {contactEmail}.",
+        ],
+      },
+    ],
+  },
+  nl: {
+    eyebrow: "Juridisch",
+    title: "Servicevoorwaarden",
+    description:
+      "Voorwaarden voor uw gebruik van de website {siteName} en de diensten van het atelier.",
+    lastUpdated: "Laatst bijgewerkt: 29 juli 2026",
+    sections: [
+      {
+        id: "agreement",
+        title: "Akkoord met deze voorwaarden",
+        paragraphs: [
+          "Deze servicevoorwaarden («Voorwaarden») regelen uw toegang tot en gebruik van de website {siteName} en aanverwante diensten. Door te browsen, een account aan te maken, een bestelverzoek te versturen of contact op te nemen met het atelier, gaat u akkoord met deze Voorwaarden.",
+          "Als u niet akkoord gaat, gebruik de website dan niet.",
+        ],
+      },
+      {
+        id: "studio",
+        title: "Over het atelier",
+        paragraphs: [
+          "{siteName} is een hedendaags kunstatelier dat originele schilderijen, limited-edition prints en werken op commissie aanbiedt. Productbeschrijvingen, afbeeldingen, afmetingen en prijzen worden te goeder trouw verstrekt en kunnen zonder voorafgaande kennisgeving worden bijgewerkt.",
+        ],
+      },
+      {
+        id: "accounts",
+        title: "Accounts",
+        paragraphs: [
+          "U bent verantwoordelijk voor het vertrouwelijk houden van uw accountgegevens en voor alle activiteit onder uw account. Meld ons zo snel mogelijk via {contactEmail} als u ongeoorloofde toegang vermoedt.",
+          "We kunnen accounts opschorten of sluiten die deze Voorwaarden schenden of frauduleus worden gebruikt.",
+        ],
+      },
+      {
+        id: "orders",
+        title: "Bestellingen en afrekenen",
+        paragraphs: [
+          "Afrekenen op deze website werkt als een bestelverzoek. Het verzenden van het formulier garandeert geen beschikbaarheid en vormt geen voltooide verkoop totdat het atelier uw bestelling per e-mail bevestigt.",
+          "We bevestigen beschikbaarheid van het werk, de definitieve prijs in {currencyCode}, verzendkosten, betaalmethode en geschatte levering voordat uw bestelling wordt afgerond.",
+          "U stemt ermee in accurate contact- en verzendgegevens te verstrekken. We zijn niet verantwoordelijk voor vertragingen of mislukte levering door onjuiste gegevens die u hebt opgegeven.",
+        ],
+      },
+      {
+        id: "pricing",
+        title: "Prijzen en beschikbaarheid",
+        paragraphs: [
+          "Alle prijzen worden weergegeven in {currencyCode}, tenzij anders vermeld. Originele werken zijn uniek en kunnen na aankoop als verkocht worden gemarkeerd. Print-edities zijn afhankelijk van beschikbare voorraad.",
+          "We behouden ons het recht voor een bestelling te weigeren of te annuleren vóór bevestiging, waaronder bij prijsfouten, vermoedelijke fraude of onbeschikbaarheid.",
+        ],
+      },
+      {
+        id: "ip",
+        title: "Intellectueel eigendom",
+        paragraphs: [
+          "Alle kunstwerken, foto's, teksten, graphics, logo's en website-inhoud zijn eigendom van {siteName} of haar licentiegevers en worden beschermd door auteursrecht en andere intellectuele-eigendomsrechten.",
+          "De aankoop van een kunstwerk geeft u eigendom van het fysieke werk (of de print) zoals beschreven in uw orderbevestiging. Dit draagt geen auteursrecht of reproductierechten over, tenzij uitdrukkelijk schriftelijk overeengekomen.",
+          "U mag atelierafbeeldingen of inhoud niet reproduceren, distribueren of commercieel exploiteren zonder voorafgaande schriftelijke toestemming.",
+        ],
+      },
+      {
+        id: "commissions",
+        title: "Commissies",
+        paragraphs: [
+          "Commissies op maat zijn onderworpen aan een aparte overeenkomst over scope, planning, revisies, voorschot en levering. Een via de website ingediend verzoek creëert geen bindend contract totdat het atelier dit bevestigt.",
+        ],
+      },
+      {
+        id: "shipping-returns",
+        title: "Verzending, douane en retour",
+        paragraphs: [
+          "Verzendafspraken, levertijden en verpakkingsnormen staan op onze pagina Verzending. Invoerrechten, belastingen en douanekosten kunnen gelden afhankelijk van uw bestemming en zijn doorgaans voor rekening van de ontvanger, tenzij anders vermeld.",
+          "Retour en vervanging vallen onder ons retourbeleid ({returnsSummary}). Lees die pagina vóór aankoop.",
+        ],
+      },
+      {
+        id: "newsletter",
+        title: "Nieuwsbrief en communicatie",
+        paragraphs: [
+          "Als u zich inschrijft voor onze nieuwsbrief, stemt u in met het ontvangen van atelierupdates per e-mail. U kunt zich op elk moment uitschrijven via de link in elke e-mail of door contact op te nemen met {contactEmail}.",
+        ],
+      },
+      {
+        id: "liability",
+        title: "Disclaimer en aansprakelijkheidsbeperking",
+        paragraphs: [
+          "De website wordt geleverd «as is» en «as available». Voor zover de wet dit toelaat, wijst {siteName} garanties af die niet vereist zijn onder toepasselijk consumentenrecht.",
+          "We zijn niet aansprakelijk voor indirecte, incidentele, bijzondere of gevolgschade door uw gebruik van de website of aankoop van kunstwerken, behalve waar aansprakelijkheid niet kan worden uitgesloten onder dwingend consumentenrecht.",
+        ],
+      },
+      {
+        id: "law",
+        title: "Toepasselijk recht",
+        paragraphs: [
+          "Deze Voorwaarden worden beheerst door het Belgische recht, zonder rekening te houden met conflicterende rechtskeuze. Als u consument bent in de Europese Unie, profiteert u ook van dwingende bescherming in uw land van verblijf waar van toepassing.",
+          "Geschillen moeten eerst aan ons worden gemeld via {contactEmail}. Indien onopgelost kunnen bevoegde rechtbanken of alternatieve geschillenbeslechting gelden onder de wet.",
+        ],
+      },
+      {
+        id: "changes",
+        title: "Wijzigingen",
+        paragraphs: [
+          "We kunnen deze Voorwaarden van tijd tot tijd bijwerken. Voortgezet gebruik van de website na publicatie van wijzigingen geldt als acceptatie van de herziene Voorwaarden.",
+        ],
+      },
+      {
+        id: "contact",
+        title: "Contact",
+        paragraphs: [
+          "Vragen over deze Voorwaarden kunt u sturen naar {contactEmail}.",
         ],
       },
     ],

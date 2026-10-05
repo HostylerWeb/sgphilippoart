@@ -21,6 +21,7 @@ type CategoryFormProps = {
     show_on_homepage: boolean;
     show_in_nav: boolean;
     translationValues?: Record<string, string>;
+    translationValuesNl?: Record<string, string>;
   };
 };
 
@@ -56,6 +57,7 @@ export function CategoryForm({ category }: CategoryFormProps) {
       </label>
 
       <TranslationFields
+        locale="fr"
         title={pf.frenchTranslations}
         hint={pf.translationHint}
         fields={[
@@ -63,6 +65,17 @@ export function CategoryForm({ category }: CategoryFormProps) {
           { name: "description", label: f.description, type: "textarea", rows: 3 },
         ]}
         values={category?.translationValues}
+      />
+
+      <TranslationFields
+        locale="nl"
+        title={pf.dutchTranslations}
+        hint={pf.translationHint}
+        fields={[
+          { name: "name", label: f.collectionName },
+          { name: "description", label: f.description, type: "textarea", rows: 3 },
+        ]}
+        values={category?.translationValuesNl}
       />
 
       <label>

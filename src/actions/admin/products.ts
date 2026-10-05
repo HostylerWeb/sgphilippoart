@@ -8,7 +8,10 @@ import { requireAdmin } from "@/lib/admin";
 import { db } from "@/lib/db";
 import { slugify } from "@/lib/slug";
 import { Prisma } from "@/generated/prisma/client";
-import { parseFrenchTranslationsForm } from "@/lib/i18n/content";
+import {
+  mergeContentTranslationsFromForm,
+  parseContentTranslationsForm,
+} from "@/lib/i18n/content";
 import { TRANSLATION_FIELD_SETS } from "@/lib/i18n/localize";
 import { saveUploadedImageFile, saveUploadedVideoFile } from "@/lib/media-storage";
 import {
@@ -152,7 +155,7 @@ export async function createProductAction(
   }
   const media = mediaResult;
 
-  const translations = parseFrenchTranslationsForm(
+  const translations = parseContentTranslationsForm(
     formData,
     [...TRANSLATION_FIELD_SETS.product],
   );
@@ -238,10 +241,6 @@ export async function updateProductAction(
   }
   const media = mediaResult;
 
-  const translations = parseFrenchTranslationsForm(
-    formData,
-    [...TRANSLATION_FIELD_SETS.product],
-  );
   const current = await db.products.findUnique({
     where: { id: productId },
     include: { images: { orderBy: { sort_order: "asc" } } },
@@ -249,6 +248,12 @@ export async function updateProductAction(
   if (!current) {
     return { error: feedback.productNotFound };
   }
+
+  const translations = mergeContentTranslationsFromForm(
+    current.translations,
+    formData,
+    [...TRANSLATION_FIELD_SETS.product],
+  );
 
   await db.$transaction(async (tx) => {
     const productUpdate: Prisma.productsUpdateInput = {

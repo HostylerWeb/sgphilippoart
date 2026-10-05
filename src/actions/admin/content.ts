@@ -8,7 +8,10 @@ import { requireAdmin } from "@/lib/admin";
 import { db } from "@/lib/db";
 import { slugify } from "@/lib/slug";
 import { Prisma } from "@/generated/prisma/client";
-import { parseFrenchTranslationsForm } from "@/lib/i18n/content";
+import {
+  mergeContentTranslationsFromForm,
+  parseContentTranslationsForm,
+} from "@/lib/i18n/content";
 import { TRANSLATION_FIELD_SETS } from "@/lib/i18n/localize";
 import { saveUploadedImageFile } from "@/lib/media-storage";
 import { categoryFormSchema, heroTileFormSchema } from "@/lib/validations/content";
@@ -45,7 +48,7 @@ export async function createCategoryAction(
   const existing = await db.categories.findUnique({ where: { slug: parsed.data.slug } });
   if (existing) return { error: feedback.collectionSlugExists };
 
-  const translations = parseFrenchTranslationsForm(
+  const translations = parseContentTranslationsForm(
     formData,
     [...TRANSLATION_FIELD_SETS.category],
   );
@@ -85,7 +88,11 @@ export async function updateCategoryAction(
   });
   if (existing) return { error: feedback.collectionSlugExists };
 
-  const translations = parseFrenchTranslationsForm(
+  const current = await db.categories.findUnique({ where: { id } });
+  if (!current) return { error: feedback.collectionInvalid };
+
+  const translations = mergeContentTranslationsFromForm(
+    current.translations,
     formData,
     [...TRANSLATION_FIELD_SETS.category],
   );
@@ -135,7 +142,7 @@ export async function createHeroTileAction(
     return { error: parsed.error.issues[0]?.message ?? feedback.heroTileInvalid };
   }
 
-  const translations = parseFrenchTranslationsForm(formData, [...TRANSLATION_FIELD_SETS.hero]);
+  const translations = parseContentTranslationsForm(formData, [...TRANSLATION_FIELD_SETS.hero]);
 
   const tile = await db.hero_tiles.create({
     data: {
@@ -173,7 +180,14 @@ export async function updateHeroTileAction(
     return { error: parsed.error.issues[0]?.message ?? feedback.heroTileInvalid };
   }
 
-  const translations = parseFrenchTranslationsForm(formData, [...TRANSLATION_FIELD_SETS.hero]);
+  const current = await db.hero_tiles.findUnique({ where: { id } });
+  if (!current) return { error: feedback.heroTileInvalid };
+
+  const translations = mergeContentTranslationsFromForm(
+    current.translations,
+    formData,
+    [...TRANSLATION_FIELD_SETS.hero],
+  );
 
   await db.hero_tiles.update({
     where: { id },

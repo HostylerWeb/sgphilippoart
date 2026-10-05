@@ -2,12 +2,13 @@ import { cookies } from "next/headers";
 import { DEFAULT_LOCALE, LOCALE_COOKIE, type Locale, isLocale } from "@/i18n/config";
 import { en, type Dictionary } from "@/i18n/dictionaries/en";
 import { fr } from "@/i18n/dictionaries/fr";
+import { nl } from "@/i18n/dictionaries/nl";
 import { formatMessage } from "@/i18n/format-message";
 import { localizeCategoryEntity } from "@/lib/i18n/localize";
 
 export { formatMessage };
 
-const dictionaries = { en, fr };
+const dictionaries = { en, fr, nl };
 
 export async function getLocale(): Promise<Locale> {
   const cookieStore = await cookies();

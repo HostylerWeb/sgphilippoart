@@ -5,11 +5,11 @@ import { getDictionary } from "@/i18n";
 export const ARTIST_LOCATION_BELGIUM_LUXEMBOURG_EN = "Belgium & Luxembourg";
 
 export function localizeArtistLocation(location: string, locale: Locale): string {
-  if (locale !== "fr") return location;
+  if (locale === "en") return location;
   const en = getDictionary("en");
-  const fr = getDictionary("fr");
+  const dict = getDictionary(locale);
   if (location === en.product.artistLocationBelgiumLuxembourg) {
-    return fr.product.artistLocationBelgiumLuxembourg;
+    return dict.product.artistLocationBelgiumLuxembourg;
   }
   return location;
 }

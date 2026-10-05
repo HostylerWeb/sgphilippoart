@@ -38,6 +38,14 @@ export function LanguageToggle({ locale, compact = false, ariaLabel }: LanguageT
       >
         FR
       </button>
+      <button
+        type="button"
+        className={locale === "nl" ? styles.active : undefined}
+        onClick={() => select("nl")}
+        aria-pressed={locale === "nl"}
+      >
+        NL
+      </button>
     </div>
   );
 }

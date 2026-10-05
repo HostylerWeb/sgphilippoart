@@ -84,6 +84,92 @@ const DEFAULTS: StoreSettings = {
   socialEtsy: "",
 };
 
+/** Storefront copy defaults when locale is Dutch (overridable via `*_nl` site settings). */
+const NL_LOCALIZED_DEFAULTS: Pick<
+  StoreSettings,
+  | "localeDisplay"
+  | "announcementText"
+  | "announcementHighlight"
+  | "footerDescription"
+  | "conciergeEyebrow"
+  | "conciergeTitle"
+  | "conciergeBody"
+  | "conciergeCta"
+  | "shippingLabel"
+  | "returnsPolicySummary"
+  | "taxLabel"
+  | "handlingFeeLabel"
+> = {
+  localeDisplay: "België · Luxemburg · Nederland / EUR / cm",
+  announcementText:
+    "Gratis wereldwijde verzending op originele schilderijen · Nieuw: de serie Warrior Women",
+  announcementHighlight: "Nieuw: de serie Warrior Women",
+  footerDescription:
+    "Originele olieverfschilderijen over schoonheid, mythe en de kracht van vrouwen door de geschiedenis. Met de hand geschilderd, wereldwijd verzonden.",
+  conciergeEyebrow: "Persoonlijk advies",
+  conciergeTitle: "Weet u niet welk werk past bij uw ruimte?",
+  conciergeBody:
+    "Gratis persoonlijk advies bij het kiezen van een werk dat past bij uw smaak, interieur en budget — zonder druk, alleen begeleiding.",
+  conciergeCta: "Neem contact op met het atelier",
+  shippingLabel: "Gratis wereldwijde verzending",
+  returnsPolicySummary: "14 dagen gratis retour",
+  taxLabel: "Belasting",
+  handlingFeeLabel: "Behandeling",
+};
+
+function applyLocaleSettings(
+  base: StoreSettings,
+  raw: Record<string, string | undefined>,
+  locale: Locale,
+  defaults: typeof NL_LOCALIZED_DEFAULTS,
+): StoreSettings {
+  return {
+    ...base,
+    localeDisplay: localizedSettingValue(raw, "locale_display", locale, defaults.localeDisplay),
+    announcementText: localizedSettingValue(
+      raw,
+      "announcement_text",
+      locale,
+      defaults.announcementText,
+    ),
+    announcementHighlight: localizedSettingValue(
+      raw,
+      "announcement_highlight",
+      locale,
+      defaults.announcementHighlight,
+    ),
+    footerDescription: localizedSettingValue(
+      raw,
+      "footer_description",
+      locale,
+      defaults.footerDescription,
+    ),
+    conciergeEyebrow: localizedSettingValue(
+      raw,
+      "concierge_eyebrow",
+      locale,
+      defaults.conciergeEyebrow,
+    ),
+    conciergeTitle: localizedSettingValue(raw, "concierge_title", locale, defaults.conciergeTitle),
+    conciergeBody: localizedSettingValue(raw, "concierge_body", locale, defaults.conciergeBody),
+    conciergeCta: localizedSettingValue(raw, "concierge_cta", locale, defaults.conciergeCta),
+    shippingLabel: localizedSettingValue(raw, "shipping_label", locale, defaults.shippingLabel),
+    returnsPolicySummary: localizedSettingValue(
+      raw,
+      "returns_policy_summary",
+      locale,
+      defaults.returnsPolicySummary,
+    ),
+    taxLabel: localizedSettingValue(raw, "tax_label", locale, defaults.taxLabel),
+    handlingFeeLabel: localizedSettingValue(
+      raw,
+      "handling_fee_label",
+      locale,
+      defaults.handlingFeeLabel,
+    ),
+  };
+}
+
 function parseBoolean(value: string | undefined, fallback: boolean): boolean {
   if (value === undefined) return fallback;
   return value === "true" || value === "1";
@@ -144,45 +230,26 @@ export async function getStoreSettings(locale: Locale = "en"): Promise<StoreSett
     socialEtsy: raw.social_etsy ?? DEFAULTS.socialEtsy,
   };
 
-  if (locale !== "fr") return base;
+  if (locale === "fr") {
+    return applyLocaleSettings(base, raw, locale, {
+      localeDisplay: base.localeDisplay,
+      announcementText: base.announcementText,
+      announcementHighlight: base.announcementHighlight,
+      footerDescription: base.footerDescription,
+      conciergeEyebrow: base.conciergeEyebrow,
+      conciergeTitle: base.conciergeTitle,
+      conciergeBody: base.conciergeBody,
+      conciergeCta: base.conciergeCta,
+      shippingLabel: base.shippingLabel,
+      returnsPolicySummary: base.returnsPolicySummary,
+      taxLabel: base.taxLabel,
+      handlingFeeLabel: base.handlingFeeLabel,
+    });
+  }
 
-  return {
-    ...base,
-    announcementText: localizedSettingValue(raw, "announcement_text", locale, base.announcementText),
-    announcementHighlight: localizedSettingValue(
-      raw,
-      "announcement_highlight",
-      locale,
-      base.announcementHighlight,
-    ),
-    footerDescription: localizedSettingValue(
-      raw,
-      "footer_description",
-      locale,
-      base.footerDescription,
-    ),
-    conciergeEyebrow: localizedSettingValue(
-      raw,
-      "concierge_eyebrow",
-      locale,
-      base.conciergeEyebrow,
-    ),
-    conciergeTitle: localizedSettingValue(raw, "concierge_title", locale, base.conciergeTitle),
-    conciergeBody: localizedSettingValue(raw, "concierge_body", locale, base.conciergeBody),
-    conciergeCta: localizedSettingValue(raw, "concierge_cta", locale, base.conciergeCta),
-    shippingLabel: localizedSettingValue(raw, "shipping_label", locale, base.shippingLabel),
-    returnsPolicySummary: localizedSettingValue(
-      raw,
-      "returns_policy_summary",
-      locale,
-      base.returnsPolicySummary,
-    ),
-    taxLabel: localizedSettingValue(raw, "tax_label", locale, base.taxLabel),
-    handlingFeeLabel: localizedSettingValue(
-      raw,
-      "handling_fee_label",
-      locale,
-      base.handlingFeeLabel,
-    ),
-  };
+  if (locale === "nl") {
+    return applyLocaleSettings(base, raw, locale, NL_LOCALIZED_DEFAULTS);
+  }
+
+  return base;
 }

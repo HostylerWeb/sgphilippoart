@@ -3,7 +3,7 @@ import { AdminShell } from "@/components/layout/AdminShell";
 import { TrustItemForm } from "@/components/admin/TrustItemForm";
 import { StorefrontShell } from "@/components/layout/StorefrontShell";
 import { db } from "@/lib/db";
-import { getFrenchTranslations } from "@/lib/i18n/content";
+import { getDutchTranslations, getFrenchTranslations } from "@/lib/i18n/content";
 import { getAdminLabels } from "@/lib/admin-dict";
 
 type PageProps = { params: Promise<{ id: string }> };
@@ -27,6 +27,7 @@ export default async function AdminEditTrustItemPage({ params }: PageProps) {
           item={{
             ...item,
             translationValues: getFrenchTranslations(item),
+            translationValuesNl: getDutchTranslations(item),
           }}
         />
       </AdminShell>

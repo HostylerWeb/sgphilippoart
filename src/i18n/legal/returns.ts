@@ -1,6 +1,6 @@
-import type { LegalPageContent } from "@/i18n/legal/types";
+import type { LocalizedLegalPage } from "@/i18n/legal/types";
 
-export const returns: Record<"en" | "fr", LegalPageContent> = {
+export const returns: LocalizedLegalPage = {
   en: {
     eyebrow: "Support",
     title: "Returns & exchanges",
@@ -146,6 +146,80 @@ export const returns: Record<"en" | "fr", LegalPageContent> = {
         title: "Contact",
         paragraphs: [
           "Pour toute question sur les retours, contactez {contactEmail}.",
+        ],
+      },
+    ],
+  },
+  nl: {
+    eyebrow: "Ondersteuning",
+    title: "Retour en omruiling",
+    description:
+      "{returnsSummary}. Volledige details over geschiktheid, termijnen en hoe u een retour aanvraagt.",
+    lastUpdated: "Laatst bijgewerkt: 29 juli 2026",
+    sections: [
+      {
+        id: "overview",
+        title: "Overzicht",
+        paragraphs: [
+          "We willen dat u tevreden bent met uw aankoop. Omdat veel van onze werken origineel of in limited edition zijn, verschilt ons retourbeleid per producttype. Lees de onderstaande secties zorgvuldig.",
+        ],
+      },
+      {
+        id: "originals",
+        title: "Originele kunstwerken",
+        paragraphs: [
+          "Vanwege de unieke aard van originele schilderijen zijn alle verkopen van originelen definitief zodra de bestelling is bevestigd en verzonden, behalve wanneer het werk beschadigd aankomt of wezenlijk afwijkt van de beschrijving.",
+          "Als uw origineel beschadigd aankomt, neem binnen 48 uur na levering contact op via {contactEmail} met duidelijke foto's van de buitenverpakking, binnenverpakking en het kunstwerk. We beoordelen de situatie en stellen een passende oplossing voor, waaronder reparatie, gedeeltelijke terugbetaling of retour indien mogelijk.",
+          "Retour omwille van spijtopties wordt niet geaccepteerd voor originele kunstwerken.",
+        ],
+      },
+      {
+        id: "prints",
+        title: "Limited-edition prints",
+        paragraphs: [
+          "Als een print beschadigd, defect of incorrect aankomt, vervangen we deze kosteloos of bieden we terugbetaling zodra het probleem is geverifieerd.",
+          "Prints moeten waar mogelijk in de originele verpakking worden geretourneerd. Neem contact op via {contactEmail} met uw bestelnummer, een beschrijving van het probleem en foto's.",
+        ],
+      },
+      {
+        id: "window",
+        title: "Retourtermijn",
+        paragraphs: [
+          "In aanmerking komende retourverzoeken moeten binnen {returnsDays} dagen na levering worden ingediend, tenzij een kortere termijn geldt voor schademeldingen bij originelen (48 uur zoals hierboven).",
+          "Artikelen moeten in dezelfde staat worden geretourneerd als bij ontvangst, met uitzondering van schade tijdens transport.",
+        ],
+      },
+      {
+        id: "process",
+        title: "Hoe u een retour aanvraagt",
+        paragraphs: ["Om een retour te starten of een probleem te melden:"],
+        list: [
+          "Mail naar {contactEmail} met uw bestelnummer en het e-mailadres gebruikt bij afrekenen.",
+          "Beschrijf het probleem en voeg waar relevant foto's toe.",
+          "Wacht op schriftelijke goedkeuring en retourinstructies voordat u iets naar ons terugstuurt.",
+          "Niet-geautoriseerde retouren worden mogelijk niet geaccepteerd.",
+        ],
+      },
+      {
+        id: "refunds",
+        title: "Terugbetalingen",
+        paragraphs: [
+          "Goedgekeurde terugbetalingen worden waar mogelijk naar de oorspronkelijke betaalmethode verwerkt. Omdat afrekenen momenteel als aanvraagflow werkt, worden terugbetalingen handmatig door het atelier geregeld en kunnen 5–10 werkdagen duren afhankelijk van uw bank of betaalprovider.",
+          "Oorspronkelijke verzendkosten worden niet terugbetaald, tenzij de retour te wijten is aan onze fout of een beschadigde levering.",
+        ],
+      },
+      {
+        id: "exchanges",
+        title: "Omruilingen",
+        paragraphs: [
+          "We bieden geen directe omruilingen. Wilt u een ander werk aanschaffen, plaats dan een nieuw bestelverzoek of neem contact op met het atelier nadat een eventuele retour is goedgekeurd.",
+        ],
+      },
+      {
+        id: "contact",
+        title: "Contact",
+        paragraphs: [
+          "Voor vragen over retour kunt u contact opnemen via {contactEmail}.",
         ],
       },
     ],

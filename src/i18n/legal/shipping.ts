@@ -1,6 +1,6 @@
-import type { LegalPageContent } from "@/i18n/legal/types";
+import type { LocalizedLegalPage } from "@/i18n/legal/types";
 
-export const shipping: Record<"en" | "fr", LegalPageContent> = {
+export const shipping: LocalizedLegalPage = {
   en: {
     eyebrow: "Support",
     title: "Shipping",
@@ -156,6 +156,86 @@ export const shipping: Record<"en" | "fr", LegalPageContent> = {
         title: "Questions",
         paragraphs: [
           "Pour toute question sur la livraison avant ou après achat, contactez l'atelier à {contactEmail}.",
+        ],
+      },
+    ],
+  },
+  nl: {
+    eyebrow: "Ondersteuning",
+    title: "Verzending",
+    description:
+      "Hoe we kunstwerken wereldwijd inpakken, verzenden en leveren. {shippingLabel}.",
+    lastUpdated: "Laatst bijgewerkt: 29 juli 2026",
+    sections: [
+      {
+        id: "overview",
+        title: "Overzicht",
+        paragraphs: [
+          "Elk kunstwerk dat het atelier {siteName} verlaat, wordt zorgvuldig ingepakt. We verzenden internationaal naar verzamelaars, met focus op België, Luxemburg, Frankrijk en de bredere Europese markt.",
+          "Verzendkosten en opties worden per e-mail bevestigd nadat u een bestelverzoek hebt verstuurd. Prijzen op de website worden weergegeven in {currencyCode}.",
+        ],
+      },
+      {
+        id: "packaging",
+        title: "Verpakking",
+        paragraphs: [
+          "Originele schilderijen worden beschermd met zuurvrije materialen, hoekbeschermers en versterkte buitenverpakking passend bij het formaat van het werk.",
+          "Limited-edition prints worden plat tussen stijve platen verzonden of opgerold in beschermende buizen voor grotere formaten, afhankelijk van afmetingen en bestemming.",
+          "Elk pakket wordt gecontroleerd vóór verzending zodat het kunstwerk in galerieklare staat aankomt.",
+        ],
+      },
+      {
+        id: "dispatch",
+        title: "Verzendtijden",
+        paragraphs: [
+          "Bestellingen worden doorgaans binnen 3–5 werkdagen na bevestigde betaling en acceptatie door het atelier klaargemaakt en verzonden.",
+          "Commissiewerken en prints op bestelling volgen de planning uit uw commissiebevestiging.",
+          "U ontvangt een e-mail wanneer uw bestelling wordt verzonden, inclusief trackinginformatie wanneer beschikbaar.",
+        ],
+      },
+      {
+        id: "delivery",
+        title: "Levertijden",
+        paragraphs: [
+          "Binnenlandse en Europese leveringen arriveren meestal binnen 7–14 werkdagen na verzending, afhankelijk van vervoerder en bestemming.",
+          "Internationale leveringen buiten Europa kunnen langer duren en zijn onderhevig aan lokale douaneafhandeling.",
+          "Levertijden zijn slechts schattingen en niet gegarandeerd. Gebeurtenissen buiten onze controle — waaronder douanevertragingen, weer of verstoring bij de vervoerder — kunnen de aankomstdatum beïnvloeden.",
+        ],
+      },
+      {
+        id: "handling",
+        title: "Behandelingskosten",
+        paragraphs: [
+          "{handlingFeeLabel} van {handlingFeeAmount} kunnen gelden voor bepaalde bestellingen, met name voor grote originelen of speciale verpakkingsvereisten. Eventuele kosten worden bevestigd voordat uw bestelling wordt afgerond.",
+        ],
+      },
+      {
+        id: "customs",
+        title: "Douane, invoerrechten en belastingen",
+        paragraphs: [
+          "Internationale zendingen kunnen onderworpen zijn aan invoerrechten, btw of douanekosten in uw land. Deze kosten zijn doorgaans voor rekening van de ontvanger, tenzij schriftelijk anders overeengekomen.",
+          "Douaneafhandeling kan de levering verlengen. We verstrekken handelsfacturen en benodigde documentatie om vrijgave te vergemakkelijken.",
+        ],
+      },
+      {
+        id: "tracking",
+        title: "Uw bestelling volgen",
+        paragraphs: [
+          "Na verzending kunt u uw bestelling volgen via de link in uw verzendbevestiging of op onze pagina Bestelling volgen met uw bestelnummer en e-mailadres.",
+        ],
+      },
+      {
+        id: "damage",
+        title: "Beschadigd tijdens transport",
+        paragraphs: [
+          "Als uw kunstwerk beschadigd aankomt, neem binnen 48 uur na levering contact op via {contactEmail} met foto's van de verpakking en het werk. We werken met u aan reparatie, vervanging of terugbetaling volgens ons retourbeleid.",
+        ],
+      },
+      {
+        id: "contact",
+        title: "Vragen",
+        paragraphs: [
+          "Voor vragen over verzending vóór of na aankoop kunt u het atelier bereiken via {contactEmail}.",
         ],
       },
     ],

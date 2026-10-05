@@ -24,6 +24,7 @@ type HeroTileFormProps = {
     sort_order: number;
     is_active: boolean;
     translationValues?: Record<string, string>;
+    translationValuesNl?: Record<string, string>;
   };
 };
 
@@ -72,6 +73,7 @@ export function HeroTileForm({ tile }: HeroTileFormProps) {
       </label>
 
       <TranslationFields
+        locale="fr"
         title={pf.frenchTranslations}
         hint={pf.translationHint}
         fields={[
@@ -81,6 +83,19 @@ export function HeroTileForm({ tile }: HeroTileFormProps) {
           { name: "image_alt", label: f.imageAlt },
         ]}
         values={tile?.translationValues}
+      />
+
+      <TranslationFields
+        locale="nl"
+        title={pf.dutchTranslations}
+        hint={pf.translationHint}
+        fields={[
+          { name: "eyebrow", label: f.eyebrow },
+          { name: "title", label: f.title },
+          { name: "link_text", label: f.linkText },
+          { name: "image_alt", label: f.imageAlt },
+        ]}
+        values={tile?.translationValuesNl}
       />
 
       <label>

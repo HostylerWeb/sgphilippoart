@@ -6,7 +6,10 @@ import { getAdminFeedback } from "@/lib/admin-feedback";
 import { requireAdmin } from "@/lib/admin";
 import { db } from "@/lib/db";
 import { Prisma } from "@/generated/prisma/client";
-import { parseFrenchTranslationsForm } from "@/lib/i18n/content";
+import {
+  mergeContentTranslationsFromForm,
+  parseContentTranslationsForm,
+} from "@/lib/i18n/content";
 import { TRANSLATION_FIELD_SETS } from "@/lib/i18n/localize";
 import { trustItemFormSchema } from "@/lib/validations/trust-item";
 
@@ -33,7 +36,7 @@ export async function createTrustItemAction(
     return { error: parsed.error.issues[0]?.message ?? feedback.trustItemInvalid };
   }
 
-  const translations = parseFrenchTranslationsForm(
+  const translations = parseContentTranslationsForm(
     formData,
     [...TRANSLATION_FIELD_SETS.trust],
   );
@@ -60,7 +63,11 @@ export async function updateTrustItemAction(
     return { error: parsed.error.issues[0]?.message ?? feedback.trustItemInvalid };
   }
 
-  const translations = parseFrenchTranslationsForm(
+  const current = await db.trust_items.findUnique({ where: { id } });
+  if (!current) return { error: feedback.trustItemInvalid };
+
+  const translations = mergeContentTranslationsFromForm(
+    current.translations,
     formData,
     [...TRANSLATION_FIELD_SETS.trust],
   );

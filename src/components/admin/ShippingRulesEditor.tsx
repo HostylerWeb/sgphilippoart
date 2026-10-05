@@ -6,7 +6,7 @@ import {
   type ShippingCountryRates,
   serializeShippingCountryRates,
 } from "@/lib/shipping";
-import { sortCountriesByLocale } from "@/lib/european-countries";
+import { pickLocalized, sortCountriesByLocale } from "@/lib/european-countries";
 import styles from "./ShippingRulesEditor.module.css";
 
 type ShippingRulesEditorProps = {
@@ -20,8 +20,6 @@ export function ShippingRulesEditor({
 }: ShippingRulesEditorProps) {
   const { dict, locale } = useI18n();
   const f = dict.admin.forms.shipping;
-  const countryLocale = locale === "fr" ? "fr" : "en";
-
   const [rates, setRates] = useState<ShippingCountryRates>(initialRates);
 
   if (shippingMode !== "by_country") {
@@ -98,9 +96,9 @@ export function ShippingRulesEditor({
             onChange={(event) => updateCountryRate(index, "code", event.target.value)}
           >
             <option value="">{f.selectCountry}</option>
-            {sortCountriesByLocale(countryLocale).map((country) => (
+            {sortCountriesByLocale(locale).map((country) => (
               <option key={country.code} value={country.code}>
-                {country.name[countryLocale]}
+                {pickLocalized(country.name, locale)}
               </option>
             ))}
           </select>

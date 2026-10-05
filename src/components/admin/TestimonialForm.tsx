@@ -24,6 +24,7 @@ type TestimonialFormProps = {
     is_verified: boolean;
     is_published: boolean;
     translationValues?: Record<string, string>;
+    translationValuesNl?: Record<string, string>;
   };
 };
 
@@ -53,6 +54,7 @@ export function TestimonialForm({ testimonial }: TestimonialFormProps) {
       </label>
 
       <TranslationFields
+        locale="fr"
         title={pf.frenchTranslations}
         hint={pf.translationHint}
         fields={[
@@ -60,6 +62,17 @@ export function TestimonialForm({ testimonial }: TestimonialFormProps) {
           { name: "body", label: f.reviewBody, type: "textarea", rows: 5 },
         ]}
         values={testimonial?.translationValues}
+      />
+
+      <TranslationFields
+        locale="nl"
+        title={pf.dutchTranslations}
+        hint={pf.translationHint}
+        fields={[
+          { name: "title", label: f.reviewTitle },
+          { name: "body", label: f.reviewBody, type: "textarea", rows: 5 },
+        ]}
+        values={testimonial?.translationValuesNl}
       />
 
       <div className={formStyles.gridTwo}>

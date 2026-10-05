@@ -1,6 +1,6 @@
-import type { LegalPageContent } from "@/i18n/legal/types";
+import type { LocalizedLegalPage } from "@/i18n/legal/types";
 
-export const legalNotice: Record<"en" | "fr", LegalPageContent> = {
+export const legalNotice: LocalizedLegalPage = {
   en: {
     eyebrow: "Legal",
     title: "Legal notice",
@@ -133,6 +133,74 @@ export const legalNotice: Record<"en" | "fr", LegalPageContent> = {
         title: "Contact",
         paragraphs: [
           "Pour toute demande juridique concernant ce site, contactez {contactEmail}.",
+        ],
+      },
+    ],
+  },
+  nl: {
+    eyebrow: "Juridisch",
+    title: "Juridische vermelding",
+    description: "Uitgeversinformatie en juridische details voor de website {siteName}.",
+    lastUpdated: "Laatst bijgewerkt: 29 juli 2026",
+    sections: [
+      {
+        id: "publisher",
+        title: "Uitgever van de website",
+        paragraphs: [
+          "Deze website wordt uitgegeven door {siteName}, een hedendaags kunstatelier.",
+          "Primaire markten: {localeDisplay}.",
+          "Contact e-mail: {contactEmail}.",
+        ],
+      },
+      {
+        id: "hosting",
+        title: "Hosting",
+        paragraphs: [
+          "De website wordt gehost op beveiligde infrastructuur beheerd door professionele hostingproviders. Serverlocaties en providers kunnen worden bijgewerkt naarmate de technische behoeften van het atelier evolueren.",
+        ],
+      },
+      {
+        id: "ip",
+        title: "Intellectueel eigendom",
+        paragraphs: [
+          "Alle inhoud op deze website — waaronder kunstwerken, foto's, tekst, graphics, logo's en design — is beschermd door auteursrecht en behoort toe aan {siteName} of haar licentiegevers, tenzij anders vermeld.",
+          "Reproductie, weergave, wijziging of exploitatie zonder voorafgaande schriftelijke toestemming is verboden.",
+        ],
+      },
+      {
+        id: "liability",
+        title: "Aansprakelijkheid",
+        paragraphs: [
+          "{siteName} streeft ernaar informatie op deze website nauwkeurig en actueel te houden. We kunnen echter niet garanderen dat er geen fouten zijn of dat de site ononderbroken beschikbaar is.",
+          "Het atelier kan niet aansprakelijk worden gesteld voor directe of indirecte schade door toegang tot of gebruik van de website, behalve waar aansprakelijkheid niet kan worden uitgesloten onder dwingend recht.",
+        ],
+      },
+      {
+        id: "links",
+        title: "Externe links",
+        paragraphs: [
+          "Deze website kan links naar websites van derden bevatten. We zijn niet verantwoordelijk voor de inhoud of privacypraktijken van externe sites.",
+        ],
+      },
+      {
+        id: "law",
+        title: "Toepasselijk recht",
+        paragraphs: [
+          "Deze juridische vermelding en het gebruik van de website vallen onder het Belgische recht, met inachtneming van dwingende consumentenbescherming in uw land van verblijf waar van toepassing.",
+        ],
+      },
+      {
+        id: "privacy",
+        title: "Persoonsgegevens",
+        paragraphs: [
+          "Voor informatie over hoe we persoonsgegevens verwerken, zie ons privacybeleid. Voor cookies, zie ons cookiebeleid.",
+        ],
+      },
+      {
+        id: "contact",
+        title: "Contact",
+        paragraphs: [
+          "Voor juridische vragen over deze website kunt u contact opnemen via {contactEmail}.",
         ],
       },
     ],

@@ -1,6 +1,6 @@
-import type { LegalPageContent } from "@/i18n/legal/types";
+import type { LocalizedLegalPage } from "@/i18n/legal/types";
 
-export const cookies: Record<"en" | "fr", LegalPageContent> = {
+export const cookies: LocalizedLegalPage = {
   en: {
     eyebrow: "Legal",
     title: "Cookie policy",
@@ -24,7 +24,7 @@ export const cookies: Record<"en" | "fr", LegalPageContent> = {
         table: {
           headers: ["Cookie", "Purpose", "Duration"],
           rows: [
-            ["spa_locale", "Remembers your language preference (English or French)", "1 year"],
+            ["spa_locale", "Remembers your language preference (English, French, or Dutch)", "1 year"],
             ["spa_cart_session", "Keeps items in your shopping cart", "30 days"],
             ["spa_cookie_consent", "Stores your cookie banner choice", "1 year"],
             ["next-auth session cookies", "Maintains your account session when signed in", "Session / rolling"],
@@ -99,7 +99,7 @@ export const cookies: Record<"en" | "fr", LegalPageContent> = {
         table: {
           headers: ["Cookie", "Finalité", "Durée"],
           rows: [
-            ["spa_locale", "Mémorise votre préférence de langue (anglais ou français)", "1 an"],
+            ["spa_locale", "Mémorise votre préférence de langue (anglais, français ou néerlandais)", "1 an"],
             ["spa_cart_session", "Conserve les articles de votre panier", "30 jours"],
             ["spa_cookie_consent", "Enregistre votre choix sur la bannière cookies", "1 an"],
             ["Cookies de session next-auth", "Maintient votre session de compte lorsque vous êtes connecté", "Session / renouvelable"],
@@ -146,6 +146,81 @@ export const cookies: Record<"en" | "fr", LegalPageContent> = {
         title: "Contact",
         paragraphs: [
           "Les questions relatives aux cookies peuvent être envoyées à {contactEmail}. Pour les questions plus générales sur la protection des données, consultez notre Politique de confidentialité.",
+        ],
+      },
+    ],
+  },
+  nl: {
+    eyebrow: "Juridisch",
+    title: "Cookiebeleid",
+    description:
+      "Hoe {siteName} cookies en vergelijkbare technologieën op deze website gebruikt.",
+    lastUpdated: "Laatst bijgewerkt: 29 juli 2026",
+    sections: [
+      {
+        id: "what",
+        title: "Wat zijn cookies?",
+        paragraphs: [
+          "Cookies zijn kleine tekstbestanden die op uw apparaat worden opgeslagen wanneer u een website bezoekt. Ze helpen de site uw voorkeuren te onthouden, u ingelogd te houden en veilig te werken.",
+          "Dit beleid legt uit welke cookies we gebruiken, waarom we ze gebruiken en hoe u uw keuzes kunt beheren.",
+        ],
+      },
+      {
+        id: "essential",
+        title: "Essentiële cookies",
+        paragraphs: [
+          "Deze cookies zijn nodig om de website te laten functioneren. Ze vereisen geen marketingtoestemming onder de EU ePrivacy-regels, omdat ze strikt nodig zijn voor de dienst die u vraagt.",
+        ],
+        table: {
+          headers: ["Cookie", "Doel", "Duur"],
+          rows: [
+            ["spa_locale", "Onthoudt uw taalvoorkeur (Engels, Frans of Nederlands)", "1 jaar"],
+            ["spa_cart_session", "Houdt artikelen in uw winkelwagen", "30 dagen"],
+            ["spa_cookie_consent", "Slaat uw keuze op de cookiebanner op", "1 jaar"],
+            ["next-auth sessiecookies", "Houdt uw accountsessie actief wanneer u bent ingelogd", "Sessie / verlengbaar"],
+          ],
+        },
+      },
+      {
+        id: "non-essential",
+        title: "Niet-essentiële cookies",
+        paragraphs: [
+          "We gebruiken momenteel geen advertentie- of trackingcookies van derden.",
+          "Als er in de toekomst analyse- of marketingtools worden toegevoegd, werken we dit beleid bij en vragen we waar nodig uw toestemming voordat niet-essentiële cookies worden geactiveerd.",
+        ],
+      },
+      {
+        id: "banner",
+        title: "Cookiebanner",
+        paragraphs: [
+          "Bij uw eerste bezoek kunt u een banner zien waarmee u alle cookies kunt accepteren of alleen met essentiële cookies verder kunt gaan. Uw keuze wordt opgeslagen in de cookie spa_cookie_consent zodat de banner niet onnodig opnieuw wordt getoond.",
+        ],
+      },
+      {
+        id: "manage",
+        title: "Cookies beheren",
+        paragraphs: [
+          "U kunt cookies op elk moment verwijderen of blokkeren via de instellingen van uw browser. Let op: het blokkeren van essentiële cookies kan ervoor zorgen dat delen van de website niet goed werken — bijvoorbeeld wordt uw winkelwagen mogelijk niet bewaard of wordt u uitgelogd.",
+        ],
+        list: [
+          "Chrome: Instellingen → Privacy en beveiliging → Cookies",
+          "Firefox: Instellingen → Privacy en beveiliging → Cookies en websitegegevens",
+          "Safari: Instellingen → Privacy → Websitegegevens beheren",
+          "Edge: Instellingen → Cookies en siterechten",
+        ],
+      },
+      {
+        id: "changes",
+        title: "Updates",
+        paragraphs: [
+          "We kunnen dit cookiebeleid bijwerken wanneer onze website of wettelijke vereisten veranderen. De datum bovenaan deze pagina geeft de meest recente versie aan.",
+        ],
+      },
+      {
+        id: "contact",
+        title: "Contact",
+        paragraphs: [
+          "Vragen over cookies kunt u sturen naar {contactEmail}. Voor bredere vragen over gegevensbescherming, zie ons privacybeleid.",
         ],
       },
     ],

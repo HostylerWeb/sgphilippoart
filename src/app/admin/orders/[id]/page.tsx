@@ -10,6 +10,7 @@ import { formatPrice } from "@/lib/format";
 import { db } from "@/lib/db";
 import { getStoreSettings } from "@/lib/settings";
 import { formatMessage } from "@/i18n/format-message";
+import { getIntlLocale } from "@/i18n/config";
 import { getLocale } from "@/i18n";
 import { getAdminLabels } from "@/lib/admin-dict";
 import styles from "./page.module.css";
@@ -32,7 +33,7 @@ export default async function AdminOrderDetailPage({ params }: PageProps) {
 
   const d = admin.detail.order;
   const t = admin.tables;
-  const dateLocale = locale === "fr" ? "fr-FR" : "en-US";
+  const dateLocale = getIntlLocale(locale);
   const address = order.shipping_address as Record<string, string> | null;
 
   return (

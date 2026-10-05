@@ -4,11 +4,12 @@ import tableStyles from "@/components/admin/AdminTable.module.css";
 import { markMessageReadAction } from "@/actions/admin/orders";
 import { db } from "@/lib/db";
 import { getAdminLabels } from "@/lib/admin-dict";
+import { getIntlLocale } from "@/i18n/config";
 import { getLocale } from "@/i18n";
 
 export default async function AdminMessagesPage() {
   const locale = await getLocale();
-  const dateLocale = locale === "fr" ? "fr-FR" : "en-US";
+  const dateLocale = getIntlLocale(locale);
   const admin = await getAdminLabels();
   const p = admin.pages.messages;
   const t = admin.tables;

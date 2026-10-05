@@ -14,6 +14,7 @@ const PayPalCheckout = dynamic(
 import { useI18n } from "@/components/layout/I18nProvider";
 import {
   getCountryAddressFormat,
+  pickLocalized,
   resolveCountryCode,
   sortCountriesByLocale,
   type AddressLabelKey,
@@ -60,7 +61,8 @@ export function CheckoutForm({
   const addressFormat = getCountryAddressFormat(countryCode);
 
   function fieldLabel(key: AddressLabelKey): string {
-    return addressFormat.labels?.[key]?.[locale] ?? t[key];
+    const label = addressFormat.labels?.[key];
+    return label ? pickLocalized(label, locale) : t[key];
   }
 
   function readPayload(form: HTMLFormElement): CheckoutPayload {
@@ -128,9 +130,17 @@ export function CheckoutForm({
         required
         autoComplete="postal-code"
         defaultValue={defaults?.postalCode}
-        placeholder={addressFormat.postalPlaceholder?.[locale]}
+        placeholder={
+          addressFormat.postalPlaceholder
+            ? pickLocalized(addressFormat.postalPlaceholder, locale)
+            : undefined
+        }
         pattern={addressFormat.postalPattern}
-        title={addressFormat.postalPlaceholder?.[locale]}
+        title={
+          addressFormat.postalPlaceholder
+            ? pickLocalized(addressFormat.postalPlaceholder, locale)
+            : undefined
+        }
       />
     </label>
   );
@@ -216,7 +226,7 @@ export function CheckoutForm({
               </option>
               {countries.map((country) => (
                 <option key={country.code} value={country.code}>
-                  {country.name[locale]}
+                  {pickLocalized(country.name, locale)}
                 </option>
               ))}
             </select>

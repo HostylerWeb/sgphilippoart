@@ -22,6 +22,7 @@ type TrustItemFormProps = {
     sort_order: number;
     is_active: boolean;
     translationValues?: Record<string, string>;
+    translationValuesNl?: Record<string, string>;
   };
 };
 
@@ -49,6 +50,7 @@ export function TrustItemForm({ item }: TrustItemFormProps) {
       </label>
 
       <TranslationFields
+        locale="fr"
         title={pf.frenchTranslations}
         hint={pf.translationHint}
         fields={[
@@ -56,6 +58,17 @@ export function TrustItemForm({ item }: TrustItemFormProps) {
           { name: "body", label: f.body, type: "textarea", rows: 3 },
         ]}
         values={item?.translationValues}
+      />
+
+      <TranslationFields
+        locale="nl"
+        title={pf.dutchTranslations}
+        hint={pf.translationHint}
+        fields={[
+          { name: "title", label: f.title },
+          { name: "body", label: f.body, type: "textarea", rows: 3 },
+        ]}
+        values={item?.translationValuesNl}
       />
 
       <div className={formStyles.gridTwo}>

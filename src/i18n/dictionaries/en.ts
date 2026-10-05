@@ -819,6 +819,7 @@ export const en = {
         deleteProduct: "Delete product",
         previewStorefront: "Preview on storefront",
         frenchTranslations: "French (FR) translation",
+        dutchTranslations: "Dutch (NL) translation",
         translationHint:
           "Optional. When filled in, French visitors see these instead of the English fields above.",
       },

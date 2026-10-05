@@ -1,6 +1,6 @@
-import type { LegalPageContent } from "@/i18n/legal/types";
+import type { LocalizedLegalPage } from "@/i18n/legal/types";
 
-export const privacy: Record<"en" | "fr", LegalPageContent> = {
+export const privacy: LocalizedLegalPage = {
   en: {
     eyebrow: "Legal",
     title: "Privacy policy",
@@ -262,6 +262,139 @@ export const privacy: Record<"en" | "fr", LegalPageContent> = {
         title: "Contact",
         paragraphs: [
           "Pour toute question concernant cette politique ou vos données personnelles, contactez {siteName} à {contactEmail}.",
+        ],
+      },
+    ],
+  },
+  nl: {
+    eyebrow: "Juridisch",
+    title: "Privacybeleid",
+    description:
+      "Hoe {siteName} uw persoonsgegevens verzamelt, gebruikt, bewaart en beschermt.",
+    lastUpdated: "Laatst bijgewerkt: 29 juli 2026",
+    sections: [
+      {
+        id: "introduction",
+        title: "Inleiding",
+        paragraphs: [
+          "{siteName} («wij», «ons») respecteert uw privacy. Dit beleid legt uit welke persoonsgegevens we verzamelen wanneer u onze website gebruikt, waarom we dat doen, hoe lang we ze bewaren en welke rechten u heeft onder de toepasselijke wetgeving, waaronder de Algemene verordening gegevensbescherming (AVG/GDPR).",
+          "Door deze website te gebruiken, een account aan te maken, een bestelverzoek te plaatsen, u in te schrijven voor onze nieuwsbrief of contact op te nemen met het atelier, erkent u dat u dit beleid hebt gelezen.",
+        ],
+      },
+      {
+        id: "controller",
+        title: "Verwerkingsverantwoordelijke",
+        paragraphs: [
+          "De verwerkingsverantwoordelijke voor uw persoonsgegevens is {siteName}. Voor privacygerelateerde vragen kunt u contact opnemen via {contactEmail}.",
+          "We richten ons voornamelijk op verzamelaars in {localeDisplay}. Als u in de Europese Economische Ruimte, het Verenigd Koninkrijk of Zwitserland woont, gelden de hieronder beschreven AVG-rechten voor u.",
+        ],
+      },
+      {
+        id: "collect",
+        title: "Welke gegevens we verzamelen",
+        paragraphs: [
+          "Afhankelijk van hoe u met de site omgaat, kunnen we de volgende categorieën persoonsgegevens verzamelen:",
+        ],
+        list: [
+          "Identiteit en contactgegevens: naam, e-mailadres, telefoonnummer, factuur- en verzendadres.",
+          "Accountgegevens: inloggegevens (gehasht opgeslagen), accountvoorkeuren en opgeslagen verzendgegevens.",
+          "Bestel- en aanvraaggegevens: gevraagde werken, winkelwageninhoud, bestelnummers, bestelstatus en correspondentie over beschikbaarheid, verzending en betaling.",
+          "Communicatiegegevens: berichten via contact- of commissieformulieren en nieuwsbriefvoorkeuren.",
+          "Technische gegevens: IP-adres, browsertype, apparaatinformatie en basisserverlogs voor beveiliging en probleemoplossing.",
+          "Cookiegegevens: taalvoorkeur, winkelwagensessie, authenticatiesessie en cookiekeuze. Zie ons cookiebeleid voor details.",
+        ],
+      },
+      {
+        id: "use",
+        title: "Hoe we uw gegevens gebruiken",
+        paragraphs: [
+          "We gebruiken persoonsgegevens alleen wanneer we een rechtsgrond hebben, waaronder:",
+        ],
+        list: [
+          "Het verwerken van bestelverzoeken en het uitvoeren van aankopen die u aanvraagt.",
+          "Het beheren van uw account en verlanglijst.",
+          "Het beantwoorden van contact-, commissie- en supportverzoeken.",
+          "Het versturen van atelierupdates en nieuwsbrieven wanneer u zich heeft ingeschreven.",
+          "Het verbeteren van websiteprestaties, beveiliging en gebruikerservaring.",
+          "Het naleven van wettelijke, fiscale en boekhoudkundige verplichtingen.",
+        ],
+      },
+      {
+        id: "legal-bases",
+        title: "Rechtsgronden voor verwerking",
+        paragraphs: [
+          "Onder de AVG steunen we op een of meer van de volgende rechtsgronden:",
+        ],
+        list: [
+          "Overeenkomst: om uw bestelverzoek te verwerken en de door u gevraagde werken of diensten te leveren.",
+          "Toestemming: voor nieuwsbrief-e-mails en niet-essentiële cookies wanneer vereist.",
+          "Gerechtvaardigd belang: om de website te exploiteren en te beveiligen, fraude te voorkomen en onze diensten te verbeteren zonder uw rechten te overschrijden.",
+          "Wettelijke verplichting: wanneer we gegevens moeten bewaren voor fiscale, boekhoudkundige of regelgevende doeleinden.",
+        ],
+      },
+      {
+        id: "sharing",
+        title: "Delen van uw gegevens",
+        paragraphs: [
+          "We verkopen uw persoonsgegevens niet. We kunnen beperkte informatie delen met vertrouwde dienstverleners die ons helpen de website en het atelier te runnen, zoals hosting, e-mailbezorging en vervoerders. Deze partijen mogen uw gegevens alleen gebruiken om diensten voor ons uit te voeren.",
+          "Als online kaartbetalingen in de toekomst worden ingevoerd, verwerken betalingsproviders betalingsgegevens onder hun eigen privacybeleid. We slaan geen volledige kaartnummers op onze servers op.",
+          "We kunnen informatie openbaar maken wanneer de wet dit vereist of om de rechten, eigendom of veiligheid van het atelier, onze klanten of anderen te beschermen.",
+        ],
+      },
+      {
+        id: "retention",
+        title: "Hoe lang we gegevens bewaren",
+        paragraphs: [
+          "We bewaren persoonsgegevens alleen zolang nodig voor de in dit beleid beschreven doeleinden.",
+        ],
+        list: [
+          "Accountgegevens worden bewaard zolang uw account actief is en daarna een redelijke periode.",
+          "Bestelgegevens worden bewaard voor de periode die de toepasselijke handels- en fiscale wetgeving vereist.",
+          "Nieuwsbriefgegevens worden bewaard tot u zich uitschrijft.",
+          "Server- en beveiligingslogs worden voor een beperkte periode bewaard, tenzij nodig voor een onderzoek.",
+        ],
+      },
+      {
+        id: "transfers",
+        title: "Internationale doorgifte",
+        paragraphs: [
+          "Sommige dienstverleners kunnen gegevens verwerken buiten uw land van verblijf. In dat geval treffen we passende waarborgen, zoals standaardcontractbepalingen of equivalente bescherming die de wet vereist.",
+        ],
+      },
+      {
+        id: "rights",
+        title: "Uw rechten",
+        paragraphs: [
+          "Afhankelijk van waar u woont, kunt u recht hebben op inzage, rectificatie, verwijdering, beperking of bezwaar tegen bepaalde verwerking, intrekking van toestemming, gegevensoverdraagbaarheid of een klacht bij uw lokale toezichthoudende autoriteit.",
+          "Om deze rechten uit te oefenen, mail naar {contactEmail}. We kunnen uw identiteit moeten verifiëren voordat we reageren.",
+        ],
+      },
+      {
+        id: "security",
+        title: "Beveiliging",
+        paragraphs: [
+          "We nemen passende technische en organisatorische maatregelen om persoonsgegevens te beschermen tegen ongeoorloofde toegang, verlies, misbruik of wijziging. Geen enkele internettransmissie is volledig veilig, maar we streven ernaar uw informatie te beschermen met gangbare praktijken.",
+        ],
+      },
+      {
+        id: "children",
+        title: "Kinderen",
+        paragraphs: [
+          "Onze website is niet gericht op kinderen jonger dan 16 jaar en we verzamelen niet bewust persoonsgegevens van kinderen. Als u denkt dat een kind ons gegevens heeft gegeven, neem contact op zodat we deze kunnen verwijderen.",
+        ],
+      },
+      {
+        id: "changes",
+        title: "Wijzigingen in dit beleid",
+        paragraphs: [
+          "We kunnen dit privacybeleid van tijd tot tijd bijwerken. De datum «Laatst bijgewerkt» bovenaan deze pagina toont de meest recente versie. Belangrijke wijzigingen kunnen ook per e-mail of via een melding op de website worden gecommuniceerd.",
+        ],
+      },
+      {
+        id: "contact",
+        title: "Contact",
+        paragraphs: [
+          "Voor vragen over dit privacybeleid of uw persoonsgegevens kunt u contact opnemen met {siteName} via {contactEmail}.",
         ],
       },
     ],

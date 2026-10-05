@@ -6,7 +6,7 @@ const { auth } = NextAuth(authConfig);
 
 export default auth((request) => {
   const lang = request.nextUrl.searchParams.get("lang");
-  if (lang === "en" || lang === "fr") {
+  if (lang === "en" || lang === "fr" || lang === "nl") {
     const url = request.nextUrl.clone();
     url.searchParams.delete("lang");
     const response = NextResponse.redirect(url);

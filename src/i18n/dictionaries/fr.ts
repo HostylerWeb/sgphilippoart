@@ -842,6 +842,7 @@ export const fr = {
         deleteProduct: "Supprimer le produit",
         previewStorefront: "Aperçu sur la boutique",
         frenchTranslations: "Traduction française (FR)",
+        dutchTranslations: "Traduction néerlandaise (NL)",
         translationHint:
           "Facultatif. Si renseigné, les visiteurs en français verront ces textes plutôt que les champs anglais ci-dessus.",
       },

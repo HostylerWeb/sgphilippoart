@@ -47,6 +47,7 @@ type ProductFormProps = {
     images: ProductImage[];
     video_url: string | null;
     translationValues?: Record<string, string>;
+    translationValuesNl?: Record<string, string>;
   };
 };
 
@@ -176,6 +177,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
       </label>
 
       <TranslationFields
+        locale="fr"
         title={f.frenchTranslations}
         hint={f.translationHint}
         fields={[
@@ -186,6 +188,20 @@ export function ProductForm({ categories, product }: ProductFormProps) {
           { name: "meta_description", label: f.metaDescription, type: "textarea", rows: 3 },
         ]}
         values={product?.translationValues}
+      />
+
+      <TranslationFields
+        locale="nl"
+        title={f.dutchTranslations}
+        hint={f.translationHint}
+        fields={[
+          { name: "title", label: f.title },
+          { name: "description", label: f.description, type: "textarea", rows: 5 },
+          { name: "medium", label: f.medium },
+          { name: "meta_title", label: f.metaTitle },
+          { name: "meta_description", label: f.metaDescription, type: "textarea", rows: 3 },
+        ]}
+        values={product?.translationValuesNl}
       />
 
       <ProductMediaSection

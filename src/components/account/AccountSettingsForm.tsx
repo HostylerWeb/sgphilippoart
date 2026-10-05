@@ -6,6 +6,7 @@ import { useI18n } from "@/components/layout/I18nProvider";
 import {
   getCountryAddressFormat,
   getCountryName,
+  pickLocalized,
   resolveCountryCode,
   sortCountriesByLocale,
   type AddressLabelKey,
@@ -47,7 +48,8 @@ export function AccountSettingsForm({ profile, labels }: AccountSettingsFormProp
   const stateRequired = addressFormat.state === "required";
 
   function fieldLabel(key: AddressLabelKey): string {
-    return addressFormat.labels?.[key]?.[locale] ?? checkoutLabels[key];
+    const label = addressFormat.labels?.[key];
+    return label ? pickLocalized(label, locale) : checkoutLabels[key];
   }
 
   return (
@@ -101,7 +103,7 @@ export function AccountSettingsForm({ profile, labels }: AccountSettingsFormProp
               </option>
               {countries.map((country) => (
                 <option key={country.code} value={country.code}>
-                  {country.name[locale]}
+                  {pickLocalized(country.name, locale)}
                 </option>
               ))}
             </select>
@@ -134,7 +136,11 @@ export function AccountSettingsForm({ profile, labels }: AccountSettingsFormProp
                   required
                   defaultValue={address?.postal_code ?? ""}
                   autoComplete="postal-code"
-                  placeholder={addressFormat.postalPlaceholder?.[locale]}
+                  placeholder={
+                    addressFormat.postalPlaceholder
+                      ? pickLocalized(addressFormat.postalPlaceholder, locale)
+                      : undefined
+                  }
                 />
               </label>
               <label>
@@ -176,7 +182,11 @@ export function AccountSettingsForm({ profile, labels }: AccountSettingsFormProp
                   required
                   defaultValue={address?.postal_code ?? ""}
                   autoComplete="postal-code"
-                  placeholder={addressFormat.postalPlaceholder?.[locale]}
+                  placeholder={
+                    addressFormat.postalPlaceholder
+                      ? pickLocalized(addressFormat.postalPlaceholder, locale)
+                      : undefined
+                  }
                 />
               </label>
             </>

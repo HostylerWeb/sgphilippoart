@@ -20,7 +20,8 @@ export async function getAboutPageContent(locale: Locale): Promise<AboutPageCopy
 
   try {
     const parsed = JSON.parse(row.value) as Partial<AboutPageFormValues>;
-    const override = parsed[locale];
+    const override =
+      locale === "en" || locale === "fr" ? parsed[locale] : undefined;
     if (!override) return defaults;
     return { ...defaults, ...override };
   } catch {

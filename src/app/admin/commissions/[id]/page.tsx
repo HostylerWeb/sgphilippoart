@@ -6,6 +6,7 @@ import { StorefrontShell } from "@/components/layout/StorefrontShell";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { db } from "@/lib/db";
 import { formatMessage } from "@/i18n/format-message";
+import { getIntlLocale } from "@/i18n/config";
 import { getLocale } from "@/i18n";
 import { getAdminLabels } from "@/lib/admin-dict";
 import styles from "./page.module.css";
@@ -23,7 +24,7 @@ export default async function AdminCommissionDetailPage({ params }: PageProps) {
   if (!inquiry) notFound();
 
   const d = admin.detail.commission;
-  const dateLocale = locale === "fr" ? "fr-FR" : "en-US";
+  const dateLocale = getIntlLocale(locale);
 
   return (
     <StorefrontShell>

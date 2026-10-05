@@ -27,6 +27,12 @@ export type LegalPageSlug =
   | "returns"
   | "legalNotice";
 
+export type LocalizedLegalPage = {
+  en: LegalPageContent;
+  fr: LegalPageContent;
+  nl?: LegalPageContent;
+};
+
 export type LegalPageVars = {
   siteName: string;
   contactEmail: string;
