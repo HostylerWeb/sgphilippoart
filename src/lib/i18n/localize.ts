@@ -44,22 +44,25 @@ export function localizeProduct<T extends ProductLike>(product: T, locale: Local
 }
 
 type CategoryLike = {
+  slug?: string;
   name: string;
   description?: string | null;
   translations?: unknown;
 };
 
 export function localizeCategoryEntity<T extends CategoryLike>(category: T, locale: Locale): T {
+  const scope = category.slug ? `category:${category.slug}` : undefined;
   return {
     ...category,
-    name: getLocalizedField(category, "name", locale, category.name),
+    name: getLocalizedField(category, "name", locale, category.name, scope),
     description: category.description
-      ? getLocalizedField(category, "description", locale, category.description)
+      ? getLocalizedField(category, "description", locale, category.description, scope)
       : category.description,
   };
 }
 
 type HeroLike = {
+  id?: string;
   eyebrow: string;
   title: string;
   link_text: string;
@@ -68,18 +71,20 @@ type HeroLike = {
 };
 
 export function localizeHeroTile<T extends HeroLike>(tile: T, locale: Locale): T {
+  const scope = tile.id ? `hero:${tile.id}` : undefined;
   return {
     ...tile,
-    eyebrow: getLocalizedField(tile, "eyebrow", locale, tile.eyebrow),
-    title: getLocalizedField(tile, "title", locale, tile.title),
-    link_text: getLocalizedField(tile, "link_text", locale, tile.link_text),
+    eyebrow: getLocalizedField(tile, "eyebrow", locale, tile.eyebrow, scope),
+    title: getLocalizedField(tile, "title", locale, tile.title, scope),
+    link_text: getLocalizedField(tile, "link_text", locale, tile.link_text, scope),
     image_alt: tile.image_alt
-      ? getLocalizedField(tile, "image_alt", locale, tile.image_alt)
+      ? getLocalizedField(tile, "image_alt", locale, tile.image_alt, scope)
       : tile.image_alt,
   };
 }
 
 type TestimonialLike = {
+  id?: string;
   title: string;
   body: string;
   translations?: unknown;
@@ -89,23 +94,26 @@ export function localizeTestimonial<T extends TestimonialLike>(
   testimonial: T,
   locale: Locale,
 ): T {
+  const scope = testimonial.id ? `testimonial:${testimonial.id}` : undefined;
   return {
     ...testimonial,
-    title: getLocalizedField(testimonial, "title", locale, testimonial.title),
-    body: getLocalizedField(testimonial, "body", locale, testimonial.body),
+    title: getLocalizedField(testimonial, "title", locale, testimonial.title, scope),
+    body: getLocalizedField(testimonial, "body", locale, testimonial.body, scope),
   };
 }
 
 type TrustLike = {
+  icon?: string;
   title: string;
   body: string;
   translations?: unknown;
 };
 
 export function localizeTrustItem<T extends TrustLike>(item: T, locale: Locale): T {
+  const scope = item.icon ? `trust:${item.icon}` : undefined;
   return {
     ...item,
-    title: getLocalizedField(item, "title", locale, item.title),
-    body: getLocalizedField(item, "body", locale, item.body),
+    title: getLocalizedField(item, "title", locale, item.title, scope),
+    body: getLocalizedField(item, "body", locale, item.body, scope),
   };
 }

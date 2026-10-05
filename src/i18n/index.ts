@@ -27,7 +27,7 @@ export function translateCategory(
   translations?: unknown,
 ): string {
   if (translations) {
-    return localizeCategoryEntity({ name, translations }, locale).name;
+    return localizeCategoryEntity({ slug, name, translations }, locale).name;
   }
 
   const dict = getDictionary(locale);

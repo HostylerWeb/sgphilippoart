@@ -1,4 +1,5 @@
 import type { Locale } from "@/i18n/config";
+import { getCmsNlField } from "@/i18n/cms-nl";
 
 export type ContentLocale = "fr" | "nl";
 
@@ -36,12 +37,30 @@ export function getLocalizedField(
   field: string,
   locale: Locale,
   fallback: string | null | undefined,
+  cmsScope?: string,
 ): string {
   const base = fallback ?? "";
   if (locale === "en") return base;
 
-  const translated = getLocaleTranslations(entity, locale as ContentLocale)[field];
-  return translated?.trim() ? translated : base;
+  const translations = parseContentTranslations(entity.translations);
+
+  if (locale === "fr") {
+    const french = translations.fr?.[field]?.trim();
+    return french || base;
+  }
+
+  const dutchFromDb = translations.nl?.[field]?.trim();
+  if (dutchFromDb) return dutchFromDb;
+
+  if (cmsScope) {
+    const dutchFromCms = getCmsNlField(cmsScope, field);
+    if (dutchFromCms) return dutchFromCms;
+  }
+
+  const frenchFallback = translations.fr?.[field]?.trim();
+  if (frenchFallback) return frenchFallback;
+
+  return base;
 }
 
 function readTranslationFields(
