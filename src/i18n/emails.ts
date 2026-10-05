@@ -4,7 +4,7 @@ export function getEmailCopy(locale: Locale) {
   if (locale === "fr") {
     return {
       orderConfirmationSubject: (orderNumber: string) =>
-        `Demande de commande reçue — ${orderNumber}`,
+        `Confirmation de commande — ${orderNumber}`,
       orderConfirmationCustomer: (input: {
         name: string;
         orderNumber: string;
@@ -12,16 +12,16 @@ export function getEmailCopy(locale: Locale) {
         trackUrl: string;
       }) =>
         `<p>Bonjour ${input.name},</p>
-      <p>Nous avons bien reçu votre demande de commande <strong>${input.orderNumber}</strong>.</p>
-      <p>Total estimé : <strong>${input.total}</strong></p>
-      <p>Nous confirmerons la disponibilité, la livraison et les modalités de paiement par e-mail sous peu.</p>
-      <p>Vous pouvez suivre votre commande sur <a href="${input.trackUrl}">${input.trackUrl}</a>.</p>`,
+      <p>Nous avons bien reçu votre commande <strong>${input.orderNumber}</strong>.</p>
+      <p>Total : <strong>${input.total}</strong></p>
+      <p>Ceci confirme que votre commande a été enregistrée. Nous vous contacterons dans les plus brefs délais pour organiser la livraison et préciser tout autre détail.</p>
+      <p>Vous pouvez consulter votre commande sur <a href="${input.trackUrl}">${input.trackUrl}</a>.</p>`,
       orderConfirmationStudio: (input: {
         name: string;
         email: string;
         orderNumber: string;
       }) =>
-        `<p>Nouvelle demande de commande de ${input.name} (${input.email}).</p><p>Commande : ${input.orderNumber}</p>`,
+        `<p>Nouvelle commande de ${input.name} (${input.email}).</p><p>Commande : ${input.orderNumber}</p>`,
       orderStatusSubject: (orderNumber: string) => `Mise à jour de commande — ${orderNumber}`,
       orderStatusBody: (input: {
         name: string;
@@ -62,7 +62,7 @@ export function getEmailCopy(locale: Locale) {
   if (locale === "nl") {
     return {
       orderConfirmationSubject: (orderNumber: string) =>
-        `Bestelverzoek ontvangen — ${orderNumber}`,
+        `Bestelbevestiging — ${orderNumber}`,
       orderConfirmationCustomer: (input: {
         name: string;
         orderNumber: string;
@@ -70,16 +70,16 @@ export function getEmailCopy(locale: Locale) {
         trackUrl: string;
       }) =>
         `<p>Hallo ${input.name},</p>
-      <p>We hebben uw bestelverzoek <strong>${input.orderNumber}</strong> ontvangen.</p>
-      <p>Geschat totaal: <strong>${input.total}</strong></p>
-      <p>We bevestigen beschikbaarheid, verzending en betalingsdetails binnenkort per e-mail.</p>
-      <p>U kunt uw bestelling volgen op <a href="${input.trackUrl}">${input.trackUrl}</a>.</p>`,
+      <p>We hebben uw bestelling <strong>${input.orderNumber}</strong> ontvangen.</p>
+      <p>Totaal: <strong>${input.total}</strong></p>
+      <p>Dit bevestigt dat uw bestelling is geregistreerd. We nemen zo snel mogelijk contact met u op om de levering te regelen en andere details te bespreken.</p>
+      <p>U kunt uw bestelling bekijken op <a href="${input.trackUrl}">${input.trackUrl}</a>.</p>`,
       orderConfirmationStudio: (input: {
         name: string;
         email: string;
         orderNumber: string;
       }) =>
-        `<p>Nieuw bestelverzoek van ${input.name} (${input.email}).</p><p>Bestelling: ${input.orderNumber}</p>`,
+        `<p>Nieuwe bestelling van ${input.name} (${input.email}).</p><p>Bestelling: ${input.orderNumber}</p>`,
       orderStatusSubject: (orderNumber: string) => `Bestelling bijgewerkt — ${orderNumber}`,
       orderStatusBody: (input: {
         name: string;
@@ -119,7 +119,7 @@ export function getEmailCopy(locale: Locale) {
 
   return {
     orderConfirmationSubject: (orderNumber: string) =>
-      `Order inquiry received — ${orderNumber}`,
+      `Order confirmation — ${orderNumber}`,
     orderConfirmationCustomer: (input: {
       name: string;
       orderNumber: string;
@@ -127,16 +127,16 @@ export function getEmailCopy(locale: Locale) {
       trackUrl: string;
     }) =>
       `<p>Hi ${input.name},</p>
-      <p>We received your order inquiry <strong>${input.orderNumber}</strong>.</p>
-      <p>Estimated total: <strong>${input.total}</strong></p>
-      <p>We will confirm availability, shipping, and payment details by email shortly.</p>
-      <p>You can track your order at <a href="${input.trackUrl}">${input.trackUrl}</a>.</p>`,
+      <p>We have received your order <strong>${input.orderNumber}</strong>.</p>
+      <p>Total: <strong>${input.total}</strong></p>
+      <p>This confirms your order is on file. We will contact you as soon as possible to arrange delivery and confirm any other details.</p>
+      <p>You can view your order at <a href="${input.trackUrl}">${input.trackUrl}</a>.</p>`,
     orderConfirmationStudio: (input: {
       name: string;
       email: string;
       orderNumber: string;
     }) =>
-      `<p>New order inquiry from ${input.name} (${input.email}).</p><p>Order: ${input.orderNumber}</p>`,
+      `<p>New order from ${input.name} (${input.email}).</p><p>Order: ${input.orderNumber}</p>`,
     orderStatusSubject: (orderNumber: string) => `Order update — ${orderNumber}`,
     orderStatusBody: (input: {
       name: string;

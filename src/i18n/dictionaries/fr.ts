@@ -244,14 +244,14 @@ export const fr = {
     estimatedTotal: "Total estimé",
     subtotal: "Sous-total",
     shipping: "Livraison",
-    successTitle: "Merci — nous avons bien reçu votre demande",
+    successTitle: "Merci — votre commande est confirmée",
     successBody:
-      "Nous confirmerons la disponibilité, la livraison et le paiement par e-mail sous peu.",
+      "Nous avons bien reçu votre commande. Un e-mail de confirmation a été envoyé à votre adresse.",
     successDescription:
-      "Nous confirmerons la disponibilité, la livraison et le paiement par e-mail sous 1 à 2 jours ouvrés.",
+      "Nous avons bien reçu votre commande. Un e-mail de confirmation a été envoyé à votre adresse. Nous vous contacterons dans les plus brefs délais pour organiser la livraison et préciser tout autre détail.",
     successDescriptionNoOrder:
-      "Nous vous contacterons sous peu pour confirmer les détails de votre commande.",
-    orderReference: "Référence {order}",
+      "Nous avons bien reçu votre commande. Si vous ne recevez pas l'e-mail de confirmation, vérifiez vos indésirables ou contactez l'atelier.",
+    orderReference: "Référence de commande {order}",
     orderNumber: "Numéro de commande",
     backHome: "Retour à l'accueil",
     continueShopping: "Continuer vos achats",

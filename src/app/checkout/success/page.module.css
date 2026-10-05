@@ -1,3 +1,26 @@
+.message {
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.orderRef {
+  margin: 0 0 16px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.lead {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 36rem;
+  margin-inline: auto;
+}
+
 .actions {
   display: flex;
   flex-direction: column;

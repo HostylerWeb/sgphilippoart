@@ -158,7 +158,7 @@ export async function sendOrderConfirmation(
 
   const studioSent = await sendEmail({
     to: studioEmail,
-    subject: `[SG Philippo Art] New order inquiry ${input.orderNumber}`,
+    subject: `[SG Philippo Art] New order ${input.orderNumber}`,
     html: copy.orderConfirmationStudio({
       name: escapeHtml(input.name),
       email: escapeHtml(input.email),

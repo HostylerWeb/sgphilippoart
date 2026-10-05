@@ -244,14 +244,14 @@ export const nl = {
     estimatedTotal: "Geschat totaal",
     subtotal: "Subtotaal",
     shipping: "Verzending",
-    successTitle: "Bedankt — we hebben uw aanvraag ontvangen",
+    successTitle: "Bedankt — uw bestelling is bevestigd",
     successBody:
-      "We bevestigen beschikbaarheid, verzending en betaling binnenkort per e-mail.",
+      "We hebben uw bestelling ontvangen. Een bevestigingsmail is naar uw e-mailadres gestuurd.",
     successDescription:
-      "We bevestigen beschikbaarheid, verzending en betaling per e-mail binnen 1–2 werkdagen.",
+      "We hebben uw bestelling ontvangen. Een bevestigingsmail is naar uw e-mailadres gestuurd. We nemen zo snel mogelijk contact met u op om de levering te regelen en andere details te bespreken.",
     successDescriptionNoOrder:
-      "We nemen binnenkort contact op om uw bestelgegevens te bevestigen.",
-    orderReference: "Referentie {order}",
+      "We hebben uw bestelling ontvangen. Ziet u geen bevestigingsmail? Controleer uw spam of neem contact op met het atelier.",
+    orderReference: "Bestelreferentie {order}",
     orderNumber: "Bestelnummer",
     backHome: "Terug naar home",
     continueShopping: "Verder winkelen",

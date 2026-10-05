@@ -48,13 +48,19 @@ export default async function CheckoutSuccessPage({ searchParams }: PageProps) {
     verifiedOrder = record?.order_number ?? null;
   }
 
-  const description = verifiedOrder
-    ? t.orderReference.replace("{order}", verifiedOrder) + " " + t.successDescription
-    : t.successDescriptionNoOrder;
-
   return (
     <StorefrontShell>
-      <AuthPageShell eyebrow={t.eyebrow} title={t.successTitle} description={description}>
+      <AuthPageShell eyebrow={t.eyebrow} title={t.successTitle}>
+        <div className={styles.message}>
+          {verifiedOrder && (
+            <p className={styles.orderRef}>
+              {t.orderReference.replace("{order}", verifiedOrder)}
+            </p>
+          )}
+          <p className={styles.lead}>
+            {verifiedOrder ? t.successDescription : t.successDescriptionNoOrder}
+          </p>
+        </div>
         <div className={styles.actions}>
           <Link href="/collections" className={styles.primary}>
             {t.continueShopping}

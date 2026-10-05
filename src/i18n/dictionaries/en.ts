@@ -241,12 +241,13 @@ export const en = {
     estimatedTotal: "Estimated total",
     subtotal: "Subtotal",
     shipping: "Shipping",
-    successTitle: "Thank you — we received your request",
+    successTitle: "Thank you — your order is confirmed",
     successBody:
-      "We will confirm availability, shipping, and payment details by email shortly.",
+      "Your order has been received. A confirmation email has been sent to your email address.",
     successDescription:
-      "We will confirm availability, shipping, and payment details by email within 1–2 business days.",
-    successDescriptionNoOrder: "We will be in touch shortly to confirm your order details.",
+      "Your order has been received. A confirmation email has been sent to your email address. We will contact you as soon as possible to arrange delivery and confirm any other details.",
+    successDescriptionNoOrder:
+      "Your order has been received. If you do not see a confirmation email shortly, check your spam folder or contact the studio.",
     orderReference: "Order reference {order}",
     orderNumber: "Order number",
     backHome: "Back to homepage",
