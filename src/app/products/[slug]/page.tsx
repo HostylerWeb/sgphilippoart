@@ -28,35 +28,25 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!product) return { title: dict.meta.artworkNotFound };
 
   const localized = localizeProduct(product, locale);
-  const title =
+  const shareTitle =
     localized.meta_title ?? `"${localized.title}" by ${product.artist_name}`;
-  const description =
+  const rawDescription =
     localized.meta_description ??
-    localized.description?.slice(0, 160) ??
+    localized.description ??
     `${localized.title} — ${localized.medium ?? dict.product.originalArtwork} by ${product.artist_name}`;
+  const description = rawDescription.replace(/\s+/g, " ").trim().slice(0, 200);
 
   const primary = product.images.find((image) => image.is_primary) ?? product.images[0];
 
-  return {
-    ...buildPageMetadata({
-      title: `${title} — SG Philippo Art`,
-      description,
-      path: `/products/${slug}`,
-    }),
-    openGraph: {
-      title: product.title,
-      description,
-      images: primary
-        ? [{ url: primary.url, alt: localized.title }]
-        : undefined,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: product.title,
-      description,
-      images: primary ? [primary.url] : undefined,
-    },
-  };
+  return buildPageMetadata({
+    title: `${shareTitle} — SG Philippo Art`,
+    openGraphTitle: shareTitle,
+    description,
+    path: `/products/${slug}`,
+    image: primary?.url,
+    imageAlt: primary?.alt_text ?? localized.title,
+    openGraphType: "article",
+  });
 }
 
 export default async function ProductPage({ params }: PageProps) {
