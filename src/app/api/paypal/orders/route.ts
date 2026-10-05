@@ -35,21 +35,32 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Order not found" }, { status: 404 });
   }
 
-  const paypalOrder = await createPayPalCheckoutOrder({
-    shopOrderId: order.id,
-    orderNumber: order.order_number,
-    currencyCode: order.currency,
-    subtotal: formatPayPalAmount(Number(order.subtotal)),
-    shipping: formatPayPalAmount(Number(order.shipping_cost)),
-    tax: formatPayPalAmount(Number(order.tax)),
-    handling: formatPayPalAmount(Number(order.handling_fee)),
-    total: formatPayPalAmount(Number(order.total)),
-  });
+  try {
+    const paypalOrder = await createPayPalCheckoutOrder({
+      shopOrderId: order.id,
+      orderNumber: order.order_number,
+      currencyCode: order.currency,
+      subtotal: formatPayPalAmount(Number(order.subtotal)),
+      shipping: formatPayPalAmount(Number(order.shipping_cost)),
+      tax: formatPayPalAmount(Number(order.tax)),
+      handling: formatPayPalAmount(Number(order.handling_fee)),
+      total: formatPayPalAmount(Number(order.total)),
+    });
 
-  await db.orders.update({
-    where: { id: order.id },
-    data: { paypal_order_id: paypalOrder.id },
-  });
+    await db.orders.update({
+      where: { id: order.id },
+      data: { paypal_order_id: paypalOrder.id },
+    });
 
-  return NextResponse.json({ id: paypalOrder.id });
+    return NextResponse.json({ id: paypalOrder.id });
+  } catch (error) {
+    console.error("PayPal create order failed:", error);
+    const message =
+      error instanceof Error ? error.message : "PayPal order creation failed";
+    const status = message.includes("auth failed") ? 502 : 500;
+    return NextResponse.json(
+      { error: "Could not start PayPal checkout. Please try again later." },
+      { status },
+    );
+  }
 }

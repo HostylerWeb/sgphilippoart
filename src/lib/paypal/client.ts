@@ -90,9 +90,46 @@ export type PayPalOrderCreateResult = {
   status: string;
 };
 
+function payPalAmountBreakdown(
+  currencyCode: string,
+  parts: { subtotal: string; shipping: string; tax: string; handling: string },
+) {
+  const breakdown: Record<string, { currency_code: string; value: string }> = {
+    item_total: { currency_code: currencyCode, value: parts.subtotal },
+    shipping: { currency_code: currencyCode, value: parts.shipping },
+    tax_total: { currency_code: currencyCode, value: parts.tax },
+  };
+  if (parseFloat(parts.handling) > 0) {
+    breakdown.handling = { currency_code: currencyCode, value: parts.handling };
+  }
+  return breakdown;
+}
+
+function payPalOrderTotal(parts: {
+  subtotal: string;
+  shipping: string;
+  tax: string;
+  handling: string;
+}): string {
+  const sum =
+    parseFloat(parts.subtotal) +
+    parseFloat(parts.shipping) +
+    parseFloat(parts.tax) +
+    parseFloat(parts.handling);
+  return sum.toFixed(2);
+}
+
 export async function createPayPalCheckoutOrder(
   input: PayPalCreateOrderInput,
 ): Promise<PayPalOrderCreateResult> {
+  const parts = {
+    subtotal: input.subtotal,
+    shipping: input.shipping,
+    tax: input.tax,
+    handling: input.handling,
+  };
+  const total = payPalOrderTotal(parts);
+
   return paypalApi<PayPalOrderCreateResult>("/v2/checkout/orders", {
     method: "POST",
     body: JSON.stringify({
@@ -103,13 +140,8 @@ export async function createPayPalCheckoutOrder(
           custom_id: input.orderNumber,
           amount: {
             currency_code: input.currencyCode,
-            value: input.total,
-            breakdown: {
-              item_total: { currency_code: input.currencyCode, value: input.subtotal },
-              shipping: { currency_code: input.currencyCode, value: input.shipping },
-              tax_total: { currency_code: input.currencyCode, value: input.tax },
-              handling: { currency_code: input.currencyCode, value: input.handling },
-            },
+            value: total,
+            breakdown: payPalAmountBreakdown(input.currencyCode, parts),
           },
         },
       ],

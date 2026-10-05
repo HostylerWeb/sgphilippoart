@@ -11,7 +11,7 @@ import { buildPageMetadata } from "@/lib/seo";
 import { getUserProfile } from "@/lib/user-profile";
 import { auth } from "@/lib/auth";
 import { getDictionary, getLocale } from "@/i18n";
-import { getPayPalClientId } from "@/lib/paypal/config";
+import { getPayPalPublicClientId } from "@/lib/paypal/config";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
@@ -39,7 +39,7 @@ export default async function CheckoutPage() {
     getCart(cartCtx, locale),
     session?.user?.id ? getUserProfile(session.user.id) : Promise.resolve(null),
   ]);
-  const paypalClientId = getPayPalClientId();
+  const paypalClientId = getPayPalPublicClientId();
 
   if (cart.items.length === 0) {
     redirect("/cart");

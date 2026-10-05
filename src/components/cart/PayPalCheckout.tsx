@@ -134,7 +134,7 @@ export function PayPalCheckout({
   }
 
   if (!mounted) {
-    return <p className={styles.processing}>{loadingLabel}</p>;
+    return <div className={styles.wrap} aria-busy="true" />;
   }
 
   return (
