@@ -102,16 +102,6 @@ async function main() {
         show_in_nav: false,
       },
     }),
-    db.categories.create({
-      data: {
-        name: "The Artist",
-        slug: "the-artist",
-        description: "About the studio and creative process.",
-        sort_order: 8,
-        show_on_homepage: false,
-        show_in_nav: false,
-      },
-    }),
   ]);
 
   const categoryBySlug = Object.fromEntries(categories.map((c) => [c.slug, c]));

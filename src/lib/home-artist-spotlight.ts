@@ -1,9 +1,10 @@
 import type { hero_tiles } from "@/generated/prisma/client";
 
-/** Category slugs used for the artist story (admin may use either). */
-export const ARTIST_STORY_CATEGORY_SLUGS = ["the-artist", "sgphilippoart"] as const;
+/** Mistaken empty “collection” — not a shop category; story lives on /about. */
+export const LEGACY_ARTIST_COLLECTION_SLUG = "the-artist";
 
-export const ARTIST_HOME_CATEGORY_SLUG = ARTIST_STORY_CATEGORY_SLUGS[0];
+/** Optional DB category for long artist copy (not shown in shop nav). */
+export const ARTIST_STORY_CATEGORY_SLUGS = ["sgphilippoart"] as const;
 
 export function normalizeCollectionSlug(slug: string): string {
   return slug.trim().toLowerCase();
@@ -18,7 +19,14 @@ export function heroTileCollectionSlug(
 
 export function isArtistStoryCategorySlug(slug: string): boolean {
   const normalized = normalizeCollectionSlug(slug);
+  if (normalized === LEGACY_ARTIST_COLLECTION_SLUG) {
+    return true;
+  }
   return ARTIST_STORY_CATEGORY_SLUGS.some((candidate) => candidate === normalized);
+}
+
+export function isShopCollectionSlug(slug: string): boolean {
+  return !isArtistStoryCategorySlug(slug);
 }
 
 export function isArtistHeroTile(tile: Pick<hero_tiles, "link_url">): boolean {

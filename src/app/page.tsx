@@ -14,6 +14,7 @@ import {
   getTrustItems,
   getWishlistedProductIds,
 } from "@/lib/queries";
+import { getAboutPageContent } from "@/lib/cms/about-page";
 import { getStoreSettings } from "@/lib/settings";
 import { getDictionary, getLocale } from "@/i18n";
 import {
@@ -38,6 +39,7 @@ export default async function HomePage() {
     settings,
     heroTiles,
     artistCategory,
+    aboutCopy,
     categories,
     products,
     trustItems,
@@ -47,6 +49,7 @@ export default async function HomePage() {
     getStoreSettings(locale),
     getHeroTiles(),
     getArtistStoryCategory(),
+    getAboutPageContent(locale),
     getHomepageCategories(),
     getNewArrivals(4, locale),
     getTrustItems(),
@@ -64,10 +67,13 @@ export default async function HomePage() {
   const localizedArtistCategory = artistCategory
     ? localizeCategoryEntity(artistCategory, locale)
     : null;
+  const aboutStoryFallback = [aboutCopy.p1, aboutCopy.p2, aboutCopy.p3]
+    .filter(Boolean)
+    .join("\n\n");
   const artistParagraphs =
-    localizedArtistCategory?.description
+    localizedArtistCategory?.description?.trim()
       ? excerptStoryParagraphs(localizedArtistCategory.description)
-      : [];
+      : excerptStoryParagraphs(aboutStoryFallback);
   const artistSpotlight =
     artistHeroTile && artistParagraphs.length > 0
       ? {

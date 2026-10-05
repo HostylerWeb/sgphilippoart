@@ -4,7 +4,10 @@ import { auth } from "@/lib/auth";
 import { mapProductToCard } from "@/lib/product-mapper";
 import { getPriceRange, type PriceRangeSlug } from "@/lib/price-ranges";
 import type { Locale } from "@/i18n/config";
-import { ARTIST_STORY_CATEGORY_SLUGS } from "@/lib/home-artist-spotlight";
+import {
+  ARTIST_STORY_CATEGORY_SLUGS,
+  isShopCollectionSlug,
+} from "@/lib/home-artist-spotlight";
 import type { ProductCardData } from "@/components/product/ProductCard";
 
 const PRODUCTS_PER_PAGE = 12;
@@ -15,19 +18,21 @@ export async function getSiteSettings(): Promise<Record<string, string>> {
 }
 
 export async function getCategories() {
-  return db.categories.findMany({
+  const rows = await db.categories.findMany({
     where: { show_in_nav: true },
     orderBy: { sort_order: "asc" },
     select: { name: true, slug: true, translations: true },
   });
+  return rows.filter((row) => isShopCollectionSlug(row.slug));
 }
 
 export async function getHomepageCategories() {
-  return db.categories.findMany({
+  const rows = await db.categories.findMany({
     where: { show_on_homepage: true },
     orderBy: { sort_order: "asc" },
     select: { name: true, slug: true, translations: true },
   });
+  return rows.filter((row) => isShopCollectionSlug(row.slug));
 }
 
 export async function getTrustItems() {
@@ -38,13 +43,14 @@ export async function getTrustItems() {
 }
 
 export async function getAllCategories() {
-  return db.categories.findMany({
+  const rows = await db.categories.findMany({
     orderBy: { sort_order: "asc" },
   });
+  return rows.filter((row) => isShopCollectionSlug(row.slug));
 }
 
 export async function getCategoriesWithCounts() {
-  return db.categories.findMany({
+  const rows = await db.categories.findMany({
     orderBy: { sort_order: "asc" },
     include: {
       _count: {
@@ -56,6 +62,7 @@ export async function getCategoriesWithCounts() {
       },
     },
   });
+  return rows.filter((row) => isShopCollectionSlug(row.slug));
 }
 
 export async function getCategoryBySlug(slug: string) {

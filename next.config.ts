@@ -46,6 +46,11 @@ const nextConfig: NextConfig = {
         destination: "/account/orders",
         permanent: true,
       },
+      {
+        source: "/collections/the-artist",
+        destination: "/about",
+        permanent: true,
+      },
     ];
   },
   images: {
