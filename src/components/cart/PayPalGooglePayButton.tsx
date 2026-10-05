@@ -136,6 +136,9 @@ export function PayPalGooglePayButton({
         if (!isReadyToPay.result || cancelled || !containerRef.current) return;
 
         const button = paymentsClient.createButton({
+          buttonColor: "black",
+          buttonType: "long",
+          buttonSizeMode: "fill",
           onClick: () => {
             if (disabled) return;
             void (async () => {
@@ -212,7 +215,10 @@ export function PayPalGooglePayButton({
         strategy="lazyOnload"
         onLoad={() => setGoogleSdkReady(true)}
       />
-      <div ref={containerRef} className={styles.walletButton} />
+      <div
+        ref={containerRef}
+        className={`${styles.walletButton} ${styles.googlePayButton}`}
+      />
     </>
   );
 }

@@ -14,11 +14,24 @@
 .walletButton {
   display: flex;
   justify-content: stretch;
-  min-height: 0;
+  align-items: stretch;
+  width: 100%;
+  min-height: 48px;
 }
 
 .walletButton:empty {
   display: none;
+}
+
+.googlePayButton {
+  height: 48px;
+}
+
+.googlePayButton > * {
+  width: 100% !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  display: block;
 }
 
 .walletButton apple-pay-button {
@@ -27,6 +40,20 @@
   display: block;
   width: 100%;
   min-height: 48px;
+}
+
+.payButtonSlot {
+  width: 100%;
+  min-height: 48px;
+}
+
+.payButtonSlot:empty {
+  display: none;
+}
+
+/* PayPal SDK injects iframes; keep height aligned with wallet buttons */
+.payButtonSlot iframe {
+  min-height: 48px !important;
 }
 
 .processing {

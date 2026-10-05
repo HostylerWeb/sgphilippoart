@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import {
+  FUNDING,
   PayPalButtons,
   PayPalScriptProvider,
   type ReactPayPalScriptOptions,
@@ -101,6 +102,28 @@ function PayPalCheckoutInner({
 
   const applePayLocale = getApplePayButtonLocale(siteLocale);
 
+  const payPalButtonStyle = {
+    layout: "vertical" as const,
+    shape: "rect" as const,
+    height: 48,
+    tagline: false,
+  };
+
+  const payPalButtonEvents = {
+    disabled: processing,
+    createOrder: createPayPalOrder,
+    onApprove: capturePayPalOrderFromButtons,
+    onCancel: () => {
+      void releasePendingShopOrder();
+      setProcessing(false);
+    },
+    onError: () => {
+      void releasePendingShopOrder();
+      setProcessing(false);
+      onError("PayPal encountered an error. Please try again.");
+    },
+  };
+
   return (
     <div className={styles.wrap}>
       {processing && <p className={styles.processing}>{processingLabel}</p>}
@@ -130,26 +153,20 @@ function PayPalCheckoutInner({
           releasePendingShopOrder={releasePendingShopOrder}
         />
       </div>
-      <PayPalButtons
-        style={{
-          layout: "vertical",
-          shape: "rect",
-          color: "black",
-          tagline: false,
-        }}
-        disabled={processing}
-        createOrder={createPayPalOrder}
-        onApprove={capturePayPalOrderFromButtons}
-        onCancel={() => {
-          void releasePendingShopOrder();
-          setProcessing(false);
-        }}
-        onError={() => {
-          void releasePendingShopOrder();
-          setProcessing(false);
-          onError("PayPal encountered an error. Please try again.");
-        }}
-      />
+      <div className={styles.payButtonSlot}>
+        <PayPalButtons
+          {...payPalButtonEvents}
+          fundingSource={FUNDING.PAYPAL}
+          style={{ ...payPalButtonStyle, color: "blue" }}
+        />
+      </div>
+      <div className={styles.payButtonSlot}>
+        <PayPalButtons
+          {...payPalButtonEvents}
+          fundingSource={FUNDING.CARD}
+          style={{ ...payPalButtonStyle, color: "gold" }}
+        />
+      </div>
     </div>
   );
 }
