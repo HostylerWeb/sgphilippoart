@@ -56,7 +56,7 @@ export const returns: LocalizedLegalPage = {
         id: "refunds",
         title: "Refunds",
         paragraphs: [
-          "Approved refunds are processed to the original payment method where possible. Because checkout currently operates as an inquiry-based flow, refunds are arranged manually by the studio and may take 5–10 business days to appear depending on your bank or payment provider.",
+          "Approved refunds are processed to the original payment method where possible. Because checkout currently operates as an inquiry-based flow, refunds are arranged manually by us and may take 5–10 business days to appear depending on your bank or payment provider.",
           "Original shipping costs are non-refundable unless the return is due to our error or a damaged delivery.",
         ],
       },
@@ -64,7 +64,7 @@ export const returns: LocalizedLegalPage = {
         id: "exchanges",
         title: "Exchanges",
         paragraphs: [
-          "We do not offer direct exchanges. If you wish to purchase a different work, please place a new order inquiry or contact the studio for assistance once any eligible return has been approved.",
+          "We do not offer direct exchanges. If you wish to purchase a different work, please place a new order inquiry or contact us for assistance once any eligible return has been approved.",
         ],
       },
       {
@@ -130,7 +130,7 @@ export const returns: LocalizedLegalPage = {
         id: "refunds",
         title: "Remboursements",
         paragraphs: [
-          "Les remboursements approuvés sont traités vers le mode de paiement d'origine lorsque possible. Comme le passage en caisse fonctionne actuellement par demande de commande, les remboursements sont organisés manuellement par l'atelier et peuvent prendre 5 à 10 jours ouvrables selon votre banque ou prestataire de paiement.",
+          "Les remboursements approuvés sont traités vers le mode de paiement d'origine lorsque possible. Comme le passage en caisse fonctionne actuellement par demande de commande, les remboursements sont organisés manuellement par nous et peuvent prendre 5 à 10 jours ouvrables selon votre banque ou prestataire de paiement.",
           "Les frais de livraison initiaux ne sont pas remboursables, sauf en cas d'erreur de notre part ou de livraison endommagée.",
         ],
       },
@@ -138,7 +138,7 @@ export const returns: LocalizedLegalPage = {
         id: "exchanges",
         title: "Échanges",
         paragraphs: [
-          "Nous n'offrons pas d'échanges directs. Si vous souhaitez acquérir une autre œuvre, veuillez envoyer une nouvelle demande de commande ou contacter l'atelier une fois tout retour éligible approuvé.",
+          "Nous n'offrons pas d'échanges directs. Si vous souhaitez acquérir une autre œuvre, veuillez envoyer une nouvelle demande de commande ou nous contacter une fois tout retour éligible approuvé.",
         ],
       },
       {
@@ -204,7 +204,7 @@ export const returns: LocalizedLegalPage = {
         id: "refunds",
         title: "Terugbetalingen",
         paragraphs: [
-          "Goedgekeurde terugbetalingen worden waar mogelijk naar de oorspronkelijke betaalmethode verwerkt. Omdat afrekenen momenteel als aanvraagflow werkt, worden terugbetalingen handmatig door het atelier geregeld en kunnen 5–10 werkdagen duren afhankelijk van uw bank of betaalprovider.",
+          "Goedgekeurde terugbetalingen worden waar mogelijk naar de oorspronkelijke betaalmethode verwerkt. Omdat afrekenen momenteel als aanvraagflow werkt, worden terugbetalingen handmatig door ons geregeld en kunnen 5–10 werkdagen duren afhankelijk van uw bank of betaalprovider.",
           "Oorspronkelijke verzendkosten worden niet terugbetaald, tenzij de retour te wijten is aan onze fout of een beschadigde levering.",
         ],
       },
@@ -212,7 +212,7 @@ export const returns: LocalizedLegalPage = {
         id: "exchanges",
         title: "Omruilingen",
         paragraphs: [
-          "We bieden geen directe omruilingen. Wilt u een ander werk aanschaffen, plaats dan een nieuw bestelverzoek of neem contact op met het atelier nadat een eventuele retour is goedgekeurd.",
+          "We bieden geen directe omruilingen. Wilt u een ander werk aanschaffen, plaats dan een nieuw bestelverzoek of neem contact op met ons nadat een eventuele retour is goedgekeurd.",
         ],
       },
       {

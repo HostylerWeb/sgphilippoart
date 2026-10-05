@@ -4,22 +4,22 @@ export const terms: LocalizedLegalPage = {
   en: {
     eyebrow: "Legal",
     title: "Terms of service",
-    description: "Terms governing your use of the {siteName} website and studio services.",
+    description: "Terms governing your use of the {siteName} website services.",
     lastUpdated: "Last updated: 29 July 2026",
     sections: [
       {
         id: "agreement",
         title: "Agreement to these terms",
         paragraphs: [
-          "These Terms of Service (“Terms”) govern your access to and use of the {siteName} website and related services. By browsing, creating an account, submitting an order inquiry, or contacting the studio, you agree to these Terms.",
+          "These Terms of Service (“Terms”) govern your access to and use of the {siteName} website and related services. By browsing, creating an account, submitting an order inquiry, or contacting us, you agree to these Terms.",
           "If you do not agree, please do not use the website.",
         ],
       },
       {
         id: "studio",
-        title: "About the studio",
+        title: "About us",
         paragraphs: [
-          "{siteName} is a contemporary art studio offering original paintings, limited-edition prints, and commissioned works. Product descriptions, images, dimensions, and prices are provided in good faith and may be updated without prior notice.",
+          "{siteName} is a contemporary art offering original paintings, limited-edition prints, and commissioned works. Product descriptions, images, dimensions, and prices are provided in good faith and may be updated without prior notice.",
         ],
       },
       {
@@ -34,7 +34,7 @@ export const terms: LocalizedLegalPage = {
         id: "orders",
         title: "Orders and checkout",
         paragraphs: [
-          "Checkout on this website operates as an order inquiry. Submitting checkout does not guarantee availability and does not constitute a completed sale until the studio confirms your order by email.",
+          "Checkout on this website operates as an order inquiry. Submitting checkout does not guarantee availability and does not constitute a completed sale until we confirm your order by email.",
           "We will confirm artwork availability, final pricing in {currencyCode}, shipping costs, payment method, and estimated delivery before your order is finalised.",
           "You agree to provide accurate contact and shipping information. We are not responsible for delays or failed delivery caused by incorrect details supplied by you.",
         ],
@@ -53,14 +53,14 @@ export const terms: LocalizedLegalPage = {
         paragraphs: [
           "All artworks, photographs, text, graphics, logos, and website content are owned by {siteName} or its licensors and are protected by copyright and other intellectual property laws.",
           "Purchasing an artwork grants you ownership of the physical work (or print) as described in your order confirmation. It does not transfer copyright or reproduction rights unless expressly agreed in writing.",
-          "You may not reproduce, distribute, or commercially exploit studio images or content without prior written permission.",
+          "You may not reproduce, distribute, or commercially exploit website images or content without prior written permission.",
         ],
       },
       {
         id: "commissions",
         title: "Commissions",
         paragraphs: [
-          "Custom commissions are subject to a separate agreement covering scope, timeline, revisions, deposit, and delivery. Commission requests submitted through the website do not create a binding contract until confirmed by the studio.",
+          "Custom commissions are subject to a separate agreement covering scope, timeline, revisions, deposit, and delivery. Commission requests submitted through the website do not create a binding contract until confirmed by us.",
         ],
       },
       {
@@ -75,7 +75,7 @@ export const terms: LocalizedLegalPage = {
         id: "newsletter",
         title: "Newsletter and communications",
         paragraphs: [
-          "If you subscribe to our newsletter, you consent to receive studio updates by email. You may unsubscribe at any time using the link in each email or by contacting {contactEmail}.",
+          "If you subscribe to our newsletter, you consent to receive newsletter updates by email. You may unsubscribe at any time using the link in each email or by contacting {contactEmail}.",
         ],
       },
       {
@@ -114,22 +114,22 @@ export const terms: LocalizedLegalPage = {
     eyebrow: "Mentions légales",
     title: "Conditions d'utilisation",
     description:
-      "Conditions régissant votre utilisation du site {siteName} et des services de l'atelier.",
+      "Conditions régissant votre utilisation du site {siteName} et des services .",
     lastUpdated: "Dernière mise à jour : 29 juillet 2026",
     sections: [
       {
         id: "agreement",
         title: "Acceptation des conditions",
         paragraphs: [
-          "Les présentes Conditions d'utilisation (« Conditions ») régissent votre accès au site {siteName} et à ses services associés. En naviguant, en créant un compte, en envoyant une demande de commande ou en contactant l'atelier, vous acceptez ces Conditions.",
+          "Les présentes Conditions d'utilisation (« Conditions ») régissent votre accès au site {siteName} et à ses services associés. En naviguant, en créant un compte, en envoyant une demande de commande ou en nous contactant, vous acceptez ces Conditions.",
           "Si vous n'êtes pas d'accord, veuillez ne pas utiliser le site.",
         ],
       },
       {
         id: "studio",
-        title: "À propos de l'atelier",
+        title: "À propos ",
         paragraphs: [
-          "{siteName} est un atelier d'art contemporain proposant des peintures originales, des estampes en édition limitée et des œuvres sur commande. Les descriptions, images, dimensions et prix sont fournis de bonne foi et peuvent être mis à jour sans préavis.",
+          "{siteName} est un marque d'art contemporain proposant des peintures originales, des estampes en édition limitée et des œuvres sur commande. Les descriptions, images, dimensions et prix sont fournis de bonne foi et peuvent être mis à jour sans préavis.",
         ],
       },
       {
@@ -144,7 +144,7 @@ export const terms: LocalizedLegalPage = {
         id: "orders",
         title: "Commandes et passage en caisse",
         paragraphs: [
-          "Le passage en caisse sur ce site fonctionne comme une demande de commande. L'envoi du formulaire ne garantit pas la disponibilité et ne constitue pas une vente définitive tant que l'atelier n'a pas confirmé votre commande par e-mail.",
+          "Le passage en caisse sur ce site fonctionne comme une demande de commande. L'envoi du formulaire ne garantit pas la disponibilité et ne constitue pas une vente définitive tant que nous n'a pas confirmé votre commande par e-mail.",
           "Nous confirmerons la disponibilité de l'œuvre, le prix final en {currencyCode}, les frais de livraison, le mode de paiement et le délai estimé avant toute finalisation.",
           "Vous vous engagez à fournir des coordonnées et une adresse de livraison exactes. Nous ne sommes pas responsables des retards ou échecs de livraison dus à des informations incorrectes fournies par vous.",
         ],
@@ -163,14 +163,14 @@ export const terms: LocalizedLegalPage = {
         paragraphs: [
           "Toutes les œuvres, photographies, textes, graphismes, logos et contenus du site appartiennent à {siteName} ou à ses concédants et sont protégés par le droit d'auteur et d'autres lois sur la propriété intellectuelle.",
           "L'achat d'une œuvre vous confère la propriété du bien physique (ou de l'estampes) tel que décrit dans la confirmation de commande. Cela ne transfère pas le droit d'auteur ni les droits de reproduction, sauf accord écrit exprès.",
-          "Vous ne pouvez pas reproduire, distribuer ou exploiter commercialement les images ou contenus de l'atelier sans autorisation écrite préalable.",
+          "Vous ne pouvez pas reproduire, distribuer ou exploiter commercialement les images ou contenus  sans autorisation écrite préalable.",
         ],
       },
       {
         id: "commissions",
         title: "Commandes sur mesure",
         paragraphs: [
-          "Les commandes sur mesure sont soumises à un accord distinct couvrant le périmètre, le calendrier, les révisions, l'acompte et la livraison. Une demande envoyée via le site ne crée pas de contrat contraignant tant qu'elle n'est pas confirmée par l'atelier.",
+          "Les commandes sur mesure sont soumises à un accord distinct couvrant le périmètre, le calendrier, les révisions, l'acompte et la livraison. Une demande envoyée via le site ne crée pas de contrat contraignant tant qu'elle n'est pas confirmée par nous.",
         ],
       },
       {
@@ -185,7 +185,7 @@ export const terms: LocalizedLegalPage = {
         id: "newsletter",
         title: "Newsletter et communications",
         paragraphs: [
-          "Si vous vous abonnez à notre newsletter, vous consentez à recevoir des actualités de l'atelier par e-mail. Vous pouvez vous désabonner à tout moment via le lien présent dans chaque e-mail ou en écrivant à {contactEmail}.",
+          "Si vous vous abonnez à notre newsletter, vous consentez à recevoir des actualités  par e-mail. Vous pouvez vous désabonner à tout moment via le lien présent dans chaque e-mail ou en écrivant à {contactEmail}.",
         ],
       },
       {
@@ -224,22 +224,22 @@ export const terms: LocalizedLegalPage = {
     eyebrow: "Juridisch",
     title: "Servicevoorwaarden",
     description:
-      "Voorwaarden voor uw gebruik van de website {siteName} en de diensten van het atelier.",
+      "Voorwaarden voor uw gebruik van de website {siteName} en de diensten van ons.",
     lastUpdated: "Laatst bijgewerkt: 29 juli 2026",
     sections: [
       {
         id: "agreement",
         title: "Akkoord met deze voorwaarden",
         paragraphs: [
-          "Deze servicevoorwaarden («Voorwaarden») regelen uw toegang tot en gebruik van de website {siteName} en aanverwante diensten. Door te browsen, een account aan te maken, een bestelverzoek te versturen of contact op te nemen met het atelier, gaat u akkoord met deze Voorwaarden.",
+          "Deze servicevoorwaarden («Voorwaarden») regelen uw toegang tot en gebruik van de website {siteName} en aanverwante diensten. Door te browsen, een account aan te maken, een bestelverzoek te versturen of contact op te nemen met ons, gaat u akkoord met deze Voorwaarden.",
           "Als u niet akkoord gaat, gebruik de website dan niet.",
         ],
       },
       {
         id: "studio",
-        title: "Over het atelier",
+        title: "Over ons",
         paragraphs: [
-          "{siteName} is een hedendaags kunstatelier dat originele schilderijen, limited-edition prints en werken op commissie aanbiedt. Productbeschrijvingen, afbeeldingen, afmetingen en prijzen worden te goeder trouw verstrekt en kunnen zonder voorafgaande kennisgeving worden bijgewerkt.",
+          "{siteName} is een hedendaags kunstmerk dat originele schilderijen, limited-edition prints en werken op commissie aanbiedt. Productbeschrijvingen, afbeeldingen, afmetingen en prijzen worden te goeder trouw verstrekt en kunnen zonder voorafgaande kennisgeving worden bijgewerkt.",
         ],
       },
       {
@@ -254,7 +254,7 @@ export const terms: LocalizedLegalPage = {
         id: "orders",
         title: "Bestellingen en afrekenen",
         paragraphs: [
-          "Afrekenen op deze website werkt als een bestelverzoek. Het verzenden van het formulier garandeert geen beschikbaarheid en vormt geen voltooide verkoop totdat het atelier uw bestelling per e-mail bevestigt.",
+          "Afrekenen op deze website werkt als een bestelverzoek. Het verzenden van het formulier garandeert geen beschikbaarheid en vormt geen voltooide verkoop totdat ons uw bestelling per e-mail bevestigt.",
           "We bevestigen beschikbaarheid van het werk, de definitieve prijs in {currencyCode}, verzendkosten, betaalmethode en geschatte levering voordat uw bestelling wordt afgerond.",
           "U stemt ermee in accurate contact- en verzendgegevens te verstrekken. We zijn niet verantwoordelijk voor vertragingen of mislukte levering door onjuiste gegevens die u hebt opgegeven.",
         ],
@@ -273,14 +273,14 @@ export const terms: LocalizedLegalPage = {
         paragraphs: [
           "Alle kunstwerken, foto's, teksten, graphics, logo's en website-inhoud zijn eigendom van {siteName} of haar licentiegevers en worden beschermd door auteursrecht en andere intellectuele-eigendomsrechten.",
           "De aankoop van een kunstwerk geeft u eigendom van het fysieke werk (of de print) zoals beschreven in uw orderbevestiging. Dit draagt geen auteursrecht of reproductierechten over, tenzij uitdrukkelijk schriftelijk overeengekomen.",
-          "U mag atelierafbeeldingen of inhoud niet reproduceren, distribueren of commercieel exploiteren zonder voorafgaande schriftelijke toestemming.",
+          "U mag afbeeldingen of inhoud van de website niet reproduceren, distribueren of commercieel exploiteren zonder voorafgaande schriftelijke toestemming.",
         ],
       },
       {
         id: "commissions",
         title: "Commissies",
         paragraphs: [
-          "Commissies op maat zijn onderworpen aan een aparte overeenkomst over scope, planning, revisies, voorschot en levering. Een via de website ingediend verzoek creëert geen bindend contract totdat het atelier dit bevestigt.",
+          "Commissies op maat zijn onderworpen aan een aparte overeenkomst over scope, planning, revisies, voorschot en levering. Een via de website ingediend verzoek creëert geen bindend contract totdat ons dit bevestigt.",
         ],
       },
       {
@@ -295,7 +295,7 @@ export const terms: LocalizedLegalPage = {
         id: "newsletter",
         title: "Nieuwsbrief en communicatie",
         paragraphs: [
-          "Als u zich inschrijft voor onze nieuwsbrief, stemt u in met het ontvangen van atelierupdates per e-mail. U kunt zich op elk moment uitschrijven via de link in elke e-mail of door contact op te nemen met {contactEmail}.",
+          "Als u zich inschrijft voor onze nieuwsbrief, stemt u in met het ontvangen van nieuwsbriefupdates per e-mail. U kunt zich op elk moment uitschrijven via de link in elke e-mail of door contact op te nemen met {contactEmail}.",
         ],
       },
       {

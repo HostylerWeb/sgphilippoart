@@ -34,7 +34,7 @@ export const en = {
     menuOpen: "Open menu",
     menuClose: "Close menu",
     shop: "Shop",
-    studio: "Studio",
+    studio: "About",
     support: "Support",
     cart: "Cart",
   },
@@ -43,7 +43,7 @@ export const en = {
     originals: "Originals",
     prints: "Prints",
     newArrivals: "New arrivals",
-    studio: "Studio",
+    studio: "About",
     about: "About the Artist",
     process: "Process",
     commissions: "Commissions",
@@ -57,9 +57,9 @@ export const en = {
     cookies: "Cookies",
     legalNotice: "Legal notice",
     trackOrder: "Track order",
-    newsletterEyebrow: "Studio newsletter",
-    newsletterTitle: "Studio updates in your inbox",
-    newsletterBody: "New paintings, collections, and behind-the-scenes news from the studio.",
+    newsletterEyebrow: "Newsletter",
+    newsletterTitle: "Updates in your inbox",
+    newsletterBody: "New paintings, collections, and behind-the-scenes news.",
     newsletterFine: "No spam. Unsubscribe anytime.",
     rights: "All rights reserved.",
   },
@@ -80,16 +80,16 @@ export const en = {
     sold: "Sold",
   },
   home: {
-    artistSpotlightEyebrow: "The studio",
+    artistSpotlightEyebrow: "The artist",
     artistSpotlightCta: "About the artist",
     browseEyebrow: "Browse",
     browseTitle: "Shop by category",
     newArrivalsEyebrow: "Works",
-    newArrivalsTitle: "From the studio",
+    newArrivalsTitle: "New arrivals",
     viewAllWorks: "View all works",
     testimonialsEyebrow: "Reviews",
     testimonialsTitle: "From our collectors",
-    testimonialsSubtitle: "Real feedback from collectors who've purchased from the studio.",
+    testimonialsSubtitle: "Real feedback from collectors who have purchased from us.",
     verified: "Verified",
     starRatingAria: "{rating} out of 5 stars",
   },
@@ -97,7 +97,7 @@ export const en = {
     browseEyebrow: "Browse",
     allTitle: "All collections",
     allDescription:
-      "Explore paintings, portraits, prints, and curated series from the studio.",
+      "Explore paintings, portraits, prints, and curated series.",
     viewCollection: "View collection",
     work: "work",
     works: "works",
@@ -118,7 +118,7 @@ export const en = {
     allWorksEyebrow: "Browse",
     allWorksTitle: "All works",
     allWorksDescription:
-      "Every painting and print currently available from the studio.",
+      "Every painting and print currently available to collect.",
   },
   filters: {
     works: "works",
@@ -202,7 +202,7 @@ export const en = {
     lineTotal: "Line total",
     itemsCount: "{count} items",
     inquiryNote:
-      "This is an order inquiry — no payment is taken online. The studio will confirm availability, shipping, and payment details by email.",
+      "This is an order inquiry — no payment is taken online. We will confirm availability, shipping, and payment details by email.",
     freeShipping: "Free",
     shippingAtCheckout: "Calculated at checkout",
   },
@@ -228,7 +228,7 @@ export const en = {
     notes: "Order notes (optional)",
     notesPlaceholder: "Gift message, delivery instructions, etc.",
     inquiryNote:
-      "This is an order inquiry — no payment is taken online. The studio will confirm availability, shipping, and payment details by email.",
+      "This is an order inquiry — no payment is taken online. We will confirm availability, shipping, and payment details by email.",
     paymentNote:
       "Pay securely with PayPal, card, Apple Pay, or Google Pay. Your order is confirmed once payment is completed.",
     paymentSection: "Payment",
@@ -247,7 +247,7 @@ export const en = {
     successDescription:
       "Your order has been received. A confirmation email has been sent to your email address. We will contact you as soon as possible to arrange delivery and confirm any other details.",
     successDescriptionNoOrder:
-      "Your order has been received. If you do not see a confirmation email shortly, check your spam folder or contact the studio.",
+      "Your order has been received. If you do not see a confirmation email shortly, check your spam folder or contact us.",
     orderReference: "Order reference {order}",
     orderNumber: "Order number",
     backHome: "Back to homepage",
@@ -323,8 +323,8 @@ export const en = {
     contactSuccess:
       "Thank you — your message has been sent. We will respond within 1–2 business days.",
     commissionSuccess: "Your commission inquiry has been submitted. We will be in touch soon.",
-    newsletterSubscribed: "You are subscribed. Welcome to the studio list.",
-    newsletterAlreadySubscribed: "You are already subscribed to the studio list.",
+    newsletterSubscribed: "You are subscribed. Welcome to our mailing list.",
+    newsletterAlreadySubscribed: "You are already subscribed to our mailing list.",
     trackOrderInvalid: "Enter a valid order number and email address.",
     trackOrderNotFound: "No order found with that number and email address.",
     checkoutRateLimited: "Too many checkout attempts. Please try again later.",
@@ -415,7 +415,7 @@ export const en = {
     browseCardDescription: "Discover new originals and limited edition prints.",
     settingsCardTitle: "Profile & shipping",
     settingsCardDescription: "Update your name, phone, and default shipping address.",
-    contactStudio: "Contact the studio",
+    contactStudio: "Contact us",
     collector: "Collector",
     adminCardDescription: "Review orders, commissions, and contact messages.",
     settingsTitle: "Profile & shipping",
@@ -476,25 +476,25 @@ export const en = {
   },
   pages: {
     about: {
-      eyebrow: "The studio",
+      eyebrow: "About",
       title: "About SG Philippo Art",
       description:
         "Contemporary oil paintings exploring beauty, myth, and the strength of women across history.",
-      p1: "SG Philippo Art is a contemporary painting studio specialising in expressive oil works, portraiture, and limited-edition fine art prints. Each piece is created with careful attention to colour, texture, and emotional resonance.",
+      p1: "SG Philippo Art specialises in expressive oil works, portraiture, and limited-edition fine art prints. Each piece is created with careful attention to colour, texture, and emotional resonance.",
       p2: "From original canvases to museum-quality prints, every work is prepared with the same dedication to craft — whether destined for a private collection or a gallery wall.",
       h2: "Artist statement",
       p3: "Painting, for me, is a conversation between memory and material. I work in layers — building, scraping back, and rebuilding until the image feels honest. My subjects range from intimate portraits to abstract landscapes, always guided by light and gesture.",
       processTitle: "Our process",
       processP1: "Every piece begins with research and sketching — exploring composition, colour, and the story behind the subject. Originals are painted in oil on prepared canvas or panel, with attention to archival materials and lasting finish.",
       processP2: "Prints are produced in small, numbered editions on museum-quality paper. Each order is inspected, packed by hand, and shipped with care. Commissions follow the same standards, with regular updates as your piece takes shape.",
-      ctaEyebrow: "Explore the studio",
+      ctaEyebrow: "Explore",
       ctaTitle: "Discover the collection",
       ctaBody:
         "Browse originals and limited-edition prints, or enquire about a custom commission tailored to your space.",
       ctaCollections: "Browse collections",
       ctaCommissions: "Commission a piece",
       worksEyebrow: "Selected works",
-      worksTitle: "A glimpse of the studio",
+      worksTitle: "Selected works",
     },
     faq: {
       eyebrow: "Support",
@@ -516,7 +516,7 @@ export const en = {
       a7: "See our Returns page for full details. In summary: {returnsSummary}",
       helpEyebrow: "Need more help?",
       helpTitle: "Still have questions?",
-      helpBody: "The studio is happy to help with purchases, shipping, and commissions.",
+      helpBody: "We are happy to help with purchases, shipping, and commissions.",
       helpContact: "Contact us",
       helpShipping: "Shipping policy",
       helpReturns: "Returns policy",
@@ -527,13 +527,13 @@ export const en = {
       description:
         "For purchase inquiries, commissions, or general questions — we typically respond within 1–2 business days.",
       emailLabel: "Email",
-      hoursLabel: "Studio hours",
+      hoursLabel: "Hours",
       hoursValue: "Monday – Friday, 9am – 5pm GMT",
       responseLabel: "Response time",
       responseValue: "Most inquiries answered within 1–2 business days.",
     },
     commissions: {
-      eyebrow: "Studio",
+      eyebrow: "Commissions",
       title: "Commission a portrait",
       description:
         "A one-of-a-kind painting tailored to your vision — for your home, office, or as a meaningful gift.",
@@ -566,12 +566,12 @@ export const en = {
         "Enter the email address you used when placing the order so we can match your inquiry securely.",
       helpSupportTitle: "Need help?",
       helpSupportBody:
-        "If you cannot find your order, contact the studio at {email} and we will assist you.",
+        "If you cannot find your order, contact us at {email} and we will assist you.",
     },
     newsletterUnsubscribe: {
       eyebrow: "Newsletter",
       title: "Unsubscribe",
-      description: "Remove your email from the studio newsletter list.",
+      description: "Remove your email from our newsletter list.",
       success: "You have been unsubscribed.",
       invalid: "Invalid unsubscribe link.",
       invalidUsed: "This unsubscribe link is invalid or has already been used.",
@@ -593,7 +593,7 @@ export const en = {
     collections: "Browse collections",
   },
   admin: {
-    studio: "Studio",
+    studio: "Admin",
     title: "Admin",
     viewStorefront: "View storefront",
     nav: {
@@ -868,7 +868,7 @@ export const en = {
         },
         fields: {
           site_name: "Site name",
-          contact_email: "Studio email (send + notifications)",
+          contact_email: "Contact email (send + notifications)",
           commission_enabled: "Commissions enabled",
           currency_code: "Currency code",
           currency_locale: "Currency locale",
@@ -1001,7 +1001,7 @@ export const en = {
       media: {
         sectionTitle: "Artwork media",
         sectionLead:
-          "Add a hero image for listings, optional detail shots, and an optional studio video.",
+          "Add a hero image for listings, optional detail shots, and an optional video.",
         mainImageTitle: "Main image",
         mainImageHint: "Shown on cards, search, and as the default view on the product page.",
         mainImageChoose: "Choose main image",
@@ -1011,7 +1011,7 @@ export const en = {
         galleryChoose: "Add gallery images",
         galleryFormats: "Select one or more images.",
         videoTitle: "Video",
-        videoHint: "Optional walkthrough or studio clip. Upload a file or paste a direct URL.",
+        videoHint: "Optional walkthrough or video clip. Upload a file or paste a direct URL.",
         videoChoose: "Upload video file",
         videoFormats: "MP4, WebM, or MOV recommended (max 100 MB). Other formats are converted to MP4.",
         videoUrlLabel: "Or video URL",

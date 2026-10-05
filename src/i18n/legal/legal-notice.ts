@@ -11,7 +11,7 @@ export const legalNotice: LocalizedLegalPage = {
         id: "publisher",
         title: "Website publisher",
         paragraphs: [
-          "This website is published by {siteName}, a contemporary art studio.",
+          "This website is published by {siteName}, a contemporary art.",
           "Primary markets: {localeDisplay}.",
           "Contact email: {contactEmail}.",
         ],
@@ -20,7 +20,7 @@ export const legalNotice: LocalizedLegalPage = {
         id: "hosting",
         title: "Hosting",
         paragraphs: [
-          "The website is hosted on secure infrastructure operated by professional hosting providers. Server locations and providers may be updated as the studio's technical requirements evolve.",
+          "The website is hosted on secure infrastructure operated by professional hosting providers. Server locations and providers may be updated as our technical requirements evolve.",
         ],
       },
       {
@@ -36,7 +36,7 @@ export const legalNotice: LocalizedLegalPage = {
         title: "Liability",
         paragraphs: [
           "{siteName} endeavours to keep information on this website accurate and up to date. However, we cannot guarantee the absence of errors or uninterrupted availability.",
-          "The studio cannot be held liable for direct or indirect damage resulting from access to or use of the website, except where liability cannot be excluded under mandatory law.",
+          "{siteName} cannot be held liable for direct or indirect damage resulting from access to or use of the website, except where liability cannot be excluded under mandatory law.",
         ],
       },
       {
@@ -79,7 +79,7 @@ export const legalNotice: LocalizedLegalPage = {
         id: "publisher",
         title: "Éditeur du site",
         paragraphs: [
-          "Ce site est édité par {siteName}, atelier d'art contemporain.",
+          "Ce site est édité par {siteName}, marque d'art contemporain.",
           "Marchés principaux : {localeDisplay}.",
           "E-mail de contact : {contactEmail}.",
         ],
@@ -88,7 +88,7 @@ export const legalNotice: LocalizedLegalPage = {
         id: "hosting",
         title: "Hébergement",
         paragraphs: [
-          "Le site est hébergé sur une infrastructure sécurisée exploitée par des prestataires professionnels. Les emplacements serveur et prestataires peuvent évoluer selon les besoins techniques de l'atelier.",
+          "Le site est hébergé sur une infrastructure sécurisée exploitée par des prestataires professionnels. Les emplacements serveur et prestataires peuvent évoluer selon les besoins techniques .",
         ],
       },
       {
@@ -104,7 +104,7 @@ export const legalNotice: LocalizedLegalPage = {
         title: "Responsabilité",
         paragraphs: [
           "{siteName} s'efforce de maintenir les informations de ce site exactes et à jour. Toutefois, nous ne pouvons garantir l'absence d'erreurs ni une disponibilité ininterrompue.",
-          "L'atelier ne peut être tenu responsable des dommages directs ou indirects résultant de l'accès ou de l'utilisation du site, sauf lorsque une telle responsabilité ne peut être exclue en vertu du droit impératif.",
+          "Nous ne peut être tenu responsable des dommages directs ou indirects résultant de l'accès ou de l'utilisation du site, sauf lorsque une telle responsabilité ne peut être exclue en vertu du droit impératif.",
         ],
       },
       {
@@ -147,7 +147,7 @@ export const legalNotice: LocalizedLegalPage = {
         id: "publisher",
         title: "Uitgever van de website",
         paragraphs: [
-          "Deze website wordt uitgegeven door {siteName}, een hedendaags kunstatelier.",
+          "Deze website wordt uitgegeven door {siteName}, een hedendaags kunstmerk.",
           "Primaire markten: {localeDisplay}.",
           "Contact e-mail: {contactEmail}.",
         ],
@@ -156,7 +156,7 @@ export const legalNotice: LocalizedLegalPage = {
         id: "hosting",
         title: "Hosting",
         paragraphs: [
-          "De website wordt gehost op beveiligde infrastructuur beheerd door professionele hostingproviders. Serverlocaties en providers kunnen worden bijgewerkt naarmate de technische behoeften van het atelier evolueren.",
+          "De website wordt gehost op beveiligde infrastructuur beheerd door professionele hostingproviders. Serverlocaties en providers kunnen worden bijgewerkt naarmate de technische behoeften van ons evolueren.",
         ],
       },
       {
@@ -172,7 +172,7 @@ export const legalNotice: LocalizedLegalPage = {
         title: "Aansprakelijkheid",
         paragraphs: [
           "{siteName} streeft ernaar informatie op deze website nauwkeurig en actueel te houden. We kunnen echter niet garanderen dat er geen fouten zijn of dat de site ononderbroken beschikbaar is.",
-          "Het atelier kan niet aansprakelijk worden gesteld voor directe of indirecte schade door toegang tot of gebruik van de website, behalve waar aansprakelijkheid niet kan worden uitgesloten onder dwingend recht.",
+          "Wij kan niet aansprakelijk worden gesteld voor directe of indirecte schade door toegang tot of gebruik van de website, behalve waar aansprakelijkheid niet kan worden uitgesloten onder dwingend recht.",
         ],
       },
       {

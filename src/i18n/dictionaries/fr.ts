@@ -36,7 +36,7 @@ export const fr = {
     menuOpen: "Ouvrir le menu",
     menuClose: "Fermer le menu",
     shop: "Boutique",
-    studio: "Atelier",
+    studio: "À propos",
     support: "Assistance",
     cart: "Panier",
   },
@@ -45,7 +45,7 @@ export const fr = {
     originals: "Originaux",
     prints: "Estampes",
     newArrivals: "Nouveautés",
-    studio: "Atelier",
+    studio: "À propos",
     about: "À propos de l'artiste",
     process: "Processus",
     commissions: "Commandes",
@@ -59,9 +59,9 @@ export const fr = {
     cookies: "Cookies",
     legalNotice: "Mentions légales",
     trackOrder: "Suivre une commande",
-    newsletterEyebrow: "Newsletter de l'atelier",
-    newsletterTitle: "Les nouveautés de l'atelier dans votre boîte mail",
-    newsletterBody: "Nouvelles œuvres, collections et coulisses de l'atelier.",
+    newsletterEyebrow: "Newsletter",
+    newsletterTitle: "Les nouveautés dans votre boîte mail",
+    newsletterBody: "Nouvelles œuvres, collections et coulisses.",
     newsletterFine: "Pas de spam. Désabonnement à tout moment.",
     rights: "Tous droits réservés.",
   },
@@ -82,17 +82,17 @@ export const fr = {
     sold: "Vendu",
   },
   home: {
-    artistSpotlightEyebrow: "L'atelier",
+    artistSpotlightEyebrow: "L'artiste",
     artistSpotlightCta: "À propos de l'artiste",
     browseEyebrow: "Parcourir",
     browseTitle: "Acheter par catégorie",
     newArrivalsEyebrow: "Œuvres",
-    newArrivalsTitle: "De l'atelier",
+    newArrivalsTitle: "Nouveautés",
     viewAllWorks: "Voir toutes les œuvres",
     testimonialsEyebrow: "Avis",
     testimonialsTitle: "Nos collectionneurs",
     testimonialsSubtitle:
-      "De vrais retours de collectionneurs ayant acheté dans l'atelier.",
+      "De vrais retours de collectionneurs ayant acheté chez nous.",
     verified: "Vérifié",
     starRatingAria: "{rating} sur 5 étoiles",
   },
@@ -100,7 +100,7 @@ export const fr = {
     browseEyebrow: "Parcourir",
     allTitle: "Toutes les collections",
     allDescription:
-      "Explorez peintures, portraits, estampes et séries sélectionnées de l'atelier.",
+      "Explorez peintures, portraits, estampes et séries sélectionnées .",
     viewCollection: "Voir la collection",
     work: "œuvre",
     works: "œuvres",
@@ -121,7 +121,7 @@ export const fr = {
     allWorksEyebrow: "Parcourir",
     allWorksTitle: "Toutes les œuvres",
     allWorksDescription:
-      "Toutes les peintures et estampes actuellement disponibles dans l'atelier.",
+      "Toutes les peintures et estampes actuellement disponibles chez nous.",
   },
   filters: {
     works: "œuvres",
@@ -205,7 +205,7 @@ export const fr = {
     lineTotal: "Total ligne",
     itemsCount: "{count} articles",
     inquiryNote:
-      "Il s'agit d'une demande de commande — aucun paiement en ligne. L'atelier confirmera la disponibilité, la livraison et le paiement par e-mail.",
+      "Il s'agit d'une demande de commande — aucun paiement en ligne. Nous confirmerons la disponibilité, la livraison et le paiement par e-mail.",
     freeShipping: "Gratuit",
     shippingAtCheckout: "Calculé à la caisse",
   },
@@ -231,7 +231,7 @@ export const fr = {
     notes: "Notes de commande (facultatif)",
     notesPlaceholder: "Message cadeau, instructions de livraison, etc.",
     inquiryNote:
-      "Il s'agit d'une demande de commande — aucun paiement en ligne. L'atelier confirmera la disponibilité, la livraison et le paiement par e-mail.",
+      "Il s'agit d'une demande de commande — aucun paiement en ligne. Nous confirmerons la disponibilité, la livraison et le paiement par e-mail.",
     paymentNote:
       "Payez en toute sécurité avec PayPal, carte, Apple Pay ou Google Pay. La commande est confirmée une fois le paiement effectué.",
     paymentSection: "Paiement",
@@ -250,7 +250,7 @@ export const fr = {
     successDescription:
       "Nous avons bien reçu votre commande. Un e-mail de confirmation a été envoyé à votre adresse. Nous vous contacterons dans les plus brefs délais pour organiser la livraison et préciser tout autre détail.",
     successDescriptionNoOrder:
-      "Nous avons bien reçu votre commande. Si vous ne recevez pas l'e-mail de confirmation, vérifiez vos indésirables ou contactez l'atelier.",
+      "Nous avons bien reçu votre commande. Si vous ne recevez pas l'e-mail de confirmation, vérifiez vos indésirables ou contactez-nous.",
     orderReference: "Référence de commande {order}",
     orderNumber: "Numéro de commande",
     backHome: "Retour à l'accueil",
@@ -326,8 +326,8 @@ export const fr = {
     contactSuccess:
       "Merci — votre message a bien été envoyé. Nous répondrons sous 1 à 2 jours ouvrés.",
     commissionSuccess: "Votre demande de commande a été envoyée. Nous vous contacterons bientôt.",
-    newsletterSubscribed: "Vous êtes inscrit(e). Bienvenue dans la liste de l'atelier.",
-    newsletterAlreadySubscribed: "Vous êtes déjà inscrit(e) à la liste de l'atelier.",
+    newsletterSubscribed: "Vous êtes inscrit(e). Bienvenue dans la liste .",
+    newsletterAlreadySubscribed: "Vous êtes déjà inscrit(e) à la liste .",
     trackOrderInvalid: "Saisissez un numéro de commande et une adresse e-mail valides.",
     trackOrderNotFound: "Aucune commande trouvée avec ce numéro et cette adresse e-mail.",
     checkoutRateLimited: "Trop de tentatives de commande. Veuillez réessayer plus tard.",
@@ -420,7 +420,7 @@ export const fr = {
     settingsCardTitle: "Profil et livraison",
     settingsCardDescription:
       "Mettez à jour votre nom, téléphone et adresse de livraison par défaut.",
-    contactStudio: "Contacter l'atelier",
+    contactStudio: "Nous contacter",
     collector: "Collectionneur",
     adminCardDescription: "Consulter les commandes, commandes sur mesure et messages.",
     settingsTitle: "Profil et livraison",
@@ -484,25 +484,25 @@ export const fr = {
   },
   pages: {
     about: {
-      eyebrow: "L'atelier",
+      eyebrow: "À propos",
       title: "À propos de SG Philippo Art",
       description:
         "Peintures à l'huile contemporaines explorant la beauté, le mythe et la force des femmes à travers l'histoire.",
-      p1: "SG Philippo Art est un atelier de peinture contemporaine spécialisé dans les œuvres expressives à l'huile, le portrait et les estampes d'art en édition limitée. Chaque pièce est créée avec une attention particulière à la couleur, la texture et la résonance émotionnelle.",
+      p1: "SG Philippo Art est spécialisée dans les œuvres expressives à l'huile, le portrait et les estampes d'art en édition limitée. Chaque pièce est créée avec une attention particulière à la couleur, la texture et la résonance émotionnelle.",
       p2: "Des toiles originales aux estampes de qualité muséale, chaque œuvre est préparée avec le même dévouement au métier — qu'elle soit destinée à une collection privée ou à un mur de galerie.",
       h2: "Déclaration de l'artiste",
       p3: "Pour moi, peindre est une conversation entre la mémoire et la matière. Je travaille en couches — construire, gratter, reconstruire — jusqu'à ce que l'image paraisse honnête. Mes sujets vont des portraits intimes aux paysages abstraits, toujours guidés par la lumière et le geste.",
       processTitle: "Notre processus",
       processP1: "Chaque pièce commence par la recherche et l'esquisse — explorer la composition, la couleur et l'histoire du sujet. Les originaux sont peints à l'huile sur toile ou panneau préparé, avec des matériaux archivables.",
       processP2: "Les estampes sont produites en petites éditions numérotées sur papier de qualité muséale. Chaque commande est inspectée, emballée à la main et expédiée avec soin. Les commandes sur mesure suivent les mêmes standards, avec des mises à jour régulières.",
-      ctaEyebrow: "Explorer l'atelier",
+      ctaEyebrow: "Explorer",
       ctaTitle: "Découvrir la collection",
       ctaBody:
         "Parcourez les originaux et estampes en édition limitée, ou demandez une commande sur mesure adaptée à votre espace.",
       ctaCollections: "Parcourir les collections",
       ctaCommissions: "Commander une œuvre",
       worksEyebrow: "Œuvres au hasard",
-      worksTitle: "Un aperçu de l'atelier",
+      worksTitle: "Œuvres sélectionnées",
     },
     faq: {
       eyebrow: "Assistance",
@@ -526,7 +526,7 @@ export const fr = {
       helpEyebrow: "Besoin d'aide ?",
       helpTitle: "Encore des questions ?",
       helpBody:
-        "L'atelier se fera un plaisir de vous aider pour vos achats, la livraison et les commandes sur mesure.",
+        "Nous se fera un plaisir de vous aider pour vos achats, la livraison et les commandes sur mesure.",
       helpContact: "Nous contacter",
       helpShipping: "Politique de livraison",
       helpReturns: "Politique de retours",
@@ -537,13 +537,13 @@ export const fr = {
       description:
         "Pour des questions d'achat, de commande sur mesure ou d'assistance — nous répondons généralement sous 1 à 2 jours ouvrables.",
       emailLabel: "E-mail",
-      hoursLabel: "Horaires de l'atelier",
+      hoursLabel: "Horaires",
       hoursValue: "Lundi – vendredi, 9 h – 17 h (GMT)",
       responseLabel: "Délai de réponse",
       responseValue: "La plupart des demandes reçoivent une réponse sous 1 à 2 jours ouvrables.",
     },
     commissions: {
-      eyebrow: "Atelier",
+      eyebrow: "Commandes sur mesure",
       title: "Commander un portrait",
       description:
         "Une peinture unique adaptée à votre vision — pour votre intérieur, votre bureau ou un cadeau précieux.",
@@ -576,12 +576,12 @@ export const fr = {
         "Saisissez l'adresse e-mail utilisée lors de la commande afin que nous puissions la retrouver en toute sécurité.",
       helpSupportTitle: "Besoin d'aide ?",
       helpSupportBody:
-        "Si vous ne trouvez pas votre commande, contactez l'atelier à {email} et nous vous aiderons.",
+        "Si vous ne trouvez pas votre commande, contactez-nous à {email} et nous vous aiderons.",
     },
     newsletterUnsubscribe: {
       eyebrow: "Lettre d'information",
       title: "Se désabonner",
-      description: "Retirez votre e-mail de la liste newsletter de l'atelier.",
+      description: "Retirez votre e-mail de la liste newsletter .",
       success: "Vous avez été désabonné.",
       invalid: "Lien de désabonnement invalide.",
       invalidUsed: "Ce lien de désabonnement est invalide ou a déjà été utilisé.",
@@ -603,7 +603,7 @@ export const fr = {
     collections: "Parcourir les collections",
   },
   admin: {
-    studio: "Atelier",
+    studio: "Admin",
     title: "Administration",
     viewStorefront: "Voir la boutique",
     nav: {
@@ -890,7 +890,7 @@ export const fr = {
         },
         fields: {
           site_name: "Nom du site",
-          contact_email: "E-mail de l'atelier (envoi et notifications)",
+          contact_email: "E-mail de contact (envoi et notifications)",
           commission_enabled: "Commandes sur mesure activées",
           currency_code: "Code devise",
           currency_locale: "Locale devise",
@@ -1023,7 +1023,7 @@ export const fr = {
       media: {
         sectionTitle: "Médias de l'œuvre",
         sectionLead:
-          "Image principale pour les listes, vues détaillées facultatives et vidéo d'atelier optionnelle.",
+          "Image principale pour les listes, vues détaillées facultatives et vidéo optionnelle.",
         mainImageTitle: "Image principale",
         mainImageHint:
           "Affichée sur les cartes, la recherche et par défaut sur la fiche produit.",
@@ -1036,7 +1036,7 @@ export const fr = {
         galleryFormats: "Sélectionnez une ou plusieurs images.",
         videoTitle: "Vidéo",
         videoHint:
-          "Présentation ou clip d'atelier facultatif. Téléversez un fichier ou collez une URL directe.",
+          "Présentation ou clip vidéo facultatif. Téléversez un fichier ou collez une URL directe.",
         videoChoose: "Téléverser une vidéo",
         videoFormats: "MP4, WebM ou MOV recommandés (max. 100 Mo). Les autres formats sont convertis en MP4.",
         videoUrlLabel: "Ou URL de la vidéo",

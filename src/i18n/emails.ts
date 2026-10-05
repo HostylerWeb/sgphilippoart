@@ -40,7 +40,7 @@ export function getEmailCopy(locale: Locale) {
         `<p>Bonjour ${name},</p><p>Merci pour votre demande de commande sur mesure. Nous l'examinerons et vous répondrons sous 1 à 2 jours ouvrés.</p>`,
       newsletterSubject: "Bienvenue chez SG Philippo Art",
       newsletterBody: (unsubscribeUrl: string) =>
-        `<p>Merci pour votre inscription. Nous partagerons bientôt nos nouvelles œuvres et actualités d'atelier.</p>
+        `<p>Merci pour votre inscription. Nous partagerons bientôt nos nouvelles œuvres et actualités.</p>
       <p style="font-size:12px;color:#666;"><a href="${unsubscribeUrl}">Se désabonner</a> de cette liste à tout moment.</p>`,
       passwordResetSubject: "Réinitialiser votre mot de passe — SG Philippo Art",
       passwordResetBody: (resetUrl: string) =>
@@ -98,7 +98,7 @@ export function getEmailCopy(locale: Locale) {
         `<p>Hallo ${name},</p><p>Bedankt voor uw commissieverzoek. We bekijken uw aanvraag en reageren binnen 1–2 werkdagen.</p>`,
       newsletterSubject: "Welkom bij SG Philippo Art",
       newsletterBody: (unsubscribeUrl: string) =>
-        `<p>Bedankt voor uw inschrijving. We delen binnenkort nieuwe werken en nieuws uit het atelier.</p>
+        `<p>Bedankt voor uw inschrijving. We delen binnenkort nieuwe werken en nieuws.</p>
       <p style="font-size:12px;color:#666;"><a href="${unsubscribeUrl}">Uitschrijven</a> kan op elk moment.</p>`,
       passwordResetSubject: "Wachtwoord resetten — SG Philippo Art",
       passwordResetBody: (resetUrl: string) =>
@@ -154,7 +154,7 @@ export function getEmailCopy(locale: Locale) {
       `<p>Hi ${name},</p><p>Thank you for your commission inquiry. We will review your request and respond within 1–2 business days.</p>`,
     newsletterSubject: "Welcome to SG Philippo Art",
     newsletterBody: (unsubscribeUrl: string) =>
-      `<p>Thank you for subscribing. We will share new works and studio updates with you soon.</p>
+      `<p>Thank you for subscribing. We will share new works and updates with you soon.</p>
       <p style="font-size:12px;color:#666;"><a href="${unsubscribeUrl}">Unsubscribe</a> from this list at any time.</p>`,
     passwordResetSubject: "Reset your password — SG Philippo Art",
     passwordResetBody: (resetUrl: string) =>

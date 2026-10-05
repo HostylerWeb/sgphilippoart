@@ -36,7 +36,7 @@ export const nl = {
     menuOpen: "Menu openen",
     menuClose: "Menu sluiten",
     shop: "Shop",
-    studio: "Atelier",
+    studio: "Over",
     support: "Help",
     cart: "Winkelwagen",
   },
@@ -45,7 +45,7 @@ export const nl = {
     originals: "Originelen",
     prints: "Prints",
     newArrivals: "Nieuw",
-    studio: "Atelier",
+    studio: "Over",
     about: "Over de kunstenaar",
     process: "Werkwijze",
     commissions: "Opdrachten",
@@ -59,8 +59,8 @@ export const nl = {
     cookies: "Cookies",
     legalNotice: "Juridische informatie",
     trackOrder: "Bestelling volgen",
-    newsletterEyebrow: "Nieuwsbrief van het atelier",
-    newsletterTitle: "Ateliernieuws in uw inbox",
+    newsletterEyebrow: "Nieuwsbrief",
+    newsletterTitle: "Nieuws in uw inbox",
     newsletterBody: "Nieuwe werken, collecties en een kijkje achter de schermen.",
     newsletterFine: "Geen spam. U kunt zich altijd uitschrijven.",
     rights: "Alle rechten voorbehouden.",
@@ -82,17 +82,17 @@ export const nl = {
     sold: "Verkocht",
   },
   home: {
-    artistSpotlightEyebrow: "Het atelier",
+    artistSpotlightEyebrow: "De kunstenaar",
     artistSpotlightCta: "Over de kunstenaar",
     browseEyebrow: "Ontdekken",
     browseTitle: "Shop per categorie",
     newArrivalsEyebrow: "Werken",
-    newArrivalsTitle: "Uit het atelier",
+    newArrivalsTitle: "Nieuw",
     viewAllWorks: "Alle werken bekijken",
     testimonialsEyebrow: "Reviews",
     testimonialsTitle: "Onze verzamelaars",
     testimonialsSubtitle:
-      "Echte feedback van verzamelaars die bij het atelier hebben gekocht.",
+      "Echte feedback van verzamelaars die bij ons hebben gekocht.",
     verified: "Geverifieerd",
     starRatingAria: "{rating} van 5 sterren",
   },
@@ -100,7 +100,7 @@ export const nl = {
     browseEyebrow: "Ontdekken",
     allTitle: "Alle collecties",
     allDescription:
-      "Ontdek schilderijen, portretten, prints en geselecteerde series uit het atelier.",
+      "Ontdek schilderijen, portretten, prints en geselecteerde series bij ons.",
     viewCollection: "Collectie bekijken",
     work: "werk",
     works: "werken",
@@ -121,7 +121,7 @@ export const nl = {
     allWorksEyebrow: "Ontdekken",
     allWorksTitle: "Alle werken",
     allWorksDescription:
-      "Alle schilderijen en prints die momenteel beschikbaar zijn in het atelier.",
+      "Alle schilderijen en prints die momenteel beschikbaar zijn bij ons.",
   },
   filters: {
     works: "werken",
@@ -205,7 +205,7 @@ export const nl = {
     lineTotal: "Regeltotaal",
     itemsCount: "{count} artikelen",
     inquiryNote:
-      "Dit is een bestelaanvraag — er wordt geen betaling online genomen. Het atelier bevestigt beschikbaarheid, verzending en betaling per e-mail.",
+      "Dit is een bestelaanvraag — er wordt geen betaling online genomen. Wij bevestigen beschikbaarheid, verzending en betaling per e-mail.",
     freeShipping: "Gratis",
     shippingAtCheckout: "Berekend bij afrekenen",
   },
@@ -231,7 +231,7 @@ export const nl = {
     notes: "Bestelnotities (optioneel)",
     notesPlaceholder: "Cadeauboodschap, leveringsinstructies, enz.",
     inquiryNote:
-      "Dit is een bestelaanvraag — er wordt geen betaling online genomen. Het atelier bevestigt beschikbaarheid, verzending en betaling per e-mail.",
+      "Dit is een bestelaanvraag — er wordt geen betaling online genomen. Wij bevestigen beschikbaarheid, verzending en betaling per e-mail.",
     paymentNote:
       "Betaal veilig met PayPal, kaart, Apple Pay of Google Pay. Uw bestelling is bevestigd zodra de betaling is voltooid.",
     paymentSection: "Betaling",
@@ -250,7 +250,7 @@ export const nl = {
     successDescription:
       "We hebben uw bestelling ontvangen. Een bevestigingsmail is naar uw e-mailadres gestuurd. We nemen zo snel mogelijk contact met u op om de levering te regelen en andere details te bespreken.",
     successDescriptionNoOrder:
-      "We hebben uw bestelling ontvangen. Ziet u geen bevestigingsmail? Controleer uw spam of neem contact op met het atelier.",
+      "We hebben uw bestelling ontvangen. Ziet u geen bevestigingsmail? Controleer uw spam of neem contact op met ons.",
     orderReference: "Bestelreferentie {order}",
     orderNumber: "Bestelnummer",
     backHome: "Terug naar home",
@@ -329,8 +329,8 @@ export const nl = {
     contactSuccess:
       "Bedankt — uw bericht is verzonden. We antwoorden binnen 1–2 werkdagen.",
     commissionSuccess: "Uw opdrachtaanvraag is verzonden. We nemen snel contact op.",
-    newsletterSubscribed: "U bent ingeschreven. Welkom op de atelierlijst.",
-    newsletterAlreadySubscribed: "U bent al ingeschreven op de atelierlijst.",
+    newsletterSubscribed: "U bent ingeschreven. Welkom op de maillijst.",
+    newsletterAlreadySubscribed: "U bent al ingeschreven op de maillijst.",
     trackOrderInvalid: "Voer een geldig bestelnummer en e-mailadres in.",
     trackOrderNotFound: "Geen bestelling gevonden met dit nummer en e-mailadres.",
     checkoutRateLimited: "Te veel checkoutpogingen. Probeer het later opnieuw.",
@@ -423,7 +423,7 @@ export const nl = {
     settingsCardTitle: "Profiel en verzending",
     settingsCardDescription:
       "Werk uw naam, telefoon en standaard verzendadres bij.",
-    contactStudio: "Contact met het atelier",
+    contactStudio: "Neem contact op",
     collector: "Verzamelaar",
     adminCardDescription: "Bestellingen, opdrachten en berichten bekijken.",
     settingsTitle: "Profiel en verzending",
@@ -487,25 +487,25 @@ export const nl = {
   },
   pages: {
     about: {
-      eyebrow: "Het atelier",
+      eyebrow: "Over",
       title: "Over SG Philippo Art",
       description:
         "Contemporary olieverfschilderijen over schoonheid, mythologie en de kracht van vrouwen door de geschiedenis.",
-      p1: "SG Philippo Art is een contemporary schildersatelier, gespecialiseerd in expressieve olieverfwerken, portretten en limited edition kunstprints. Elk werk wordt gemaakt met aandacht voor kleur, textuur en emotionele diepte.",
+      p1: "SG Philippo Art is gespecialiseerd in expressieve olieverfwerken, portretten en limited edition kunstprints. Elk werk wordt gemaakt met aandacht voor kleur, textuur en emotionele diepte.",
       p2: "Van originele doeken tot museumkwaliteit prints: elk werk wordt met dezelfde toewijding aan het vak gemaakt — voor een privécollectie of een galeriewand.",
       h2: "Statement van de kunstenaar",
       p3: "Voor mij is schilderen een gesprek tussen herinnering en materiaal. Ik werk in lagen — opbouwen, wegschrapen, opnieuw opbouwen — tot het beeld eerlijk voelt. Mijn onderwerpen variëren van intieme portretten tot abstracte landschappen, altijd geleid door licht en gebaar.",
       processTitle: "Onze werkwijze",
       processP1: "Elk werk begint met onderzoek en schetsen — compositie, kleur en het verhaal achter het onderwerp. Originelen worden in olieverf geschilderd op voorbereid doek of paneel, met archiefwaardige materialen.",
       processP2: "Prints worden geproduceerd in kleine genummerde oplages op papier van museumkwaliteit. Elke bestelling wordt gecontroleerd, met de hand verpakt en zorgvuldig verzonden. Opdrachten volgen dezelfde standaarden, met regelmatige updates.",
-      ctaEyebrow: "Ontdek het atelier",
+      ctaEyebrow: "Ontdek ons",
       ctaTitle: "Bekijk de collectie",
       ctaBody:
         "Blader door originelen en limited edition prints, of vraag een op maat gemaakte opdracht voor uw ruimte.",
       ctaCollections: "Collecties bekijken",
       ctaCommissions: "Een werk in opdracht",
       worksEyebrow: "Willekeurige werken",
-      worksTitle: "Een glimp van het atelier",
+      worksTitle: "Geselecteerde werken",
     },
     faq: {
       eyebrow: "Help",
@@ -529,7 +529,7 @@ export const nl = {
       helpEyebrow: "Meer hulp nodig?",
       helpTitle: "Nog vragen?",
       helpBody:
-        "Het atelier helpt u graag bij aankopen, verzending en opdrachten.",
+        "Wij helpt u graag bij aankopen, verzending en opdrachten.",
       helpContact: "Contact",
       helpShipping: "Verzendbeleid",
       helpReturns: "Retourbeleid",
@@ -540,13 +540,13 @@ export const nl = {
       description:
         "Voor aankopen, opdrachten of vragen — we antwoorden meestal binnen 1–2 werkdagen.",
       emailLabel: "E-mail",
-      hoursLabel: "Atelieruren",
+      hoursLabel: "Openingstijden",
       hoursValue: "Maandag – vrijdag, 9:00 – 17:00 (GMT)",
       responseLabel: "Reactietijd",
       responseValue: "De meeste berichten worden binnen 1–2 werkdagen beantwoord.",
     },
     commissions: {
-      eyebrow: "Atelier",
+      eyebrow: "Opdrachten",
       title: "Portret in opdracht",
       description:
         "Een uniek schilderij op maat van uw visie — voor thuis, kantoor of als bijzonder cadeau.",
@@ -579,12 +579,12 @@ export const nl = {
         "Voer het e-mailadres in dat u bij de bestelling gebruikte, zodat we deze veilig kunnen koppelen.",
       helpSupportTitle: "Hulp nodig?",
       helpSupportBody:
-        "Kunt u uw bestelling niet vinden? Mail het atelier op {email} en we helpen u verder.",
+        "Kunt u uw bestelling niet vinden? Mail ons op {email} en we helpen u verder.",
     },
     newsletterUnsubscribe: {
       eyebrow: "Nieuwsbrief",
       title: "Uitschrijven",
-      description: "Verwijder uw e-mail van de ateliernieuwsbrief.",
+      description: "Verwijder uw e-mail van de nieuwsbrief.",
       success: "U bent uitgeschreven.",
       invalid: "Ongeldige uitschrijflink.",
       invalidUsed: "Deze uitschrijflink is ongeldig of al gebruikt.",
@@ -606,7 +606,7 @@ export const nl = {
     collections: "Collecties bekijken",
   },
   admin: {
-    studio: "Atelier",
+    studio: "Admin",
     title: "Beheer",
     viewStorefront: "Webshop bekijken",
     nav: {
@@ -893,7 +893,7 @@ export const nl = {
         },
         fields: {
           site_name: "Sitenaam",
-          contact_email: "Atelier-e-mail (verzenden en meldingen)",
+          contact_email: "Contact-e-mail (verzenden en meldingen)",
           commission_enabled: "Opdrachten ingeschakeld",
           currency_code: "Valutacode",
           currency_locale: "Valuta-locale",
@@ -1026,7 +1026,7 @@ export const nl = {
       media: {
         sectionTitle: "Kunstwerkmedia",
         sectionLead:
-          "Hoofdafbeelding voor lijsten, optionele detailfoto's en optionele ateliervideo.",
+          "Hoofdafbeelding voor lijsten, optionele detailfoto's en optionele video.",
         mainImageTitle: "Hoofdafbeelding",
         mainImageHint:
           "Getoond op kaarten, in zoekresultaten en standaard op de productpagina.",
@@ -1039,7 +1039,7 @@ export const nl = {
         galleryFormats: "Selecteer een of meer afbeeldingen.",
         videoTitle: "Video",
         videoHint:
-          "Optionele presentatie of atelierclip. Upload een bestand of plak een directe URL.",
+          "Optionele presentatie of videoclip. Upload een bestand of plak een directe URL.",
         videoChoose: "Video uploaden",
         videoFormats: "MP4, WebM of MOV aanbevolen (max. 100 MB). Andere formaten worden MP4.",
         videoUrlLabel: "Of video-URL",

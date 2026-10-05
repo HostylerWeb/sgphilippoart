@@ -73,7 +73,7 @@ const DEFAULTS: StoreSettings = {
   conciergeTitle: "Not sure which piece is right for your space?",
   conciergeBody:
     "Get complimentary one-on-one advice on choosing a piece that fits your taste, room, and budget — no pressure, just guidance.",
-  conciergeCta: "Connect with the studio",
+  conciergeCta: "Get in touch",
   socialInstagram: "",
   socialPinterest: "",
   socialTiktok: "",
@@ -110,7 +110,7 @@ const NL_LOCALIZED_DEFAULTS: Pick<
   conciergeTitle: "Weet u niet welk werk past bij uw ruimte?",
   conciergeBody:
     "Gratis persoonlijk advies bij het kiezen van een werk dat past bij uw smaak, interieur en budget — zonder druk, alleen begeleiding.",
-  conciergeCta: "Neem contact op met het atelier",
+  conciergeCta: "Neem contact op",
   shippingLabel: "Gratis wereldwijde verzending",
   returnsPolicySummary: "14 dagen gratis retour",
   taxLabel: "Belasting",

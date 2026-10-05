@@ -38,7 +38,7 @@ const DEFAULTS: SettingsFormValues = {
   concierge_title: "Not sure which piece is right for your space?",
   concierge_body:
     "Get complimentary one-on-one advice on choosing a piece that fits your taste, room, and budget.",
-  concierge_cta: "Connect with the studio",
+  concierge_cta: "Get in touch",
   ...socialDefaults,
   announcement_text_fr:
     "Œuvres originales peintes à la main · Découvrez la nouvelle série Femmes guerrières",

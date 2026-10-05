@@ -11,7 +11,7 @@ export const shipping: LocalizedLegalPage = {
         id: "overview",
         title: "Overview",
         paragraphs: [
-          "Every artwork leaving the {siteName} studio is packed with care. We ship to collectors internationally, with a focus on Belgium, Luxembourg, France, and wider Europe.",
+          "Every artwork leaving {siteName} is packed with care. We ship to collectors internationally, with a focus on Belgium, Luxembourg, France, and wider Europe.",
           "Shipping costs and options are confirmed by email after you submit a checkout inquiry. Prices shown on the website are displayed in {currencyCode}.",
         ],
       },
@@ -28,7 +28,7 @@ export const shipping: LocalizedLegalPage = {
         id: "dispatch",
         title: "Dispatch times",
         paragraphs: [
-          "Orders are typically prepared and dispatched within 3–5 business days after payment is confirmed and the order is accepted by the studio.",
+          "Orders are typically prepared and dispatched within 3–5 business days after payment is confirmed and the order is accepted by us.",
           "Commissioned works and made-to-order prints follow the timeline agreed in your commission confirmation.",
           "You will receive an email when your order ships, including tracking information when available.",
         ],
@@ -75,7 +75,7 @@ export const shipping: LocalizedLegalPage = {
         id: "contact",
         title: "Questions",
         paragraphs: [
-          "For shipping questions before or after purchase, contact the studio at {contactEmail}.",
+          "For shipping questions before or after purchase, contact us at {contactEmail}.",
         ],
       },
     ],
@@ -91,7 +91,7 @@ export const shipping: LocalizedLegalPage = {
         id: "overview",
         title: "Aperçu",
         paragraphs: [
-          "Chaque œuvre quittant l'atelier {siteName} est emballée avec soin. Nous expédions à des collectionneurs du monde entier, avec une attention particulière pour la Belgique, le Luxembourg, la France et l'Europe.",
+          "Chaque œuvre quittant nous {siteName} est emballée avec soin. Nous expédions à des collectionneurs du monde entier, avec une attention particulière pour la Belgique, le Luxembourg, la France et l'Europe.",
           "Les frais et options de livraison sont confirmés par e-mail après votre demande de commande. Les prix affichés sur le site sont en {currencyCode}.",
         ],
       },
@@ -108,7 +108,7 @@ export const shipping: LocalizedLegalPage = {
         id: "dispatch",
         title: "Délais d'expédition",
         paragraphs: [
-          "Les commandes sont généralement préparées et expédiées sous 3 à 5 jours ouvrables après confirmation du paiement et acceptation de la commande par l'atelier.",
+          "Les commandes sont généralement préparées et expédiées sous 3 à 5 jours ouvrables après confirmation du paiement et acceptation de la commande par nous.",
           "Les œuvres sur commande et les estampes fabriquées à la demande suivent le calendrier convenu dans votre confirmation de commande sur mesure.",
           "Vous recevrez un e-mail lors de l'expédition, avec les informations de suivi lorsque disponibles.",
         ],
@@ -155,7 +155,7 @@ export const shipping: LocalizedLegalPage = {
         id: "contact",
         title: "Questions",
         paragraphs: [
-          "Pour toute question sur la livraison avant ou après achat, contactez l'atelier à {contactEmail}.",
+          "Pour toute question sur la livraison avant ou après achat, contactez nous à {contactEmail}.",
         ],
       },
     ],
@@ -171,7 +171,7 @@ export const shipping: LocalizedLegalPage = {
         id: "overview",
         title: "Overzicht",
         paragraphs: [
-          "Elk kunstwerk dat het atelier {siteName} verlaat, wordt zorgvuldig ingepakt. We verzenden internationaal naar verzamelaars, met focus op België, Luxemburg, Frankrijk en de bredere Europese markt.",
+          "Elk kunstwerk dat ons {siteName} verlaat, wordt zorgvuldig ingepakt. We verzenden internationaal naar verzamelaars, met focus op België, Luxemburg, Frankrijk en de bredere Europese markt.",
           "Verzendkosten en opties worden per e-mail bevestigd nadat u een bestelverzoek hebt verstuurd. Prijzen op de website worden weergegeven in {currencyCode}.",
         ],
       },
@@ -188,7 +188,7 @@ export const shipping: LocalizedLegalPage = {
         id: "dispatch",
         title: "Verzendtijden",
         paragraphs: [
-          "Bestellingen worden doorgaans binnen 3–5 werkdagen na bevestigde betaling en acceptatie door het atelier klaargemaakt en verzonden.",
+          "Bestellingen worden doorgaans binnen 3–5 werkdagen na bevestigde betaling en acceptatie door ons klaargemaakt en verzonden.",
           "Commissiewerken en prints op bestelling volgen de planning uit uw commissiebevestiging.",
           "U ontvangt een e-mail wanneer uw bestelling wordt verzonden, inclusief trackinginformatie wanneer beschikbaar.",
         ],
@@ -235,7 +235,7 @@ export const shipping: LocalizedLegalPage = {
         id: "contact",
         title: "Vragen",
         paragraphs: [
-          "Voor vragen over verzending vóór of na aankoop kunt u het atelier bereiken via {contactEmail}.",
+          "Voor vragen over verzending vóór of na aankoop kunt u ons bereiken via {contactEmail}.",
         ],
       },
     ],

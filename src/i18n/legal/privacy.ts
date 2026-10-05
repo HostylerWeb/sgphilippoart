@@ -12,7 +12,7 @@ export const privacy: LocalizedLegalPage = {
         title: "Introduction",
         paragraphs: [
           "{siteName} (“we”, “us”, “our”) respects your privacy. This policy explains what personal data we collect when you use our website, why we collect it, how long we keep it, and what rights you have under applicable data protection law, including the General Data Protection Regulation (GDPR).",
-          "By using this website, creating an account, placing an order inquiry, subscribing to our newsletter, or contacting the studio, you acknowledge that you have read this policy.",
+          "By using this website, creating an account, placing an order inquiry, subscribing to our newsletter, or contacting us, you acknowledge that you have read this policy.",
         ],
       },
       {
@@ -48,7 +48,7 @@ export const privacy: LocalizedLegalPage = {
           "Processing order inquiries and fulfilling purchases you request.",
           "Managing your account and wishlist.",
           "Responding to contact, commission, and support requests.",
-          "Sending studio updates and newsletters where you have opted in.",
+          "Sending newsletter updates and newsletters where you have opted in.",
           "Improving website performance, security, and user experience.",
           "Complying with legal, tax, and accounting obligations.",
         ],
@@ -70,9 +70,9 @@ export const privacy: LocalizedLegalPage = {
         id: "sharing",
         title: "Sharing your data",
         paragraphs: [
-          "We do not sell your personal data. We may share limited information with trusted service providers who help us operate the website and studio, such as hosting providers, email delivery services, and shipping carriers. These providers may only use your data to perform services on our behalf.",
+          "We do not sell your personal data. We may share limited information with trusted service providers who help us operate the website, such as hosting providers, email delivery services, and shipping carriers. These providers may only use your data to perform services on our behalf.",
           "If online card payments are introduced in future, payment processors will handle payment data under their own privacy policies. We do not store full card numbers on our servers.",
-          "We may disclose information if required by law, court order, or to protect the rights, property, or safety of the studio, our customers, or others.",
+          "We may disclose information if required by law, court order, or to protect the rights, property, or safety of {siteName}, our customers, or others.",
         ],
       },
       {
@@ -145,7 +145,7 @@ export const privacy: LocalizedLegalPage = {
         title: "Introduction",
         paragraphs: [
           "{siteName} (« nous », « notre ») respecte votre vie privée. Cette politique explique quelles données personnelles nous collectons lorsque vous utilisez notre site, pourquoi nous les collectons, combien de temps nous les conservons et quels droits vous avez en vertu du droit applicable, notamment le Règlement général sur la protection des données (RGPD).",
-          "En utilisant ce site, en créant un compte, en envoyant une demande de commande, en vous abonnant à notre newsletter ou en contactant l'atelier, vous reconnaissez avoir lu cette politique.",
+          "En utilisant ce site, en créant un compte, en envoyant une demande de commande, en vous abonnant à notre newsletter ou en nous contactant, vous reconnaissez avoir lu cette politique.",
         ],
       },
       {
@@ -181,7 +181,7 @@ export const privacy: LocalizedLegalPage = {
           "Traiter vos demandes de commande et exécuter les achats demandés.",
           "Gérer votre compte et votre liste de favoris.",
           "Répondre aux demandes de contact, de commande sur mesure et d'assistance.",
-          "Envoyer des actualités de l'atelier et la newsletter lorsque vous y avez consenti.",
+          "Envoyer des actualités  et la newsletter lorsque vous y avez consenti.",
           "Améliorer les performances, la sécurité et l'expérience du site.",
           "Respecter les obligations légales, fiscales et comptables.",
         ],
@@ -203,9 +203,9 @@ export const privacy: LocalizedLegalPage = {
         id: "sharing",
         title: "Partage de vos données",
         paragraphs: [
-          "Nous ne vendons pas vos données personnelles. Nous pouvons partager des informations limitées avec des prestataires de confiance qui nous aident à exploiter le site et l'atelier, tels que l'hébergement, l'envoi d'e-mails et les transporteurs. Ces prestataires ne peuvent utiliser vos données que pour nous fournir leurs services.",
+          "Nous ne vendons pas vos données personnelles. Nous pouvons partager des informations limitées avec des prestataires de confiance qui nous aident à exploiter le site et nous, tels que l'hébergement, l'envoi d'e-mails et les transporteurs. Ces prestataires ne peuvent utiliser vos données que pour nous fournir leurs services.",
           "Si un paiement en ligne par carte est introduit à l'avenir, les processeurs de paiement traiteront les données de paiement selon leurs propres politiques. Nous ne stockons pas les numéros de carte complets sur nos serveurs.",
-          "Nous pouvons divulguer des informations si la loi l'exige ou pour protéger les droits, les biens ou la sécurité de l'atelier, de nos clients ou d'autrui.",
+          "Nous pouvons divulguer des informations si la loi l'exige ou pour protéger les droits, les biens ou la sécurité , de nos clients ou d'autrui.",
         ],
       },
       {
@@ -278,7 +278,7 @@ export const privacy: LocalizedLegalPage = {
         title: "Inleiding",
         paragraphs: [
           "{siteName} («wij», «ons») respecteert uw privacy. Dit beleid legt uit welke persoonsgegevens we verzamelen wanneer u onze website gebruikt, waarom we dat doen, hoe lang we ze bewaren en welke rechten u heeft onder de toepasselijke wetgeving, waaronder de Algemene verordening gegevensbescherming (AVG/GDPR).",
-          "Door deze website te gebruiken, een account aan te maken, een bestelverzoek te plaatsen, u in te schrijven voor onze nieuwsbrief of contact op te nemen met het atelier, erkent u dat u dit beleid hebt gelezen.",
+          "Door deze website te gebruiken, een account aan te maken, een bestelverzoek te plaatsen, u in te schrijven voor onze nieuwsbrief of contact op te nemen met ons, erkent u dat u dit beleid hebt gelezen.",
         ],
       },
       {
@@ -314,7 +314,7 @@ export const privacy: LocalizedLegalPage = {
           "Het verwerken van bestelverzoeken en het uitvoeren van aankopen die u aanvraagt.",
           "Het beheren van uw account en verlanglijst.",
           "Het beantwoorden van contact-, commissie- en supportverzoeken.",
-          "Het versturen van atelierupdates en nieuwsbrieven wanneer u zich heeft ingeschreven.",
+          "Het versturen van nieuwsbriefupdates en nieuwsbrieven wanneer u zich heeft ingeschreven.",
           "Het verbeteren van websiteprestaties, beveiliging en gebruikerservaring.",
           "Het naleven van wettelijke, fiscale en boekhoudkundige verplichtingen.",
         ],
@@ -336,9 +336,9 @@ export const privacy: LocalizedLegalPage = {
         id: "sharing",
         title: "Delen van uw gegevens",
         paragraphs: [
-          "We verkopen uw persoonsgegevens niet. We kunnen beperkte informatie delen met vertrouwde dienstverleners die ons helpen de website en het atelier te runnen, zoals hosting, e-mailbezorging en vervoerders. Deze partijen mogen uw gegevens alleen gebruiken om diensten voor ons uit te voeren.",
+          "We verkopen uw persoonsgegevens niet. We kunnen beperkte informatie delen met vertrouwde dienstverleners die ons helpen de website en ons te runnen, zoals hosting, e-mailbezorging en vervoerders. Deze partijen mogen uw gegevens alleen gebruiken om diensten voor ons uit te voeren.",
           "Als online kaartbetalingen in de toekomst worden ingevoerd, verwerken betalingsproviders betalingsgegevens onder hun eigen privacybeleid. We slaan geen volledige kaartnummers op onze servers op.",
-          "We kunnen informatie openbaar maken wanneer de wet dit vereist of om de rechten, eigendom of veiligheid van het atelier, onze klanten of anderen te beschermen.",
+          "We kunnen informatie openbaar maken wanneer de wet dit vereist of om de rechten, eigendom of veiligheid van ons, onze klanten of anderen te beschermen.",
         ],
       },
       {

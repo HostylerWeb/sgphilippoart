@@ -31,7 +31,7 @@ const CATEGORY_NL: Record<string, CmsNlFields> = {
   "works-that-found-their-collector": {
     name: "Werken die hun verzamelaar vonden",
     description:
-      "Een collectie werken die hun plaats hebben gevonden bij verzamelaars. Elk schilderij draagt zijn eigen verhaal, herinnering en symboliek — en zet zijn reis voort buiten mijn atelier.",
+      "Een collectie werken die hun plaats hebben gevonden bij verzamelaars. Elk schilderij draagt zijn eigen verhaal, herinnering en symboliek — en zet zijn reis voort daarbuiten.",
   },
   "sold-painted-tshirts": {
     name: "Galerie van verkochte handgeschilderde T-shirts",
@@ -93,7 +93,7 @@ const TESTIMONIAL_NL: Record<string, CmsNlFields> = {
   },
   cmsbpcwdv000x9xl11y4ckcmk: {
     title: "Precies zoals beschreven",
-    body: "De communicatie met het atelier was geweldig. De kleuren zijn rijker in het echt dan online.",
+    body: "De communicatie was geweldig. De kleuren zijn rijker in het echt dan online.",
   },
   cmsbpcwdv000y9xl1w0n1nd3y: {
     title: "Mijn tweede aankoop",
