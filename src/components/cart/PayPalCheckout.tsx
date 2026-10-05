@@ -1,21 +1,21 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   PayPalButtons,
   PayPalScriptProvider,
   type ReactPayPalScriptOptions,
 } from "@paypal/react-paypal-js";
+import { PayPalApplePayButton } from "@/components/cart/PayPalApplePayButton";
+import { PayPalGooglePayButton } from "@/components/cart/PayPalGooglePayButton";
+import { usePayPalShopOrder } from "@/components/cart/usePayPalShopOrder";
 import {
   getPayPalScriptEnvironment,
   PAYPAL_SDK_BASE_URL,
 } from "@/lib/paypal/config";
-import {
-  abandonPayPalCheckoutOrder,
-  preparePayPalCheckout,
-} from "@/actions/cart";
-import type { Locale } from "@/i18n/config";
+import { getApplePayButtonLocale } from "@/lib/paypal/apple-pay-locale";
 import { getPayPalSdkLocale } from "@/lib/paypal/locale";
+import type { Locale } from "@/i18n/config";
 import styles from "./PayPalCheckout.module.css";
 
 export type CheckoutPayload = {
@@ -36,6 +36,7 @@ type PayPalCheckoutProps = {
   currencyCode: string;
   buyerCountryCode: string;
   siteLocale: Locale;
+  merchantDisplayName: string;
   getPayload: () => CheckoutPayload | null;
   onPaid: (orderNumber: string) => void;
   onError: (message: string) => void;
@@ -43,140 +44,51 @@ type PayPalCheckoutProps = {
   loadingLabel: string;
 };
 
-export function PayPalCheckout({
-  clientId,
+function PayPalCheckoutInner({
   currencyCode,
   buyerCountryCode,
   siteLocale,
+  merchantDisplayName,
   getPayload,
   onPaid,
   onError,
   processingLabel,
-  loadingLabel,
-}: PayPalCheckoutProps) {
-  const [mounted, setMounted] = useState(false);
-  const shopOrderRef = useRef<{ orderId: string; orderNumber: string } | null>(
-    null,
-  );
-  const [processing, setProcessing] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const buyerCountry = buyerCountryCode.trim().toUpperCase();
-
-  const releasePendingShopOrder = useCallback(async () => {
-    const pending = shopOrderRef.current;
-    shopOrderRef.current = null;
-    if (pending) {
-      await abandonPayPalCheckoutOrder(pending.orderId);
-    }
-  }, []);
-
-  useEffect(() => {
-    void releasePendingShopOrder();
-  }, [buyerCountry, releasePendingShopOrder]);
-
-  const scriptOptions: ReactPayPalScriptOptions = useMemo(() => {
-    const environment = getPayPalScriptEnvironment();
-    const options: ReactPayPalScriptOptions = {
-      clientId,
-      environment,
-      sdkBaseUrl: PAYPAL_SDK_BASE_URL,
-      currency: currencyCode,
-      intent: "capture",
-      components: "buttons",
-      disableFunding: "venmo",
-      locale: getPayPalSdkLocale(siteLocale),
-    };
-    // PayPal disallows buyer-country on the live JS SDK (sandbox-only).
-    if (environment === "sandbox" && buyerCountry) {
-      options.buyerCountry = buyerCountry;
-    }
-    return options;
-  }, [buyerCountry, clientId, currencyCode, siteLocale]);
-
-  async function ensureShopOrder() {
-    if (shopOrderRef.current) {
-      return shopOrderRef.current;
-    }
-
-    const payload = getPayload();
-    if (!payload) {
-      throw new Error("Please complete all required fields.");
-    }
-
-    const prepared = await preparePayPalCheckout(payload);
-    if (!prepared.success || !prepared.orderId || !prepared.orderNumber) {
-      throw new Error(prepared.message ?? "Could not prepare checkout.");
-    }
-
-    shopOrderRef.current = {
-      orderId: prepared.orderId,
-      orderNumber: prepared.orderNumber,
-    };
-    return shopOrderRef.current;
-  }
+}: Omit<PayPalCheckoutProps, "clientId" | "loadingLabel">) {
+  const {
+    processing,
+    setProcessing,
+    ensureShopOrder,
+    createPayPalOrderId,
+    capturePayPalOrder,
+    releasePendingShopOrder,
+    runWithProcessing,
+  } = usePayPalShopOrder({
+    getPayload,
+    buyerCountryCode,
+    onError,
+  });
 
   async function createPayPalOrder(): Promise<string> {
-    setProcessing(true);
-    try {
+    return runWithProcessing(async () => {
       const shopOrder = await ensureShopOrder();
-      const response = await fetch("/api/paypal/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ orderId: shopOrder.orderId }),
-      });
-      const data = (await response.json()) as { id?: string; error?: string };
-      if (!response.ok || !data.id) {
-        throw new Error(data.error ?? "Could not start PayPal checkout.");
-      }
+      const paypalOrderId = await createPayPalOrderId(shopOrder.orderId);
       setProcessing(false);
-      return data.id;
-    } catch (error) {
-      await releasePendingShopOrder();
-      setProcessing(false);
-      const message =
-        error instanceof Error ? error.message : "PayPal checkout failed.";
-      onError(message);
-      throw error;
-    }
+      return paypalOrderId;
+    });
   }
 
-  async function capturePayPalOrder(data: { orderID?: string }) {
+  async function capturePayPalOrderFromButtons(data: { orderID?: string }) {
     setProcessing(true);
     try {
-      const shopOrder = shopOrderRef.current;
-      if (!shopOrder || !data.orderID) {
+      if (!data.orderID) {
         throw new Error("Missing order context.");
       }
-      const response = await fetch("/api/paypal/capture", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          orderId: shopOrder.orderId,
-          paypalOrderId: data.orderID,
-        }),
-      });
-      const raw = await response.text();
-      let result: { orderNumber?: string; error?: string } = {};
-      if (raw) {
-        try {
-          result = JSON.parse(raw) as { orderNumber?: string; error?: string };
-        } catch {
-          throw new Error(
-            response.ok
-              ? "Payment response was invalid."
-              : "Payment could not be completed. Please try again.",
-          );
-        }
-      }
-      if (!response.ok || !result.orderNumber) {
-        throw new Error(result.error ?? "Payment capture failed.");
-      }
-      shopOrderRef.current = null;
-      onPaid(result.orderNumber);
+      const shopOrder = await ensureShopOrder();
+      const orderNumber = await capturePayPalOrder(
+        shopOrder.orderId,
+        data.orderID,
+      );
+      onPaid(orderNumber);
     } catch (error) {
       await releasePendingShopOrder();
       const message =
@@ -187,38 +99,122 @@ export function PayPalCheckout({
     }
   }
 
+  const applePayLocale = getApplePayButtonLocale(siteLocale);
+
+  return (
+    <div className={styles.wrap}>
+      {processing && <p className={styles.processing}>{processingLabel}</p>}
+      <div className={styles.wallets}>
+        <PayPalApplePayButton
+          currencyCode={currencyCode}
+          merchantDisplayName={merchantDisplayName}
+          applePayLocale={applePayLocale}
+          disabled={processing}
+          ensureShopOrder={ensureShopOrder}
+          createPayPalOrderId={createPayPalOrderId}
+          capturePayPalOrder={capturePayPalOrder}
+          onPaid={onPaid}
+          onError={onError}
+          setProcessing={setProcessing}
+          releasePendingShopOrder={releasePendingShopOrder}
+        />
+        <PayPalGooglePayButton
+          currencyCode={currencyCode}
+          disabled={processing}
+          ensureShopOrder={ensureShopOrder}
+          createPayPalOrderId={createPayPalOrderId}
+          capturePayPalOrder={capturePayPalOrder}
+          onPaid={onPaid}
+          onError={onError}
+          setProcessing={setProcessing}
+          releasePendingShopOrder={releasePendingShopOrder}
+        />
+      </div>
+      <PayPalButtons
+        style={{
+          layout: "vertical",
+          shape: "rect",
+          color: "black",
+          tagline: false,
+        }}
+        disabled={processing}
+        createOrder={createPayPalOrder}
+        onApprove={capturePayPalOrderFromButtons}
+        onCancel={() => {
+          void releasePendingShopOrder();
+          setProcessing(false);
+        }}
+        onError={() => {
+          void releasePendingShopOrder();
+          setProcessing(false);
+          onError("PayPal encountered an error. Please try again.");
+        }}
+      />
+    </div>
+  );
+}
+
+export function PayPalCheckout({
+  clientId,
+  currencyCode,
+  buyerCountryCode,
+  siteLocale,
+  merchantDisplayName,
+  getPayload,
+  onPaid,
+  onError,
+  processingLabel,
+  loadingLabel,
+}: PayPalCheckoutProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const buyerCountry = buyerCountryCode.trim().toUpperCase();
+
+  const scriptOptions: ReactPayPalScriptOptions = useMemo(() => {
+    const environment = getPayPalScriptEnvironment();
+    const options: ReactPayPalScriptOptions = {
+      clientId,
+      environment,
+      sdkBaseUrl: PAYPAL_SDK_BASE_URL,
+      currency: currencyCode,
+      intent: "capture",
+      components: "buttons,applepay,googlepay",
+      disableFunding: "venmo",
+      locale: getPayPalSdkLocale(siteLocale),
+    };
+    if (environment === "sandbox" && buyerCountry) {
+      options.buyerCountry = buyerCountry;
+    }
+    return options;
+  }, [buyerCountry, clientId, currencyCode, siteLocale]);
+
   if (!mounted) {
-    return <div className={styles.wrap} aria-busy="true" />;
+    return (
+      <div className={styles.wrap} aria-busy="true">
+        <p className={styles.processing}>{loadingLabel}</p>
+      </div>
+    );
   }
 
   return (
     <PayPalScriptProvider
-      key={`${clientId}-${buyerCountry}`}
+      key={`${clientId}-${buyerCountry}-${currencyCode}`}
       options={scriptOptions}
     >
-      <div className={styles.wrap}>
-        {processing && <p className={styles.processing}>{processingLabel}</p>}
-        <PayPalButtons
-          style={{
-            layout: "vertical",
-            shape: "rect",
-            color: "black",
-            tagline: false,
-          }}
-          disabled={processing}
-          createOrder={createPayPalOrder}
-          onApprove={capturePayPalOrder}
-          onCancel={() => {
-            void releasePendingShopOrder();
-            setProcessing(false);
-          }}
-          onError={() => {
-            void releasePendingShopOrder();
-            setProcessing(false);
-            onError("PayPal encountered an error. Please try again.");
-          }}
-        />
-      </div>
+      <PayPalCheckoutInner
+        currencyCode={currencyCode}
+        buyerCountryCode={buyerCountryCode}
+        siteLocale={siteLocale}
+        merchantDisplayName={merchantDisplayName}
+        getPayload={getPayload}
+        onPaid={onPaid}
+        onError={onError}
+        processingLabel={processingLabel}
+      />
     </PayPalScriptProvider>
   );
 }

@@ -21,6 +21,7 @@ import {
 import { auth } from "@/lib/auth";
 import { localizeInventoryError } from "@/lib/inventory-errors";
 import { parseCheckoutInput } from "@/lib/validations/checkout";
+import { formatPayPalAmount } from "@/lib/paypal/format-amount";
 
 type ActionResult = {
   success: boolean;
@@ -333,6 +334,8 @@ export async function preparePayPalCheckout(
   message?: string;
   orderId?: string;
   orderNumber?: string;
+  total?: string;
+  currencyCode?: string;
 }> {
   const locale = await getLocale();
   const v = getDictionary(locale).validation;
@@ -446,7 +449,12 @@ export async function preparePayPalCheckout(
         },
       });
 
-      return { orderId: order.id, orderNumber: number };
+      return {
+        orderId: order.id,
+        orderNumber: number,
+        total: formatPayPalAmount(totals.total),
+        currencyCode: settings.currencyCode,
+      };
     });
 
     return { success: true, ...result };

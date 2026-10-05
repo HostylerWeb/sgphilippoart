@@ -39,6 +39,7 @@ type CheckoutFormProps = {
   paymentMode?: "inquiry" | "manual" | "stripe" | "paypal";
   currencyCode?: string;
   paypalClientId?: string | null;
+  merchantDisplayName?: string;
 };
 
 export function CheckoutForm({
@@ -47,6 +48,7 @@ export function CheckoutForm({
   paymentMode = "inquiry",
   currencyCode = "EUR",
   paypalClientId,
+  merchantDisplayName = "SG Philippo Art",
 }: CheckoutFormProps) {
   const { locale, dict } = useI18n();
   const t = dict.checkout;
@@ -294,6 +296,7 @@ export function CheckoutForm({
                 currencyCode={currencyCode}
                 buyerCountryCode={countryCode}
                 siteLocale={locale}
+                merchantDisplayName={merchantDisplayName}
                 getPayload={getPayloadForPayPal}
                 processingLabel={t.paymentProcessing}
                 loadingLabel={t.paymentLoading}

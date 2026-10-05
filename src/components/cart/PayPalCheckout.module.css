@@ -5,6 +5,30 @@
   margin-top: 0.5rem;
 }
 
+.wallets {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.walletButton {
+  display: flex;
+  justify-content: stretch;
+  min-height: 0;
+}
+
+.walletButton:empty {
+  display: none;
+}
+
+.walletButton apple-pay-button {
+  --apple-pay-button-width: 100%;
+  --apple-pay-button-height: 48px;
+  display: block;
+  width: 100%;
+  min-height: 48px;
+}
+
 .processing {
   margin: 0;
   font-size: 0.9rem;

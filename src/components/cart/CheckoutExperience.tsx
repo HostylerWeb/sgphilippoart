@@ -22,6 +22,7 @@ type CheckoutItem = {
 
 type SerializableSettings = Pick<
   StoreSettings,
+  | "siteName"
   | "paymentMode"
   | "currencyCode"
   | "currencyLocale"
@@ -75,6 +76,7 @@ export function CheckoutExperience({
           paymentMode={settings.paymentMode}
           currencyCode={settings.currencyCode}
           paypalClientId={paypalClientId}
+          merchantDisplayName={settings.siteName}
         />
       </div>
 
