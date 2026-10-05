@@ -14,6 +14,8 @@ import {
   abandonPayPalCheckoutOrder,
   preparePayPalCheckout,
 } from "@/actions/cart";
+import type { Locale } from "@/i18n/config";
+import { getPayPalSdkLocale } from "@/lib/paypal/locale";
 import styles from "./PayPalCheckout.module.css";
 
 export type CheckoutPayload = {
@@ -33,6 +35,7 @@ type PayPalCheckoutProps = {
   clientId: string;
   currencyCode: string;
   buyerCountryCode: string;
+  siteLocale: Locale;
   getPayload: () => CheckoutPayload | null;
   onPaid: (orderNumber: string) => void;
   onError: (message: string) => void;
@@ -44,6 +47,7 @@ export function PayPalCheckout({
   clientId,
   currencyCode,
   buyerCountryCode,
+  siteLocale,
   getPayload,
   onPaid,
   onError,
@@ -84,8 +88,9 @@ export function PayPalCheckout({
       components: "buttons",
       disableFunding: "venmo",
       buyerCountry,
+      locale: getPayPalSdkLocale(siteLocale),
     }),
-    [buyerCountry, clientId, currencyCode],
+    [buyerCountry, clientId, currencyCode, siteLocale],
   );
 
   async function ensureShopOrder() {
@@ -123,6 +128,7 @@ export function PayPalCheckout({
       if (!response.ok || !data.id) {
         throw new Error(data.error ?? "Could not start PayPal checkout.");
       }
+      setProcessing(false);
       return data.id;
     } catch (error) {
       await releasePendingShopOrder();
@@ -135,6 +141,7 @@ export function PayPalCheckout({
   }
 
   async function capturePayPalOrder(data: { orderID?: string }) {
+    setProcessing(true);
     try {
       const shopOrder = shopOrderRef.current;
       if (!shopOrder || !data.orderID) {
@@ -155,8 +162,10 @@ export function PayPalCheckout({
       if (!response.ok || !result.orderNumber) {
         throw new Error(result.error ?? "Payment capture failed.");
       }
+      shopOrderRef.current = null;
       onPaid(result.orderNumber);
     } catch (error) {
+      await releasePendingShopOrder();
       const message =
         error instanceof Error ? error.message : "Payment capture failed.";
       onError(message);
@@ -177,7 +186,12 @@ export function PayPalCheckout({
       <div className={styles.wrap}>
         {processing && <p className={styles.processing}>{processingLabel}</p>}
         <PayPalButtons
-          style={{ layout: "vertical", shape: "rect" }}
+          style={{
+            layout: "vertical",
+            shape: "rect",
+            color: "black",
+            tagline: false,
+          }}
           disabled={processing}
           createOrder={createPayPalOrder}
           onApprove={capturePayPalOrder}
