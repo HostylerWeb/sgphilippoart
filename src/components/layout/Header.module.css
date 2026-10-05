@@ -224,14 +224,6 @@
     display: none;
   }
 
-  .accountButton {
-    width: 36px;
-    height: 36px;
-    justify-content: center;
-    border: 1px solid var(--line);
-    border-radius: 50%;
-  }
-
   .catnav {
     display: none;
   }
