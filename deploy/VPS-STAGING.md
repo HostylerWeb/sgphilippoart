@@ -27,7 +27,17 @@ SG Philippo Art runs as **site #2** on the same Hostinger VPS as Hostyler.
 git push origin main
 ```
 
-2. **Pull and rebuild on the VPS** (app lives at `/var/www/sites/sgphilippoart`, owned by `hostyler`):
+2. **From the project root** (uses `deploy/vps-redeploy.sh`):
+
+```bash
+# SSH key auth:
+pnpm deploy:vps
+
+# Or password auth (do not commit the password):
+VPS_ROOT_PASSWORD='…' pnpm deploy:vps
+```
+
+3. **Manual pull and rebuild on the VPS** (same steps as the script; app lives at `/var/www/sites/sgphilippoart`, owned by `hostyler`):
 
 ```bash
 ssh root@145.223.88.74 '
