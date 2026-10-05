@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import {
-  FUNDING,
   PayPalButtons,
   PayPalScriptProvider,
   type ReactPayPalScriptOptions,
@@ -156,15 +155,7 @@ function PayPalCheckoutInner({
       <div className={styles.payButtonSlot}>
         <PayPalButtons
           {...payPalButtonEvents}
-          fundingSource={FUNDING.PAYPAL}
-          style={{ ...payPalButtonStyle, color: "blue" }}
-        />
-      </div>
-      <div className={`${styles.payButtonSlot} ${styles.payButtonSlotCard}`}>
-        <PayPalButtons
-          {...payPalButtonEvents}
-          fundingSource={FUNDING.CARD}
-          style={{ ...payPalButtonStyle, color: "white" }}
+          style={{ ...payPalButtonStyle, color: "black", label: "paypal" }}
         />
       </div>
     </div>

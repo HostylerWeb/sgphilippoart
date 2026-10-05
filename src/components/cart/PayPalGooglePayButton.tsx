@@ -137,7 +137,7 @@ export function PayPalGooglePayButton({
 
         const button = paymentsClient.createButton({
           buttonColor: "black",
-          buttonType: "long",
+          buttonType: "plain",
           buttonSizeMode: "fill",
           onClick: () => {
             if (disabled) return;

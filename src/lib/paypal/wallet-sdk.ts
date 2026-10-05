@@ -64,7 +64,7 @@ export type GooglePaymentsClient = {
     onClick: () => void;
     allowedPaymentMethods?: unknown[];
     buttonColor?: "default" | "black" | "white";
-    buttonType?: "buy" | "long" | "short" | "pay" | "checkout" | "order";
+    buttonType?: "buy" | "long" | "short" | "plain" | "pay" | "checkout" | "order";
     buttonSizeMode?: "static" | "fill";
   }) => HTMLElement;
   loadPaymentData: (request: unknown) => Promise<GooglePayPaymentData>;

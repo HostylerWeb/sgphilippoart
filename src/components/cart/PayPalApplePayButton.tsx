@@ -74,7 +74,7 @@ export function PayPalApplePayButton({
     if (!showButton || !containerRef.current) return;
 
     const container = containerRef.current;
-    container.innerHTML = `<apple-pay-button buttonstyle="black" type="buy" locale="${applePayLocale}"></apple-pay-button>`;
+    container.innerHTML = `<apple-pay-button buttonstyle="black" type="plain" locale="${applePayLocale}"></apple-pay-button>`;
 
     const button = container.querySelector("apple-pay-button");
     if (!button) return;
