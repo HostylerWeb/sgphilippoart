@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useIsClient } from "@/hooks/use-is-client";
 import { createPortal } from "react-dom";
 import Link from "next/link";
+import { StoreImage } from "@/components/ui/StoreImage";
 import { CartDrawer, type CartDrawerItem } from "@/components/cart/CartDrawer";
 import { SearchModal } from "@/components/search/SearchModal";
 import { LanguageToggle } from "@/components/layout/LanguageToggle";
@@ -119,18 +120,20 @@ export function HeaderNav({
     <header className={styles.header}>
       <div className="wrap">
         <div className={styles.topnav}>
-          <button
-            type="button"
-            className={styles.menuButton}
-            aria-label={menuOpen ? dict.header.menuClose : dict.header.menuOpen}
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((open) => !open)}
+          <Link
+            href="/"
+            className={styles.logo}
+            onClick={() => setMenuOpen(false)}
+            aria-label={dict.meta.siteName}
           >
-            <span className={styles.menuIcon} data-open={menuOpen} />
-          </button>
-
-          <Link href="/" className={styles.logo} onClick={() => setMenuOpen(false)}>
-            SG PHILIPPO ART
+            <StoreImage
+              src="/images/sgplogo.png"
+              alt={dict.meta.siteName}
+              width={2056}
+              height={765}
+              className={styles.logoImage}
+              priority
+            />
           </Link>
 
           <div className={styles.topActions}>
@@ -163,6 +166,16 @@ export function HeaderNav({
               {cartCount > 0 && <span className={styles.cartCount}>{cartCount}</span>}
             </button>
           </div>
+
+          <button
+            type="button"
+            className={styles.menuButton}
+            aria-label={menuOpen ? dict.header.menuClose : dict.header.menuOpen}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <span className={styles.menuIcon} data-open={menuOpen} />
+          </button>
         </div>
 
         <nav className={styles.catnav} aria-label={dict.aria.collections}>

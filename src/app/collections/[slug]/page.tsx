@@ -11,6 +11,7 @@ import {
   getProductsForCollection,
   getWishlistedProductIds,
 } from "@/lib/queries";
+import { buildPageMetadata } from "@/lib/seo";
 import { getStoreSettings } from "@/lib/settings";
 import { getDictionary, getLocale } from "@/i18n";
 import { localizeCategoryEntity } from "@/lib/i18n/localize";
@@ -33,12 +34,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const localizedCategory = localizeCategoryEntity(category, locale);
   const categoryName = localizedCategory.name;
 
-  return {
+  return buildPageMetadata({
     title: `${categoryName} — SG Philippo Art`,
     description:
       localizedCategory.description ??
       dict.meta.collectionDescription.replace("{name}", categoryName),
-  };
+    path: `/collections/${slug}`,
+  });
 }
 
 export default async function CollectionPage({ params, searchParams }: PageProps) {

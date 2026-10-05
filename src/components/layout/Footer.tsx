@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { StoreImage } from "@/components/ui/StoreImage";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
 import { LanguageToggle } from "@/components/layout/LanguageToggle";
 import { SocialLinks } from "@/components/layout/SocialLinks";
@@ -24,7 +25,15 @@ export function Footer({ settings, dict, categories, locale }: FooterProps) {
       <div className="wrap">
         <div className={styles.footerTop}>
           <div className={styles.footerBrand}>
-            <div className={styles.logo}>{settings.siteName.toUpperCase()}</div>
+            <Link href="/" className={styles.logo}>
+              <StoreImage
+                src="/images/sgplogo.png"
+                alt={settings.siteName}
+                width={2056}
+                height={765}
+                className={styles.logoImage}
+              />
+            </Link>
             <p>{settings.footerDescription}</p>
             <SocialLinks links={socialLinks} />
           </div>
