@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .section {
@@ -10,6 +12,9 @@
   background: var(--paper);
   border: 1px solid var(--line-soft);
   box-shadow: 0 1px 0 rgba(23, 19, 15, 0.03);
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 .sectionHead {
@@ -43,6 +48,8 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .sectionBody p {
@@ -83,10 +90,14 @@
 
 .tableWrap {
   overflow-x: auto;
+  max-width: 100%;
+  min-width: 0;
   margin-top: 4px;
   border: 1px solid var(--line-soft);
   border-radius: 2px;
   background: var(--paper-alt);
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
 }
 
 .table {
@@ -116,6 +127,7 @@
 .table td {
   color: var(--ink-soft);
   background: var(--paper);
+  overflow-wrap: anywhere;
 }
 
 .table tbody tr:last-child td {

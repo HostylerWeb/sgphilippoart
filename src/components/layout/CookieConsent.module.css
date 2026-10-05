@@ -77,6 +77,9 @@
   .cookieBanner {
     left: 12px;
     right: 12px;
+    width: auto;
+    max-width: calc(100vw - 24px);
+    box-sizing: border-box;
     bottom: calc(12px + env(safe-area-inset-bottom, 0px));
     padding: 14px 14px 12px;
     border: 1px solid rgba(169, 128, 63, 0.4);

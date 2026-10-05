@@ -57,6 +57,8 @@
 
   .productScroller {
     overflow-x: auto;
+    max-width: 100%;
+    min-width: 0;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
@@ -82,8 +84,8 @@
   }
 
   .productSlide {
-    flex: 0 0 calc(100vw - 72px);
-    width: calc(100vw - 72px);
+    flex: 0 0 min(calc(100vw - 72px), 280px);
+    width: min(calc(100vw - 72px), 280px);
     max-width: 280px;
     scroll-snap-align: start;
   }
