@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { db } from "@/lib/db";
 import {
   ARTIST_STORY_CATEGORY_NAME,
