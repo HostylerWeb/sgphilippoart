@@ -14,7 +14,8 @@ import { formatPrice } from "@/lib/format";
 import { getStoreSettings } from "@/lib/settings";
 import { getDictionary, getLocale } from "@/i18n";
 import { enforceRateLimit } from "@/lib/rate-limit";
-import { reserveCartItems } from "@/lib/order-inventory";
+import { reserveCartItems, restoreOrderInventory } from "@/lib/order-inventory";
+import { auth } from "@/lib/auth";
 import { localizeInventoryError } from "@/lib/inventory-errors";
 import { parseCheckoutInput } from "@/lib/validations/checkout";
 
@@ -287,6 +288,42 @@ export async function submitOrderInquiry(
   revalidatePath("/", "layout");
 
   return { success: true, orderNumber };
+}
+
+/** Release stock when PayPal checkout is cancelled or never completes payment. */
+export async function abandonPayPalCheckoutOrder(
+  orderId: string,
+): Promise<{ success: boolean }> {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { success: false };
+  }
+
+  const order = await db.orders.findFirst({
+    where: {
+      id: orderId,
+      user_id: session.user.id,
+      payment_status: "awaiting_payment",
+      status: { not: "cancelled" },
+    },
+  });
+
+  if (!order) {
+    return { success: true };
+  }
+
+  await db.$transaction(async (tx) => {
+    await restoreOrderInventory(tx, orderId);
+    await tx.orders.update({
+      where: { id: orderId },
+      data: { status: "cancelled", payment_status: "failed" },
+    });
+  });
+
+  revalidatePath("/collections", "layout");
+  revalidatePath("/works");
+  revalidatePath("/cart");
+  return { success: true };
 }
 
 export async function preparePayPalCheckout(

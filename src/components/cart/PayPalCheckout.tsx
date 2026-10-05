@@ -7,7 +7,10 @@ import {
   type ReactPayPalScriptOptions,
 } from "@paypal/react-paypal-js";
 import { PAYPAL_SDK_BASE_URL } from "@/lib/paypal/config";
-import { preparePayPalCheckout } from "@/actions/cart";
+import {
+  abandonPayPalCheckoutOrder,
+  preparePayPalCheckout,
+} from "@/actions/cart";
 import styles from "./PayPalCheckout.module.css";
 
 export type CheckoutPayload = {
@@ -61,7 +64,19 @@ export function PayPalCheckout({
     disableFunding: "venmo",
   };
 
+  async function releasePendingShopOrder() {
+    const pending = shopOrderRef.current;
+    shopOrderRef.current = null;
+    if (pending) {
+      await abandonPayPalCheckoutOrder(pending.orderId);
+    }
+  }
+
   async function ensureShopOrder() {
+    if (shopOrderRef.current) {
+      return shopOrderRef.current;
+    }
+
     const payload = getPayload();
     if (!payload) {
       throw new Error("Please complete all required fields.");
@@ -94,6 +109,7 @@ export function PayPalCheckout({
       }
       return data.id;
     } catch (error) {
+      await releasePendingShopOrder();
       setProcessing(false);
       const message =
         error instanceof Error ? error.message : "PayPal checkout failed.";
@@ -146,8 +162,12 @@ export function PayPalCheckout({
           disabled={processing}
           createOrder={createPayPalOrder}
           onApprove={capturePayPalOrder}
-          onCancel={() => setProcessing(false)}
+          onCancel={() => {
+            void releasePendingShopOrder();
+            setProcessing(false);
+          }}
           onError={() => {
+            void releasePendingShopOrder();
             setProcessing(false);
             onError("PayPal encountered an error. Please try again.");
           }}
