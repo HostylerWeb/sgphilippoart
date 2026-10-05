@@ -82,6 +82,8 @@ export const fr = {
     sold: "Vendu",
   },
   home: {
+    artistSpotlightEyebrow: "L'atelier",
+    artistSpotlightCta: "À propos de l'artiste",
     browseEyebrow: "Parcourir",
     browseTitle: "Acheter par catégorie",
     newArrivalsEyebrow: "Œuvres",
@@ -496,6 +498,8 @@ export const fr = {
         "Parcourez les originaux et estampes en édition limitée, ou demandez une commande sur mesure adaptée à votre espace.",
       ctaCollections: "Parcourir les collections",
       ctaCommissions: "Commander une œuvre",
+      worksEyebrow: "Œuvres au hasard",
+      worksTitle: "Un aperçu de l'atelier",
     },
     faq: {
       eyebrow: "Assistance",

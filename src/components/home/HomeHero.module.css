@@ -1,0 +1,4 @@
+.heroStack {
+  display: flex;
+  flex-direction: column;
+}

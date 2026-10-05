@@ -1,11 +1,12 @@
 import { StorefrontShell } from "@/components/layout/StorefrontShell";
 import { ConciergeBanner } from "@/components/home/ConciergeBanner";
-import { HeroGrid } from "@/components/home/HeroGrid";
+import { HomeHero } from "@/components/home/HomeHero";
 import { PillsSection } from "@/components/home/PillsSection";
 import { ProductSection } from "@/components/home/ProductSection";
 import { Testimonials } from "@/components/home/Testimonials";
 import { TrustStrip } from "@/components/home/TrustStrip";
 import {
+  getArtistStoryCategory,
   getHeroTiles,
   getHomepageCategories,
   getNewArrivals,
@@ -21,6 +22,11 @@ import {
   localizeTestimonial,
   localizeTrustItem,
 } from "@/lib/i18n/localize";
+import {
+  excerptStoryParagraphs,
+  isArtistPortraitHeroTile,
+  isArtistStoryCategorySlug,
+} from "@/lib/home-artist-spotlight";
 
 export const revalidate = 60;
 
@@ -28,27 +34,70 @@ export default async function HomePage() {
   const locale = await getLocale();
   const dict = getDictionary(locale);
 
-  const [settings, heroTiles, categories, products, trustItems, testimonials, wishlistedIds] =
-    await Promise.all([
-      getStoreSettings(locale),
-      getHeroTiles(),
-      getHomepageCategories(),
-      getNewArrivals(4, locale),
-      getTrustItems(),
-      getTestimonials(),
-      getWishlistedProductIds(),
-    ]);
+  const [
+    settings,
+    heroTiles,
+    artistCategory,
+    categories,
+    products,
+    trustItems,
+    testimonials,
+    wishlistedIds,
+  ] = await Promise.all([
+    getStoreSettings(locale),
+    getHeroTiles(),
+    getArtistStoryCategory(),
+    getHomepageCategories(),
+    getNewArrivals(4, locale),
+    getTrustItems(),
+    getTestimonials(),
+    getWishlistedProductIds(),
+  ]);
 
-  const categoryPills = categories.map((category) => ({
-    label: localizeCategoryEntity(category, locale).name,
-    href: `/collections/${category.slug}`,
-  }));
+  const localizedHeroTiles = heroTiles.map((tile) => localizeHeroTile(tile, locale));
+  const artistHeroTile = heroTiles.find(isArtistPortraitHeroTile);
+  const gridTiles = localizedHeroTiles.filter((tile) => {
+    const raw = heroTiles.find((row) => row.id === tile.id);
+    return raw ? !isArtistPortraitHeroTile(raw) : true;
+  });
+
+  const localizedArtistCategory = artistCategory
+    ? localizeCategoryEntity(artistCategory, locale)
+    : null;
+  const artistParagraphs =
+    localizedArtistCategory?.description
+      ? excerptStoryParagraphs(localizedArtistCategory.description)
+      : [];
+  const artistSpotlight =
+    artistHeroTile && artistParagraphs.length > 0
+      ? {
+          eyebrow: dict.home.artistSpotlightEyebrow,
+          title: dict.meta.siteName,
+          paragraphs: artistParagraphs,
+          imageUrl: artistHeroTile.image_url,
+          imageAlt:
+            localizeHeroTile(artistHeroTile, locale).image_alt ??
+            artistHeroTile.image_alt ??
+            localizedArtistCategory?.name ??
+            "Artist portrait",
+          ctaLabel: dict.home.artistSpotlightCta,
+          ctaHref: "/about",
+        }
+      : null;
+
+  const categoryPills = categories
+    .filter((category) => !isArtistStoryCategorySlug(category.slug))
+    .map((category) => ({
+      label: localizeCategoryEntity(category, locale).name,
+      href: `/collections/${category.slug}`,
+    }));
 
   return (
     <StorefrontShell>
-      <HeroGrid
-        tiles={heroTiles.map((tile) => localizeHeroTile(tile, locale))}
-        ariaLabel={dict.aria.featuredCollections}
+      <HomeHero
+        spotlight={artistSpotlight}
+        gridTiles={gridTiles}
+        gridAriaLabel={dict.aria.featuredCollections}
       />
       {categoryPills.length > 0 && (
         <PillsSection

@@ -82,6 +82,8 @@ export const nl = {
     sold: "Verkocht",
   },
   home: {
+    artistSpotlightEyebrow: "Het atelier",
+    artistSpotlightCta: "Over de kunstenaar",
     browseEyebrow: "Ontdekken",
     browseTitle: "Shop per categorie",
     newArrivalsEyebrow: "Werken",
@@ -499,6 +501,8 @@ export const nl = {
         "Blader door originelen en limited edition prints, of vraag een op maat gemaakte opdracht voor uw ruimte.",
       ctaCollections: "Collecties bekijken",
       ctaCommissions: "Een werk in opdracht",
+      worksEyebrow: "Willekeurige werken",
+      worksTitle: "Een glimp van het atelier",
     },
     faq: {
       eyebrow: "Help",

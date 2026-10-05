@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { mapProductToCard } from "@/lib/product-mapper";
 import { getPriceRange, type PriceRangeSlug } from "@/lib/price-ranges";
 import type { Locale } from "@/i18n/config";
+import { ARTIST_STORY_CATEGORY_SLUGS } from "@/lib/home-artist-spotlight";
 import type { ProductCardData } from "@/components/product/ProductCard";
 
 const PRODUCTS_PER_PAGE = 12;
@@ -61,6 +62,31 @@ export async function getCategoryBySlug(slug: string) {
   return db.categories.findUnique({ where: { slug } });
 }
 
+/** Artist intro copy (tries known slugs, then case-insensitive DB match). */
+export async function getArtistStoryCategory() {
+  for (const slug of ARTIST_STORY_CATEGORY_SLUGS) {
+    const exact = await db.categories.findUnique({ where: { slug } });
+    if (exact?.description?.trim()) {
+      return exact;
+    }
+  }
+
+  const candidates = await db.categories.findMany({
+    where: {
+      OR: ARTIST_STORY_CATEGORY_SLUGS.map((slug) => ({
+        slug: { equals: slug, mode: "insensitive" },
+      })),
+    },
+    orderBy: { sort_order: "asc" },
+  });
+
+  return (
+    candidates.find((row) => row.description?.trim()) ??
+    candidates[0] ??
+    null
+  );
+}
+
 export async function getHeroTiles() {
   return db.hero_tiles.findMany({
     where: { is_active: true },
@@ -78,6 +104,42 @@ export async function getNewArrivals(
     take: limit,
     include: { images: { orderBy: { sort_order: "asc" } } },
   });
+
+  return products.map((product) => mapProductToCard(product, locale));
+}
+
+/** Published originals and in-stock prints, shuffled per request (PostgreSQL RANDOM()). */
+export async function getRandomAvailableProducts(
+  limit = 4,
+  locale: Locale = "en",
+): Promise<ProductCardData[]> {
+  const safeLimit = Math.min(Math.max(1, limit), 12);
+  const rows = await db.$queryRaw<Array<{ id: string }>>`
+    SELECT p.id
+    FROM products p
+    WHERE p.status = 'published'::product_status
+      AND (
+        p.product_type = 'original'::product_type
+        OR (p.product_type = 'print'::product_type AND COALESCE(p.stock_quantity, 0) > 0)
+      )
+      AND EXISTS (
+        SELECT 1 FROM product_images pi WHERE pi.product_id = p.id
+      )
+    ORDER BY RANDOM()
+    LIMIT ${safeLimit}
+  `;
+
+  if (rows.length === 0) {
+    return [];
+  }
+
+  const products = await db.products.findMany({
+    where: { id: { in: rows.map((row) => row.id) } },
+    include: { images: { orderBy: { sort_order: "asc" } } },
+  });
+
+  const order = new Map(rows.map((row, index) => [row.id, index]));
+  products.sort((a, b) => (order.get(a.id) ?? 0) - (order.get(b.id) ?? 0));
 
   return products.map((product) => mapProductToCard(product, locale));
 }

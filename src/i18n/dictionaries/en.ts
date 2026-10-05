@@ -80,6 +80,8 @@ export const en = {
     sold: "Sold",
   },
   home: {
+    artistSpotlightEyebrow: "The studio",
+    artistSpotlightCta: "About the artist",
     browseEyebrow: "Browse",
     browseTitle: "Shop by category",
     newArrivalsEyebrow: "Works",
@@ -487,6 +489,8 @@ export const en = {
         "Browse originals and limited-edition prints, or enquire about a custom commission tailored to your space.",
       ctaCollections: "Browse collections",
       ctaCommissions: "Commission a piece",
+      worksEyebrow: "Selected works",
+      worksTitle: "A glimpse of the studio",
     },
     faq: {
       eyebrow: "Support",

@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { StoreImage } from "@/components/ui/StoreImage";
 import styles from "./HeroGrid.module.css";
@@ -18,9 +19,12 @@ type HeroGridProps = {
 };
 
 export function HeroGrid({ tiles, ariaLabel }: HeroGridProps) {
+  const columnCount = Math.min(Math.max(tiles.length, 1), 4);
+
   return (
     <section
       className={styles.heroGrid}
+      style={{ "--hero-columns": columnCount } as CSSProperties}
       tabIndex={0}
       role="region"
       aria-label={ariaLabel}
@@ -32,7 +36,7 @@ export function HeroGrid({ tiles, ariaLabel }: HeroGridProps) {
               src={tile.image_url}
               alt={tile.image_alt ?? tile.title}
               fill
-              sizes="(max-width: 600px) 88vw, (max-width: 980px) 50vw, 25vw"
+              sizes={`(max-width: 600px) 88vw, (max-width: 980px) ${Math.ceil(100 / columnCount)}vw, ${Math.ceil(100 / columnCount)}vw`}
               priority={index < 2}
               className={styles.image}
             />

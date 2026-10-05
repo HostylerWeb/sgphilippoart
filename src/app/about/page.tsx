@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ContentPage } from "@/components/layout/ContentPage";
+import { AboutArtistPage } from "@/components/about/AboutArtistPage";
 import { StorefrontShell } from "@/components/layout/StorefrontShell";
+import { getArtistPortrait } from "@/lib/artist-portrait";
 import { getAboutPageContent } from "@/lib/cms/about-page";
+import { parseStoryParagraphs } from "@/lib/home-artist-spotlight";
+import { localizeCategoryEntity } from "@/lib/i18n/localize";
+import {
+  getArtistStoryCategory,
+  getRandomAvailableProducts,
+  getWishlistedProductIds,
+} from "@/lib/queries";
 import { buildPageMetadata } from "@/lib/seo";
-import { getLocale } from "@/i18n";
-import styles from "./page.module.css";
+import { getStoreSettings } from "@/lib/settings";
+import { getDictionary, getLocale } from "@/i18n";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
@@ -19,51 +28,43 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function AboutPage() {
   const locale = await getLocale();
-  const t = await getAboutPageContent(locale);
+  const dict = getDictionary(locale);
+  const [copy, portrait, artistCategory, settings, sampleWorks, wishlistedIds] =
+    await Promise.all([
+      getAboutPageContent(locale),
+      getArtistPortrait(),
+      getArtistStoryCategory(),
+      getStoreSettings(locale),
+      getRandomAvailableProducts(4, locale),
+      getWishlistedProductIds(),
+    ]);
+
+  const localizedArtist = artistCategory
+    ? localizeCategoryEntity(artistCategory, locale)
+    : null;
+
+  const storyParagraphs =
+    localizedArtist?.description?.trim()
+      ? parseStoryParagraphs(localizedArtist.description)
+      : [copy.p1, copy.p2].filter(Boolean);
 
   return (
     <StorefrontShell>
-      <ContentPage
-        hero
-        variant="wide"
-        eyebrow={t.eyebrow}
-        title={t.title}
-        description={t.description}
-      >
-        <div className={styles.layout}>
-          <section className={styles.introCard}>
-            <p>{t.p1}</p>
-            <p>{t.p2}</p>
-          </section>
-
-          <section className={styles.card}>
-            <span className={styles.cardNumber}>01</span>
-            <h2>{t.h2}</h2>
-            <p>{t.p3}</p>
-          </section>
-
-          <section className={styles.card} id="process">
-            <span className={styles.cardNumber}>02</span>
-            <h2>{t.processTitle}</h2>
-            <p>{t.processP1}</p>
-            <p>{t.processP2}</p>
-          </section>
-
-          <aside className={styles.ctaCard}>
-            <span className="eyebrow">{t.ctaEyebrow}</span>
-            <h2>{t.ctaTitle}</h2>
-            <p>{t.ctaBody}</p>
-            <div className={styles.ctaLinks}>
-              <Link href="/collections" className={styles.primary}>
-                {t.ctaCollections}
-              </Link>
-              <Link href="/commissions" className={styles.secondary}>
-                {t.ctaCommissions}
-              </Link>
-            </div>
-          </aside>
-        </div>
-      </ContentPage>
+      <AboutArtistPage
+        copy={copy}
+        portrait={portrait}
+        storyParagraphs={storyParagraphs}
+        storyTitle={localizedArtist?.name}
+        commissionEnabled={settings.commissionEnabled}
+        sampleWorks={sampleWorks}
+        currency={settings}
+        wishlistedIds={wishlistedIds}
+        worksEyebrow={dict.pages.about.worksEyebrow}
+        worksTitle={dict.pages.about.worksTitle}
+        viewAllWorks={dict.home.viewAllWorks}
+        soldLabel={dict.product.sold}
+        badgeLabels={dict.product}
+      />
     </StorefrontShell>
   );
 }
