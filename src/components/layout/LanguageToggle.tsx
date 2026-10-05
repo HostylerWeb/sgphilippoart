@@ -1,7 +1,7 @@
 "use client";
 
 import { setLocaleAction } from "@/actions/locale";
-import type { Locale } from "@/i18n/config";
+import { LOCALES, type Locale } from "@/i18n/config";
 import styles from "./LanguageToggle.module.css";
 
 type LanguageToggleProps = {
@@ -22,30 +22,17 @@ export function LanguageToggle({ locale, compact = false, ariaLabel }: LanguageT
       role="group"
       aria-label={ariaLabel}
     >
-      <button
-        type="button"
-        className={locale === "en" ? styles.active : undefined}
-        onClick={() => select("en")}
-        aria-pressed={locale === "en"}
-      >
-        EN
-      </button>
-      <button
-        type="button"
-        className={locale === "fr" ? styles.active : undefined}
-        onClick={() => select("fr")}
-        aria-pressed={locale === "fr"}
-      >
-        FR
-      </button>
-      <button
-        type="button"
-        className={locale === "nl" ? styles.active : undefined}
-        onClick={() => select("nl")}
-        aria-pressed={locale === "nl"}
-      >
-        NL
-      </button>
+      {LOCALES.map((code) => (
+        <button
+          key={code}
+          type="button"
+          className={locale === code ? styles.active : undefined}
+          onClick={() => select(code)}
+          aria-pressed={locale === code}
+        >
+          {code.toUpperCase()}
+        </button>
+      ))}
     </div>
   );
 }

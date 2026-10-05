@@ -134,9 +134,11 @@ export function HeaderNav({
           </Link>
 
           <div className={styles.topActions}>
-            <div className={styles.desktopOnly}>
-              <LanguageToggle locale={locale} ariaLabel={dict.aria.language} />
-            </div>
+            <LanguageToggle
+              locale={locale}
+              compact
+              ariaLabel={dict.aria.language}
+            />
             <SearchModal labels={dict.search} onNavigate={() => setMenuOpen(false)} />
             <Link
               href={user ? "/account" : "/login"}
