@@ -3,8 +3,11 @@ import type { hero_tiles } from "@/generated/prisma/client";
 /** Mistaken empty “collection” — not a shop category; story lives on /about. */
 export const LEGACY_ARTIST_COLLECTION_SLUG = "the-artist";
 
-/** Optional DB category for long artist copy (not shown in shop nav). */
-export const ARTIST_STORY_CATEGORY_SLUGS = ["sgphilippoart"] as const;
+/** Hidden DB rows used for long artist copy (excluded from shop nav). */
+export const ARTIST_STORY_CATEGORY_SLUGS = [
+  LEGACY_ARTIST_COLLECTION_SLUG,
+  "sgphilippoart",
+] as const;
 
 export function normalizeCollectionSlug(slug: string): string {
   return slug.trim().toLowerCase();

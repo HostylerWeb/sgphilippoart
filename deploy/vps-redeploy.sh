@@ -15,6 +15,7 @@ sudo -u hostyler git -c safe.directory="$APP_DIR" reset --hard FETCH_HEAD
 sudo -u hostyler git -c safe.directory="$APP_DIR" clean -fd -e public/uploads -e .env
 sudo -u hostyler pnpm install --no-frozen-lockfile
 sudo -u hostyler pnpm db:migrate:deploy
+sudo -u hostyler pnpm exec tsx scripts/restore-artist-story-category.ts
 rm -rf .next
 sudo -u hostyler NODE_ENV=production pnpm build
 systemctl restart sgphilippoart

@@ -25,55 +25,30 @@ export function ArtistSpotlight({
     return null;
   }
 
-  const lead = paragraphs[0];
-  const supporting = paragraphs.slice(1, 4);
-
   return (
     <section className={styles.spotlight} aria-labelledby="artist-spotlight-title">
-      <div className={styles.glow} aria-hidden />
       <div className={styles.inner}>
-        <div className={styles.visual}>
-          <div className={styles.portraitShell}>
-            <div className={styles.portraitFrame}>
-              <StoreImage
-                src={imageUrl}
-                alt={imageAlt}
-                fill
-                priority
-                sizes="(max-width: 760px) 100vw, 46vw"
-                className={styles.image}
-              />
-            </div>
-          </div>
+        <div className={styles.portrait}>
+          <StoreImage
+            src={imageUrl}
+            alt={imageAlt}
+            fill
+            priority
+            sizes="(max-width: 760px) 100vw, 42vw"
+            className={styles.image}
+          />
         </div>
-
         <div className={styles.copy}>
-          <div className={styles.copyPanel}>
-            <header className={styles.copyHeader}>
-              <div className={styles.eyebrowRow}>
-                <span className={styles.eyebrowLine} aria-hidden />
-                <span className="eyebrow">{eyebrow}</span>
-              </div>
-              <h2 id="artist-spotlight-title" className={styles.title}>{title}</h2>
-            </header>
-
-            {lead && (
-              <p className={styles.lead}>{lead}</p>
-            )}
-
-            {supporting.length > 0 && (
-              <div className={styles.body}>
-                {supporting.map((paragraph) => (
-                  <p key={paragraph.slice(0, 48)}>{paragraph}</p>
-                ))}
-              </div>
-            )}
-
-            <Link href={ctaHref} className={styles.cta}>
-              <span>{ctaLabel}</span>
-              <span className={styles.ctaArrow} aria-hidden>→</span>
-            </Link>
+          <span className="eyebrow">{eyebrow}</span>
+          <h2 id="artist-spotlight-title" className={styles.title}>{title}</h2>
+          <div className={styles.body}>
+            {paragraphs.map((paragraph) => (
+              <p key={paragraph.slice(0, 48)}>{paragraph}</p>
+            ))}
           </div>
+          <Link href={ctaHref} className={styles.cta}>
+            {ctaLabel}
+          </Link>
         </div>
       </div>
     </section>
