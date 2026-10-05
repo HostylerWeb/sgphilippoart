@@ -48,9 +48,17 @@ export function isArtistPortraitHeroTile(
   return path === "/about";
 }
 
-export function parseStoryParagraphs(text: string): string[] {
+/** DB/CMS text sometimes stores literal \\r\\n — normalize before rendering. */
+export function normalizeStoryText(text: string): string {
   return text
+    .replace(/\\r\\n/g, "\n")
+    .replace(/\\n/g, "\n")
     .replace(/\r\n/g, "\n")
+    .replace(/\r/g, "\n");
+}
+
+export function parseStoryParagraphs(text: string): string[] {
+  return normalizeStoryText(text)
     .split(/\n\s*\n/)
     .map((paragraph) => paragraph.replace(/\n/g, " ").trim())
     .filter(Boolean);
