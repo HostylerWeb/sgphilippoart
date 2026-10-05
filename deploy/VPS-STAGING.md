@@ -30,12 +30,18 @@ git push origin main
 2. **From the project root** (uses `deploy/vps-redeploy.sh`):
 
 ```bash
-# SSH key auth:
+# SSH key auth for root@145.223.88.74:
 pnpm deploy:vps
 
-# Or password auth (do not commit the password):
+# Or password auth — add to local .env (never commit):
+# VPS_ROOT_PASSWORD=your-hostinger-root-password
+pnpm deploy:vps
+
+# One-off without .env:
 VPS_ROOT_PASSWORD='…' pnpm deploy:vps
 ```
+
+The script loads `VPS_ROOT_PASSWORD` from the project `.env` when present.
 
 3. **Manual pull and rebuild on the VPS** (same steps as the script; app lives at `/var/www/sites/sgphilippoart`, owned by `hostyler`):
 

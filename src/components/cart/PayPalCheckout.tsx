@@ -78,20 +78,24 @@ export function PayPalCheckout({
     void releasePendingShopOrder();
   }, [buyerCountry, releasePendingShopOrder]);
 
-  const scriptOptions: ReactPayPalScriptOptions = useMemo(
-    () => ({
+  const scriptOptions: ReactPayPalScriptOptions = useMemo(() => {
+    const environment = getPayPalScriptEnvironment();
+    const options: ReactPayPalScriptOptions = {
       clientId,
-      environment: getPayPalScriptEnvironment(),
+      environment,
       sdkBaseUrl: PAYPAL_SDK_BASE_URL,
       currency: currencyCode,
       intent: "capture",
       components: "buttons",
       disableFunding: "venmo",
-      buyerCountry,
       locale: getPayPalSdkLocale(siteLocale),
-    }),
-    [buyerCountry, clientId, currencyCode, siteLocale],
-  );
+    };
+    // PayPal disallows buyer-country on the live JS SDK (sandbox-only).
+    if (environment === "sandbox" && buyerCountry) {
+      options.buyerCountry = buyerCountry;
+    }
+    return options;
+  }, [buyerCountry, clientId, currencyCode, siteLocale]);
 
   async function ensureShopOrder() {
     if (shopOrderRef.current) {

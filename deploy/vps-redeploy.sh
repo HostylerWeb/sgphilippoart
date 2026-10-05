@@ -3,6 +3,14 @@
 # See deploy/VPS-STAGING.md and PROJECT-HANDBOOK.md.
 set -euo pipefail
 
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+if [[ -f "${ROOT_DIR}/.env" ]]; then
+  set -a
+  # shellcheck source=/dev/null
+  source "${ROOT_DIR}/.env"
+  set +a
+fi
+
 VPS_HOST="${VPS_HOST:-root@145.223.88.74}"
 APP_DIR="${VPS_APP_DIR:-/var/www/sites/sgphilippoart}"
 GIT_REMOTE="${VPS_GIT_REMOTE:-https://github.com/HostylerWeb/sgphilippoart.git}"
@@ -27,12 +35,20 @@ EOF
 
 run_ssh() {
   if [[ -n "${VPS_ROOT_PASSWORD:-}" ]] && command -v sshpass >/dev/null 2>&1; then
-    SSHPASS="$VPS_ROOT_PASSWORD" sshpass -e ssh -o StrictHostKeyChecking=no "$VPS_HOST" "$@"
+    SSHPASS="$VPS_ROOT_PASSWORD" sshpass -e ssh -o StrictHostKeyChecking=no -o IdentitiesOnly=yes "$VPS_HOST" "$@"
   else
-    ssh -o StrictHostKeyChecking=no "$VPS_HOST" "$@"
+    ssh -o StrictHostKeyChecking=no -o BatchMode=yes "$VPS_HOST" "$@"
   fi
 }
 
 echo "Deploying to $VPS_HOST ($APP_DIR)…"
-run_ssh "APP_DIR='$APP_DIR' GIT_REMOTE='$GIT_REMOTE' bash -s" <<<"$REMOTE_SCRIPT"
+if ! run_ssh "APP_DIR='$APP_DIR' GIT_REMOTE='$GIT_REMOTE' bash -s" <<<"$REMOTE_SCRIPT"; then
+  echo ""
+  echo "Deploy failed (usually SSH auth)."
+  echo "  • Add your SSH key for $VPS_HOST, or"
+  echo "  • Set VPS_ROOT_PASSWORD in .env (gitignored) or: VPS_ROOT_PASSWORD='…' pnpm deploy:vps"
+  echo "  • Root password: Hostinger hPanel → VPS → SSH access"
+  echo "See deploy/VPS-STAGING.md"
+  exit 1
+fi
 echo "Done."
