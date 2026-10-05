@@ -351,6 +351,9 @@ export const nl = {
     artworkNoLongerAvailable: "« {title} » is niet meer beschikbaar.",
     insufficientStock: "Onvoldoende voorraad voor « {title} » (nog {count}).",
     artworkReserved: "« {title} » is al gereserveerd door een andere actieve bestelling.",
+    paypalInstrumentDeclined:
+      "Uw betaling werd geweigerd. In de PayPal-sandbox: log in met een sandbox persoonlijk account of gebruik PayPal-testkaartnummers en probeer opnieuw.",
+    paypalCaptureFailed: "De betaling kon niet worden voltooid. Probeer het opnieuw.",
     accountCreateFailed: "Kon account niet aanmaken.",
     newsletterSubscribedShort: "Ingeschreven.",
   },

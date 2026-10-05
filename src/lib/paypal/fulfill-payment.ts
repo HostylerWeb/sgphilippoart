@@ -5,7 +5,8 @@ import {
   reserveOrderInventory,
   restoreOrderInventory,
 } from "@/lib/order-inventory";
-import { capturePayPalOrder } from "@/lib/paypal/client";
+import { capturePayPalOrder, PayPalApiError } from "@/lib/paypal/client";
+import { getDictionary } from "@/i18n";
 import { markOrderPaidFromPayPalCapture } from "@/lib/paypal/orders";
 
 export type FulfillPayPalPaymentResult =
@@ -57,10 +58,14 @@ export async function fulfillPayPalOrderPayment(
     await db.$transaction(async (tx) => {
       await restoreOrderInventory(tx, orderId);
     });
+    const v = getDictionary(locale).validation;
+    if (error instanceof PayPalApiError && error.issue === "INSTRUMENT_DECLINED") {
+      return { ok: false, status: 422, error: v.paypalInstrumentDeclined };
+    }
     return {
       ok: false,
-      status: 502,
-      error: "Payment capture failed. Please try again.",
+      status: error instanceof PayPalApiError ? error.status : 502,
+      error: v.paypalCaptureFailed,
     };
   }
 

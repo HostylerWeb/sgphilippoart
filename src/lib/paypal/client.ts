@@ -48,6 +48,29 @@ export async function getPayPalAccessToken(): Promise<string> {
   return data.access_token;
 }
 
+export class PayPalApiError extends Error {
+  readonly status: number;
+  readonly issue?: string;
+
+  constructor(message: string, status: number, issue?: string) {
+    super(message);
+    this.name = "PayPalApiError";
+    this.status = status;
+    this.issue = issue;
+  }
+}
+
+function parsePayPalErrorIssue(text: string): string | undefined {
+  try {
+    const body = JSON.parse(text) as {
+      details?: Array<{ issue?: string }>;
+    };
+    return body.details?.[0]?.issue;
+  } catch {
+    return undefined;
+  }
+}
+
 export async function paypalApi<T>(
   path: string,
   options: RequestInit = {},
@@ -63,11 +86,26 @@ export async function paypalApi<T>(
   });
 
   const text = await response.text();
-  const json = text ? (JSON.parse(text) as T) : ({} as T);
+  let json: T = {} as T;
+  if (text) {
+    try {
+      json = JSON.parse(text) as T;
+    } catch {
+      if (!response.ok) {
+        throw new PayPalApiError(
+          `PayPal API ${path} failed: ${response.status}`,
+          response.status,
+        );
+      }
+    }
+  }
 
   if (!response.ok) {
-    throw new Error(
+    const issue = parsePayPalErrorIssue(text);
+    throw new PayPalApiError(
       `PayPal API ${path} failed: ${response.status} ${text.slice(0, 500)}`,
+      response.status,
+      issue,
     );
   }
 

@@ -348,6 +348,9 @@ export const fr = {
     artworkNoLongerAvailable: "« {title} » n'est plus disponible.",
     insufficientStock: "Stock insuffisant pour « {title} » (il reste {count}).",
     artworkReserved: "« {title} » est déjà réservé par une autre commande active.",
+    paypalInstrumentDeclined:
+      "Le paiement a été refusé. En sandbox PayPal, connectez-vous avec un compte personnel de test ou utilisez les numéros de carte de test PayPal, puis réessayez.",
+    paypalCaptureFailed: "Le paiement n'a pas pu être finalisé. Veuillez réessayer.",
     accountCreateFailed: "Impossible de créer le compte.",
     newsletterSubscribedShort: "Inscription confirmée.",
   },

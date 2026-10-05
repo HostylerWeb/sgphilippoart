@@ -344,6 +344,9 @@ export const en = {
     artworkNoLongerAvailable: "\"{title}\" is no longer available.",
     insufficientStock: "Insufficient stock for \"{title}\" (only {count} left).",
     artworkReserved: "\"{title}\" is already reserved by another active order.",
+    paypalInstrumentDeclined:
+      "Your payment was declined. In PayPal sandbox, sign in with a sandbox personal account or use PayPal’s test card numbers — then try again.",
+    paypalCaptureFailed: "Payment could not be completed. Please try again.",
     accountCreateFailed: "Could not create account.",
     newsletterSubscribedShort: "Subscribed.",
   },

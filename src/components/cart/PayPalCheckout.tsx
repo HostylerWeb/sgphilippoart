@@ -155,10 +155,19 @@ export function PayPalCheckout({
           paypalOrderId: data.orderID,
         }),
       });
-      const result = (await response.json()) as {
-        orderNumber?: string;
-        error?: string;
-      };
+      const raw = await response.text();
+      let result: { orderNumber?: string; error?: string } = {};
+      if (raw) {
+        try {
+          result = JSON.parse(raw) as { orderNumber?: string; error?: string };
+        } catch {
+          throw new Error(
+            response.ok
+              ? "Payment response was invalid."
+              : "Payment could not be completed. Please try again.",
+          );
+        }
+      }
       if (!response.ok || !result.orderNumber) {
         throw new Error(result.error ?? "Payment capture failed.");
       }
