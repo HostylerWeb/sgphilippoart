@@ -32,6 +32,16 @@ function optionalNumber(value: number | "" | undefined): number | null {
   return value;
 }
 
+/** Persist stock including 0; default empty print stock to 0, empty original stock to null. */
+function resolveStockQuantity(
+  productType: "original" | "print",
+  stock: number | "" | undefined,
+): number | null {
+  const parsed = optionalNumber(stock);
+  if (parsed !== null) return parsed;
+  return productType === "print" ? 0 : null;
+}
+
 function parseProductForm(formData: FormData) {
   const editionSize = formData.get("edition_size");
   const stockQuantity = formData.get("stock_quantity");
@@ -196,7 +206,7 @@ export async function createProductAction(
       medium: data.medium,
       dimensions: data.dimensions,
       edition_size: data.product_type === "print" ? optionalNumber(data.edition_size) : null,
-      stock_quantity: data.product_type === "print" ? optionalNumber(data.stock_quantity) ?? 0 : null,
+      stock_quantity: resolveStockQuantity(data.product_type, data.stock_quantity),
       category_id: data.category_id || null,
       is_featured: Boolean(data.is_featured),
       meta_title: data.meta_title,
@@ -266,7 +276,7 @@ export async function updateProductAction(
       medium: data.medium,
       dimensions: data.dimensions,
       edition_size: data.product_type === "print" ? optionalNumber(data.edition_size) : null,
-      stock_quantity: data.product_type === "print" ? optionalNumber(data.stock_quantity) ?? 0 : null,
+      stock_quantity: resolveStockQuantity(data.product_type, data.stock_quantity),
       category: data.category_id
         ? { connect: { id: data.category_id } }
         : { disconnect: true },

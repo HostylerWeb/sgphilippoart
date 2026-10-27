@@ -227,7 +227,9 @@ export function ProductForm({ categories, product }: ProductFormProps) {
               name="stock_quantity"
               type="number"
               min="0"
-              defaultValue={product?.stock_quantity ?? ""}
+              defaultValue={
+                product?.stock_quantity != null ? String(product.stock_quantity) : ""
+              }
             />
           </label>
         </div>
