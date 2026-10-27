@@ -2,6 +2,7 @@ import type { ProductCardData } from "@/components/product/ProductCard";
 import type { Locale } from "@/i18n/config";
 import { localizeArtistLocation } from "@/lib/i18n/artist-location";
 import { localizeProduct } from "@/lib/i18n/localize";
+import { isProductSoldForDisplay } from "@/lib/product-sold";
 
 type ProductWithImages = {
   id: string;
@@ -15,6 +16,7 @@ type ProductWithImages = {
   medium: string | null;
   dimensions: string | null;
   status: "draft" | "published" | "sold" | "archived";
+  stock_quantity: number | null;
   translations?: unknown;
   images: Array<{
     url: string;
@@ -45,6 +47,6 @@ export function mapProductToCard(
     dimensions: product.dimensions,
     image_url: primary?.url ?? "",
     image_alt: primary?.alt_text,
-    is_sold: product.status === "sold",
+    is_sold: isProductSoldForDisplay(product),
   };
 }

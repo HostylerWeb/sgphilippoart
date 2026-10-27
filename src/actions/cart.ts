@@ -20,6 +20,7 @@ import {
 } from "@/lib/order-inventory";
 import { auth } from "@/lib/auth";
 import { localizeInventoryError } from "@/lib/inventory-errors";
+import { isProductSoldForDisplay } from "@/lib/product-sold";
 import { parseCheckoutInput } from "@/lib/validations/checkout";
 import { formatPayPalAmount } from "@/lib/paypal/format-amount";
 
@@ -42,7 +43,15 @@ export async function addToCart(productId: string): Promise<ActionResult> {
   const ctx = await resolveCartOwner();
   const product = await db.products.findUnique({ where: { id: productId } });
 
-  if (!product || product.status !== "published") {
+  if (!product) {
+    return { success: false, message: v.artworkUnavailable };
+  }
+
+  if (isProductSoldForDisplay(product)) {
+    return { success: false, message: getDictionary(locale).product.sold };
+  }
+
+  if (product.status !== "published") {
     return { success: false, message: v.artworkUnavailable };
   }
 
@@ -65,9 +74,6 @@ export async function addToCart(productId: string): Promise<ActionResult> {
     });
   } else {
     const stock = product.stock_quantity ?? 0;
-    if (stock <= 0) {
-      return { success: false, message: v.printOutOfStock };
-    }
 
     const existing = await db.cart_items.findUnique({ where: ownerWhere });
     const nextQty = (existing?.quantity ?? 0) + 1;

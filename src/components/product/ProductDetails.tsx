@@ -5,6 +5,7 @@ import {
   productBadgeLabel,
   shippingSummary,
 } from "@/lib/format";
+import { isProductSoldForDisplay } from "@/lib/product-sold";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import type { StoreSettings } from "@/lib/settings";
 import styles from "./ProductDetails.module.css";
@@ -30,9 +31,8 @@ type ProductDetailsProps = {
 };
 
 export function ProductDetails({ product, settings, labels }: ProductDetailsProps) {
-  const isSold = product.status === "sold";
+  const isSold = isProductSoldForDisplay(product);
   const isPrint = product.product_type === "print";
-  const outOfStock = isPrint && (product.stock_quantity ?? 0) <= 0;
 
   const badge = isSold
     ? labels.sold
@@ -60,7 +60,7 @@ export function ProductDetails({ product, settings, labels }: ProductDetailsProp
         <li>{shippingSummary(settings)}</li>
         <li>{settings.returnsPolicySummary}</li>
         {product.product_type === "original" && <li>{labels.certificate}</li>}
-        {isPrint && product.stock_quantity !== null && !outOfStock && (
+        {isPrint && product.stock_quantity !== null && !isSold && (
           <li>{labels.stockAvailable.replace("{count}", String(product.stock_quantity))}</li>
         )}
         {settings.taxEnabled && (
@@ -71,10 +71,8 @@ export function ProductDetails({ product, settings, labels }: ProductDetailsProp
         )}
       </ul>
 
-      {isSold || outOfStock ? (
-        <p className={styles.unavailable}>
-          {isSold ? labels.soldOriginal : labels.outOfStock}
-        </p>
+      {isSold ? (
+        <p className={styles.unavailable}>{labels.sold}</p>
       ) : (
         <div className={styles.actions}>
           <AddToCartButton
