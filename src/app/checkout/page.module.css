@@ -50,6 +50,7 @@
   background: var(--paper);
   border: 1px solid var(--line-soft);
   overflow: hidden;
+  border-radius: var(--radius-sm);
 }
 
 .thumbImg {

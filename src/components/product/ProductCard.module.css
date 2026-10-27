@@ -8,7 +8,7 @@
   overflow: hidden;
   margin-bottom: 14px;
   background: var(--paper-alt);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
 }
 
 .image {
@@ -31,6 +31,7 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   padding: 5px 10px;
+  border-radius: var(--radius-sm);
   z-index: 1;
 }
 

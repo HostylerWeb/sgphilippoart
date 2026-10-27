@@ -8,6 +8,7 @@
   padding: 28px;
   border: 1px solid var(--line);
   background: var(--paper);
+  border-radius: var(--radius-sm);
 }
 
 .section h2 {
@@ -82,6 +83,7 @@
   padding: 16px 18px;
   background: var(--paper-alt);
   border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm);
 }
 
 .error {
@@ -90,6 +92,7 @@
   padding: 12px 14px;
   background: #faf2f2;
   border: 1px solid #f0d4d4;
+  border-radius: var(--radius-sm);
 }
 
 .submit {

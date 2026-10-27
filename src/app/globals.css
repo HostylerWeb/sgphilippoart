@@ -7,6 +7,8 @@
   --paper-alt: #f6f4ef;
   --oxblood: #7a2331;
   --gold: #a9803f;
+  --radius-sm: 6px;
+  --radius-md: 8px;
 }
 
 * {
@@ -69,8 +71,20 @@ svg {
   max-width: 100%;
 }
 
+img,
+video {
+  border-radius: var(--radius-sm);
+}
+
 button {
   font-family: inherit;
+  border-radius: var(--radius-sm);
+}
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="range"]),
+select,
+textarea {
+  border-radius: var(--radius-sm);
 }
 
 .wrap {

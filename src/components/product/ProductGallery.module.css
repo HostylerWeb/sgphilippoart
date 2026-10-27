@@ -13,6 +13,7 @@
   aspect-ratio: 4 / 5;
   background: var(--paper-alt);
   overflow: hidden;
+  border-radius: var(--radius-sm);
 }
 
 .thumbs {
@@ -32,6 +33,7 @@
   background: var(--paper-alt);
   overflow: hidden;
   border: 2px solid transparent;
+  border-radius: var(--radius-sm);
   padding: 0;
   cursor: pointer;
 }
@@ -47,6 +49,7 @@
 .placeholder {
   aspect-ratio: 4 / 5;
   background: var(--paper-alt);
+  border-radius: var(--radius-sm);
 }
 
 .video {

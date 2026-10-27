@@ -37,6 +37,7 @@
   text-transform: uppercase;
   cursor: pointer;
   display: inline-block;
+  border-radius: var(--radius-sm);
 }
 
 @media (max-width: 600px) {

@@ -8,7 +8,7 @@
   appearance: none;
   padding: 11px 36px 11px 14px;
   border: 1px solid var(--line);
-  border-radius: 0;
+  border-radius: var(--radius-sm);
   background: var(--paper);
   font-size: 13px;
   font-family: inherit;

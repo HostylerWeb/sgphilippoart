@@ -141,6 +141,7 @@
   overflow: hidden;
   background: var(--paper-alt);
   border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm);
 }
 
 .resultThumb img {

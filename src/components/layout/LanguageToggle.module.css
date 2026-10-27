@@ -2,6 +2,8 @@
   display: inline-flex;
   border: 1px solid var(--line);
   background: var(--paper);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
 }
 
 .toggle button {

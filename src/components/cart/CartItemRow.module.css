@@ -21,6 +21,7 @@
   flex-shrink: 0;
   background: var(--paper-alt);
   overflow: hidden;
+  border-radius: var(--radius-sm);
 }
 
 .img {

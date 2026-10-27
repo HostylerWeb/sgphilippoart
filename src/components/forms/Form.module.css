@@ -62,6 +62,7 @@
   padding: 10px 12px;
   background: #faf2f2;
   border: 1px solid #f0d4d4;
+  border-radius: var(--radius-sm);
 }
 
 .success {
@@ -70,6 +71,7 @@
   padding: 12px 16px;
   background: var(--paper-alt);
   border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm);
 }
 
 .fieldError {
