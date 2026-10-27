@@ -8,6 +8,7 @@
   overflow: hidden;
   margin-bottom: 14px;
   background: var(--paper-alt);
+  border-radius: 6px;
 }
 
 .image {
