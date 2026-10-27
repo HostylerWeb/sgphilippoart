@@ -8,7 +8,10 @@ type ProductSectionProps = {
   products: ProductCardData[];
   currency?: Pick<StoreSettings, "currencyCode" | "currencyLocale">;
   wishlistedIds?: Set<string>;
-  labels: Dictionary["home"];
+  eyebrow: string;
+  title: string;
+  viewAllHref: string;
+  viewAllLabel: string;
   soldLabel: string;
   badgeLabels: Pick<Dictionary["product"], "original" | "print" | "printEdition">;
 };
@@ -17,27 +20,32 @@ export function ProductSection({
   products,
   currency,
   wishlistedIds,
-  labels,
+  eyebrow,
+  title,
+  viewAllHref,
+  viewAllLabel,
   soldLabel,
   badgeLabels,
 }: ProductSectionProps) {
+  if (products.length === 0) return null;
+
   return (
     <section className={styles.section}>
       <div className="wrap">
         <div className={styles.sectionHead}>
           <div>
-            <span className="eyebrow">{labels.newArrivalsEyebrow}</span>
-            <h2>{labels.newArrivalsTitle}</h2>
+            <span className="eyebrow">{eyebrow}</span>
+            <h2>{title}</h2>
           </div>
-          <Link href="/works" className={styles.sectionHeadLink}>
-            {labels.viewAllWorks}
+          <Link href={viewAllHref} className={styles.sectionHeadLink}>
+            {viewAllLabel}
           </Link>
         </div>
         <div
           className={styles.productScroller}
           tabIndex={0}
           role="region"
-          aria-label={labels.newArrivalsTitle}
+          aria-label={title}
         >
           <div className={styles.productGrid}>
             {products.map((product) => (

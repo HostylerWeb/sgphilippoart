@@ -2,6 +2,10 @@
   padding: 64px 0;
 }
 
+.section + .section {
+  padding-top: 0;
+}
+
 .sectionHead {
   display: flex;
   justify-content: space-between;

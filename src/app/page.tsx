@@ -1,15 +1,13 @@
 import { StorefrontShell } from "@/components/layout/StorefrontShell";
 import { ConciergeBanner } from "@/components/home/ConciergeBanner";
 import { HomeHero } from "@/components/home/HomeHero";
-import { PillsSection } from "@/components/home/PillsSection";
 import { ProductSection } from "@/components/home/ProductSection";
 import { Testimonials } from "@/components/home/Testimonials";
 import { TrustStrip } from "@/components/home/TrustStrip";
 import {
   getArtistStoryCategory,
   getHeroTiles,
-  getHomepageCategories,
-  getNewArrivals,
+  getHomepageProductsByCategory,
   getTestimonials,
   getTrustItems,
   getWishlistedProductIds,
@@ -25,7 +23,6 @@ import {
 import {
   excerptStoryParagraphs,
   isArtistPortraitHeroTile,
-  isArtistStoryCategorySlug,
 } from "@/lib/home-artist-spotlight";
 
 export const revalidate = 60;
@@ -38,8 +35,7 @@ export default async function HomePage() {
     settings,
     heroTiles,
     artistCategory,
-    categories,
-    products,
+    categorySections,
     trustItems,
     testimonials,
     wishlistedIds,
@@ -47,8 +43,7 @@ export default async function HomePage() {
     getStoreSettings(locale),
     getHeroTiles(),
     getArtistStoryCategory(),
-    getHomepageCategories(),
-    getNewArrivals(4, locale),
+    getHomepageProductsByCategory(locale),
     getTrustItems(),
     getTestimonials(),
     getWishlistedProductIds(),
@@ -85,13 +80,6 @@ export default async function HomePage() {
         }
       : null;
 
-  const categoryPills = categories
-    .filter((category) => !isArtistStoryCategorySlug(category.slug))
-    .map((category) => ({
-      label: localizeCategoryEntity(category, locale).name,
-      href: `/collections/${category.slug}`,
-    }));
-
   return (
     <StorefrontShell>
       <HomeHero
@@ -99,21 +87,23 @@ export default async function HomePage() {
         gridTiles={gridTiles}
         gridAriaLabel={dict.aria.featuredCollections}
       />
-      {categoryPills.length > 0 && (
-        <PillsSection
-          eyebrow={dict.home.browseEyebrow}
-          title={dict.home.browseTitle}
-          items={categoryPills}
-        />
-      )}
-      <ProductSection
-        products={products}
-        currency={settings}
-        wishlistedIds={wishlistedIds}
-        labels={dict.home}
-        soldLabel={dict.product.sold}
-        badgeLabels={dict.product}
-      />
+      {categorySections.map((section) => {
+        const localized = localizeCategoryEntity(section, locale);
+        return (
+          <ProductSection
+            key={section.slug}
+            products={section.products}
+            currency={settings}
+            wishlistedIds={wishlistedIds}
+            eyebrow={dict.collections.collectionEyebrow}
+            title={localized.name}
+            viewAllHref={`/collections/${section.slug}`}
+            viewAllLabel={dict.collections.viewCollection}
+            soldLabel={dict.product.sold}
+            badgeLabels={dict.product}
+          />
+        );
+      })}
       <TrustStrip items={trustItems.map((item) => localizeTrustItem(item, locale))} />
       <Testimonials
         testimonials={testimonials.map((item) => localizeTestimonial(item, locale))}

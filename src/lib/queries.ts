@@ -115,6 +115,59 @@ export async function getNewArrivals(
   return products.map((product) => mapProductToCard(product, locale));
 }
 
+export type HomepageCategoryProducts = {
+  slug: string;
+  name: string;
+  translations: unknown;
+  products: ProductCardData[];
+};
+
+/** All published/sold products grouped by homepage collection (show_on_homepage). */
+export async function getHomepageProductsByCategory(
+  locale: Locale = "en",
+): Promise<HomepageCategoryProducts[]> {
+  const categories = await db.categories.findMany({
+    where: { show_on_homepage: true },
+    orderBy: { sort_order: "asc" },
+    select: { id: true, name: true, slug: true, translations: true },
+  });
+
+  const shopCategories = categories.filter((row) => isShopCollectionSlug(row.slug));
+  if (shopCategories.length === 0) return [];
+
+  const categoryIds = shopCategories.map((category) => category.id);
+  const products = await db.products.findMany({
+    where: {
+      category_id: { in: categoryIds },
+      status: { in: ["published", "sold"] },
+    },
+    orderBy: [{ sort_order: "asc" }, { created_at: "desc" }],
+    include: { images: { orderBy: { sort_order: "asc" } } },
+  });
+
+  const productsByCategoryId = new Map<string, ProductCardData[]>();
+  for (const category of shopCategories) {
+    productsByCategoryId.set(category.id, []);
+  }
+
+  for (const product of products) {
+    if (!product.category_id) continue;
+    const bucket = productsByCategoryId.get(product.category_id);
+    if (bucket) {
+      bucket.push(mapProductToCard(product, locale));
+    }
+  }
+
+  return shopCategories
+    .map((category) => ({
+      slug: category.slug,
+      name: category.name,
+      translations: category.translations,
+      products: productsByCategoryId.get(category.id) ?? [],
+    }))
+    .filter((section) => section.products.length > 0);
+}
+
 /** Published originals and in-stock prints, shuffled per request (PostgreSQL RANDOM()). */
 export async function getRandomAvailableProducts(
   limit = 4,
